@@ -17,13 +17,25 @@ import {
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { services } from '@/lib/data';
+import { Icons } from '@/components/icons';
 
 export default function Home() {
   return (
     <div className="flex flex-col">
       <section className="relative w-full py-20 md:py-32 lg:py-40 bg-background">
         <div className="container mx-auto px-4 md:px-6 text-center">
-          <div className="max-w-3xl mx-auto">
+          <div className="max-w-3xl mx-auto flex flex-col items-center">
+            <div className="mb-8">
+              <Image
+                src="https://storage.googleapis.com/stabl-2024-001-dev-sa-instances/e8e6b359-7d8b-4573-8a4d-f56f1f452148.png"
+                alt="UrbanEase Logo"
+                width={400}
+                height={100}
+                className="w-auto h-auto"
+                data-ai-hint="UrbanEase logo"
+                priority
+              />
+            </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight text-foreground">
               Your City, Simplified.
             </h1>

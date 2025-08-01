@@ -31,8 +31,7 @@ export default function Header() {
       <div className="container flex h-16 items-center">
         <div className="mr-4 hidden md:flex">
           <Link href="/" className="mr-6 flex items-center space-x-2">
-            <Icons.logo className="h-6 w-6 text-accent" />
-            <span className="hidden font-bold sm:inline-block font-headline">UrbanEase</span>
+            <Icons.logo className="h-10" />
           </Link>
           <nav className="flex items-center space-x-6 text-sm font-medium">
             {navLinks.map((link) => (
@@ -64,8 +63,7 @@ export default function Header() {
               <SheetContent side="left">
                 <div className="flex flex-col space-y-4 p-4">
                   <Link href="/" className="flex items-center space-x-2">
-                    <Icons.logo className="h-6 w-6 text-accent" />
-                    <span className="font-bold font-headline">UrbanEase</span>
+                    <Icons.logo className="h-10" />
                   </Link>
                   <nav className="flex flex-col space-y-2">
                     {navLinks.map((link) => (

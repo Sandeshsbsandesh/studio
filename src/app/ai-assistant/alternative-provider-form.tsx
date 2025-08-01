@@ -23,6 +23,7 @@ import { getAlternativeProviders, FormState } from './actions';
 import { SuggestAlternativeServiceProviderOutput } from '@/ai/flows/suggest-alternative-service-provider';
 import StarRating from '@/components/star-rating';
 import { Loader2, AlertCircle, Sparkles, MapPin, Star } from 'lucide-react';
+import UniqueLoader from '@/components/unique-loader';
 
 const formSchema = z.object({
   city: z.string().min(1, 'City is required.'),
@@ -159,7 +160,7 @@ export default function AlternativeProviderForm() {
       <div className="mt-8">
         {isPending && (
           <div className="flex flex-col items-center justify-center gap-4 text-center p-8 border border-dashed rounded-lg">
-             <Loader2 className="h-8 w-8 animate-spin text-muted-foreground" />
+             <UniqueLoader />
              <p className="text-muted-foreground">Our AI is finding the best providers for you...</p>
           </div>
         )}

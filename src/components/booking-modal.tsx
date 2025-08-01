@@ -1,4 +1,3 @@
-
 'use client';
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
@@ -11,6 +10,9 @@ import CylinderForm from './forms/cylinder-form';
 import CleanersForm from './forms/cleaners-form';
 import CooksForm from './forms/cooks-form';
 import LocalBuddyForm from './forms/local-buddy-form';
+import ShiftersForm from './forms/shifters-form';
+import PaintersForm from './forms/painters-form';
+
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -29,6 +31,8 @@ const serviceForms: Record<string, React.FC<{ provider: any; onClose: () => void
   'cleaners': CleanersForm,
   'personal-cooks': CooksForm,
   'local-buddy': LocalBuddyForm,
+  'shifters': ShiftersForm,
+  'painters': PaintersForm,
 };
 
 export default function BookingModal({ isOpen, onClose, serviceSlug, provider }: BookingModalProps) {

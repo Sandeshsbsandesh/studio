@@ -8,6 +8,8 @@ import {
   Sparkles,
   ChefHat,
   ConciergeBell,
+  Truck,
+  PaintBucket,
 } from 'lucide-react';
 
 export const services = [
@@ -65,6 +67,18 @@ export const services = [
     description: 'A friendly hand for shopping, errands, and help when you need it.',
     href: '/service/local-buddy',
   },
+  {
+    icon: <Truck className="h-8 w-8" />,
+    title: 'Shifters & Movers',
+    description: 'Reliable and safe house shifting services.',
+    href: '/service/shifters',
+  },
+  {
+    icon: <PaintBucket className="h-8 w-8" />,
+    title: 'Painters',
+    description: 'Professional painters for a fresh new look.',
+    href: '/service/painters',
+  },
 ];
 
 export const providers: Record<string, any[]> = {
@@ -112,6 +126,16 @@ export const providers: Record<string, any[]> = {
     { id: 1, name: 'CityPal', address: '1.0 km away - Koramangala', rating: 5.0, reviews: 80 },
     { id: 2, name: 'YourMigo', address: '2.4 km away - Indiranagar', rating: 4.9, reviews: 75 },
     { id: 3, name: 'HelpHand', address: '3.0 km away - HSR Layout', rating: 4.9, reviews: 120 },
+  ],
+  'shifters': [
+    { id: 1, name: 'QuickShift Movers', address: 'Koramangala', rating: 4.8, reviews: 150 },
+    { id: 2, name: 'SafeMove Packers', address: 'Indiranagar', rating: 4.9, reviews: 200 },
+    { id: 3, name: 'CityExpress Shifters', address: 'HSR Layout', rating: 4.7, reviews: 180 },
+  ],
+  'painters': [
+    { id: 1, name: 'Pro-Finish Painters', address: 'Koramangala', rating: 4.9, reviews: 90 },
+    { id: 2, name: 'WallWizards', address: 'Indiranagar', rating: 4.8, reviews: 120 },
+    { id: 3, name: 'The Color Crew', address: 'HSR Layout', rating: 4.8, reviews: 105 },
   ],
 };
 

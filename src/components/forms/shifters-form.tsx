@@ -1,3 +1,4 @@
+
 'use client';
 
 import { Button } from '@/components/ui/button';
@@ -24,15 +25,15 @@ const formSchema = z.object({
 });
 
 const vehicleCosts = {
-  small: 50,
-  medium: 100,
-  large: 150,
+  small: 2500,
+  medium: 4000,
+  large: 6000,
 };
 
 const serviceCosts = {
-  packing: 75,
-  unpacking: 50,
-  perKm: 2,
+  packing: 1500,
+  unpacking: 1000,
+  perKm: 50,
 };
 
 export default function ShiftersForm({ provider, onClose }: { provider: any; onClose: () => void }) {
@@ -73,7 +74,7 @@ export default function ShiftersForm({ provider, onClose }: { provider: any; onC
     console.log(values);
     toast({
       title: 'Shifting Service Booked!',
-      description: `Your booking with ${provider.name} for an estimated cost of $${cost.toFixed(2)} is confirmed.`,
+      description: `Your booking with ${provider.name} for an estimated cost of ₹${cost.toFixed(2)} is confirmed.`,
     });
     onClose();
   }
@@ -167,7 +168,7 @@ export default function ShiftersForm({ provider, onClose }: { provider: any; onC
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>Packing Service ($75)</FormLabel>
+                <FormLabel>Packing Service (₹1500)</FormLabel>
               </div>
             </FormItem>
           )}
@@ -181,7 +182,7 @@ export default function ShiftersForm({ provider, onClose }: { provider: any; onC
                 <Checkbox checked={field.value} onCheckedChange={field.onChange} />
               </FormControl>
               <div className="space-y-1 leading-none">
-                <FormLabel>Unpacking Service ($50)</FormLabel>
+                <FormLabel>Unpacking Service (₹1000)</FormLabel>
               </div>
             </FormItem>
           )}
@@ -191,7 +192,7 @@ export default function ShiftersForm({ provider, onClose }: { provider: any; onC
                 <CardTitle className='text-lg'>Estimated Cost</CardTitle>
             </CardHeader>
             <CardContent className='p-4 pt-0'>
-                <p className='text-2xl font-bold'>${cost.toFixed(2)}</p>
+                <p className='text-2xl font-bold'>₹{cost.toFixed(2)}</p>
             </CardContent>
         </Card>
         <Button type="submit" className="w-full">

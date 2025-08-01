@@ -41,7 +41,7 @@ export default function CleanersForm({ provider, onClose }: { provider: any; onC
           name="hours"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Select Hours (Charge: $20/hr)</FormLabel>
+              <FormLabel>Select Hours (Charge: ₹500/hr)</FormLabel>
               <FormControl>
                 <>
                   <Slider

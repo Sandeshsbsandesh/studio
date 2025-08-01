@@ -41,7 +41,7 @@ export default function CooksForm({ provider, onClose }: { provider: any; onClos
           name="hours"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Select Hours (Charge: $25/hr)</FormLabel>
+              <FormLabel>Select Hours (Charge: ₹600/hr)</FormLabel>
               <FormControl>
                 <>
                   <Slider

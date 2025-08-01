@@ -42,7 +42,7 @@ export default function MaidsForm({ provider, onClose }: { provider: any; onClos
           name="hours"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Select Hours (Charge: $15/hr)</FormLabel>
+              <FormLabel>Select Hours (Charge: ₹400/hr)</FormLabel>
               <FormControl>
                 <>
                   <Slider

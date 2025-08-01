@@ -27,7 +27,7 @@ export default function Home() {
           <div className="max-w-3xl mx-auto flex flex-col items-center">
             <div className="mb-8">
               <Image
-                src="https://storage.googleapis.com/stabl-2024-001-dev-sa-instances/e8e6b359-7d8b-4573-8a4d-f56f1f452148.png"
+                src="https://placehold.co/400x100.png"
                 alt="UrbanEase Logo"
                 width={400}
                 height={100}
@@ -81,7 +81,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg">
                 <Image
-                  src="https://storage.googleapis.com/stabl-2024-001-dev-sa-instances/ca3f82de-4221-4d1a-8b17-0d31191316b1.png"
+                  src="https://placehold.co/600x400.png"
                   alt="Friendly service provider"
                   width={600}
                   height={400}

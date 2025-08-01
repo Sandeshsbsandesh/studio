@@ -1,23 +1,23 @@
 import {
-  ConciergeBell,
-  SprayCan,
-  GlassWater,
+  Home,
+  Droplets,
   Zap,
   Wrench,
   Stethoscope,
   Flame,
+  Sparkles,
   ChefHat,
 } from 'lucide-react';
 
 export const services = [
   {
-    icon: <GlassWater className="h-8 w-8" />,
+    icon: <Droplets className="h-8 w-8" />,
     title: 'Water Can Delivery',
     description: 'Fresh and clean water at your doorstep.',
     href: '/service/water-can-delivery',
   },
   {
-    icon: <ConciergeBell className="h-8 w-8" />,
+    icon: <Home className="h-8 w-8" />,
     title: 'House Maids',
     description: 'Reliable help for your daily chores.',
     href: '/service/house-maids',
@@ -47,7 +47,7 @@ export const services = [
     href: '/service/cylinder-delivery',
   },
   {
-    icon: <SprayCan className="h-8 w-8" />,
+    icon: <Sparkles className="h-8 w-8" />,
     title: 'Cleaners',
     description: 'Professional cleaning for a spotless home.',
     href: '/service/cleaners',

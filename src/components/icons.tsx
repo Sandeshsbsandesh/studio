@@ -10,7 +10,7 @@ export const Icons = {
       {...props}
     >
       <defs>
-        <linearGradient id="swoosh-gradient" x1="0%" y1="0%" x2="100%" y2="0%">
+        <linearGradient id="swoosh-gradient" x1="0%" y1="100%" x2="100%" y2="0%">
           <stop offset="0%" style={{ stopColor: '#8EAF5E' }} />
           <stop offset="100%" style={{ stopColor: '#288B9A' }} />
         </linearGradient>

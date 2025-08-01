@@ -81,12 +81,12 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg">
                 <Image
-                  src="https://placehold.co/600x400.png"
-                  alt="AI Assistant"
+                  src="https://storage.googleapis.com/stabl-2024-001-dev-sa-instances/ca3f82de-4221-4d1a-8b17-0d31191316b1.png"
+                  alt="Friendly service provider"
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
-                  data-ai-hint="friendly robot assistant"
+                  data-ai-hint="service provider"
                 />
             </div>
             <div>

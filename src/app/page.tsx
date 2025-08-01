@@ -28,12 +28,13 @@ export default function Home() {
           <div className="max-w-3xl mx-auto flex flex-col items-center">
             <div className="mb-8">
               <Image
-                src="https://storage.googleapis.com/studiogood-assets/logo-light.png"
+                src="https://placehold.co/400x100.png"
                 alt="UrbanEase Logo"
                 width={400}
                 height={100}
                 className="w-auto h-auto"
                 priority
+                data-ai-hint="logo"
               />
             </div>
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight text-foreground">
@@ -81,11 +82,12 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg">
                 <Image
-                  src="https://storage.googleapis.com/studiogood-assets/friendly-handyman.png"
+                  src="https://placehold.co/600x400.png"
                   alt="Friendly service provider"
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
+                  data-ai-hint="friendly handyman"
                 />
             </div>
             <div>

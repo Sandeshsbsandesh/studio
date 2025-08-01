@@ -32,7 +32,7 @@ export default function Home() {
                 width={400}
                 height={100}
                 className="w-auto h-auto"
-                data-ai-hint="UrbanEase logo"
+                data-ai-hint="logo design"
                 priority
               />
             </div>
@@ -86,7 +86,7 @@ export default function Home() {
                   width={600}
                   height={400}
                   className="w-full h-full object-cover"
-                  data-ai-hint="service provider"
+                  data-ai-hint="friendly handyman"
                 />
             </div>
             <div>

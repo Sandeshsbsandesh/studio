@@ -6,7 +6,7 @@ import Header from '@/components/header';
 import Footer from '@/components/footer';
 
 export const metadata: Metadata = {
-  title: 'CityAssist',
+  title: 'UrbanEase',
   description: 'Discover, book, and manage essential local services in your city.',
 };
 

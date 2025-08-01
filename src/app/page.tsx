@@ -78,7 +78,7 @@ export default function Home() {
               Your City, Simplified.
             </h1>
             <p className="mt-6 text-lg md:text-xl text-muted-foreground font-body">
-              Welcome to CityAssist. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
+              Welcome to UrbanEase. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
             </p>
             <div className="mt-8 flex justify-center gap-4">
               <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">

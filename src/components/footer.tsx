@@ -8,10 +8,10 @@ export default function Footer() {
         <div className="flex flex-col md:flex-row justify-between items-center">
           <div className="flex items-center space-x-2">
             <Icons.logo className="h-6 w-6 text-accent" />
-            <span className="font-bold font-headline text-lg">CityAssist</span>
+            <span className="font-bold font-headline text-lg">UrbanEase</span>
           </div>
           <p className="text-sm text-muted-foreground mt-4 md:mt-0">
-            © {new Date().getFullYear()} CityAssist. All rights reserved.
+            © {new Date().getFullYear()} UrbanEase. All rights reserved.
           </p>
           <div className="flex space-x-4 mt-4 md:mt-0">
             <Link href="#" className="text-sm text-muted-foreground hover:text-foreground">

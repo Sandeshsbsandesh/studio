@@ -10,6 +10,7 @@ import DoctorForm from './forms/doctor-form';
 import CylinderForm from './forms/cylinder-form';
 import CleanersForm from './forms/cleaners-form';
 import CooksForm from './forms/cooks-form';
+import LocalBuddyForm from './forms/local-buddy-form';
 
 interface BookingModalProps {
   isOpen: boolean;
@@ -27,6 +28,7 @@ const serviceForms: Record<string, React.FC<{ provider: any; onClose: () => void
   'cylinder-delivery': CylinderForm,
   'cleaners': CleanersForm,
   'personal-cooks': CooksForm,
+  'local-buddy': LocalBuddyForm,
 };
 
 export default function BookingModal({ isOpen, onClose, serviceSlug, provider }: BookingModalProps) {

@@ -6,17 +6,8 @@ import ServiceCard from '@/components/service-card';
 import {
   ArrowRight,
   ChevronRight,
-  ConciergeBell,
-  SprayCan,
-  GlassWater,
-  Zap,
-  Wrench,
-  Stethoscope,
-  Flame,
-  ChefHat,
   Bot,
 } from 'lucide-react';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { services } from '@/lib/data';
 import { Icons } from '@/components/icons';
 
@@ -86,7 +77,7 @@ export default function Home() {
               From daily necessities to emergency repairs, find trusted professionals for every need.
             </p>
           </div>
-          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
             {services.map((service, index) => (
               <ServiceCard key={index} {...service} />
             ))}

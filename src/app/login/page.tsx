@@ -9,7 +9,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
 import { AtSign, Phone, MapPin, Wallet, User, KeyRound, PartyPopper } from 'lucide-react';
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useRouter } from "next/navigation";
 import ReactConfetti from 'react-confetti';
 
@@ -71,6 +71,7 @@ export default function LoginPage() {
     if (otp === '1234') {
       setError('');
       localStorage.setItem('userName', formData?.name || 'User');
+      window.dispatchEvent(new Event('storage')); // Dispatch storage event
       setShowConfetti(true);
       setStep('success');
       setTimeout(() => {

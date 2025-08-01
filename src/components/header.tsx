@@ -13,8 +13,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Menu, UserCircle } from 'lucide-react';
-import { Icons } from './icons';
-import { usePathname } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
 
@@ -27,17 +26,29 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const router = useRouter();
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
-    // This effect runs on the client-side
-    const name = localStorage.getItem('userName');
-    setUserName(name);
-  }, [pathname]); // Rerun when path changes to update status
+    const updateUserName = () => {
+      const name = localStorage.getItem('userName');
+      setUserName(name);
+    };
+
+    updateUserName();
+
+    window.addEventListener('storage', updateUserName);
+
+    return () => {
+      window.removeEventListener('storage', updateUserName);
+    };
+  }, [pathname]);
 
   const handleLogout = () => {
     localStorage.removeItem('userName');
     setUserName(null);
+    window.dispatchEvent(new Event('storage')); // Notify other tabs
+    router.push('/');
   };
 
   return (
@@ -117,9 +128,9 @@ export default function Header() {
               <DropdownMenuSeparator />
               {userName ? (
                 <>
-                  <DropdownMenuItem>Profile</DropdownMenuItem>
-                  <DropdownMenuItem>Bookings</DropdownMenuItem>
-                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuItem asChild><Link href="/login">Profile</Link></DropdownMenuItem>
+                  <DropdownMenuItem asChild><Link href="/bookings">Bookings</Link></DropdownMenuItem>
+                  <DropdownMenuItem asChild><Link href="/login">Settings</Link></DropdownMenuItem>
                   <DropdownMenuSeparator />
                   <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
                 </>

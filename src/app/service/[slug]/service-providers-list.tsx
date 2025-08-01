@@ -40,7 +40,7 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
           <h2 className="text-2xl font-bold font-headline">Available Providers</h2>
           {serviceProviders.length > 0 ? (
               serviceProviders.map(provider => (
-                  <Card key={provider.id}>
+                  <Card key={provider.id} className="transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 hover:border-primary">
                       <CardHeader>
                           <CardTitle>{provider.name}</CardTitle>
                           <CardDescription className="flex items-center pt-1">

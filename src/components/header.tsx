@@ -1,3 +1,4 @@
+
 'use client';
 
 import Link from 'next/link';
@@ -18,7 +19,7 @@ import { cn } from '@/lib/utils';
 
 const navLinks = [
   { href: '/', label: 'Home' },
-  { href: '#services', label: 'Services' },
+  { href: '/#services', label: 'Services' },
   { href: '/ai-assistant', label: 'AI Assistant' },
   { href: '/bookings', label: 'My Bookings' },
 ];
@@ -40,7 +41,7 @@ export default function Header() {
                 href={link.href}
                 className={cn(
                   'transition-colors hover:text-foreground/80',
-                  (pathname === link.href || (link.href !== '/' && pathname.startsWith(link.href)))
+                  (pathname === link.href || (link.href.startsWith('/#') && pathname === '/') || (link.href !== '/' && !link.href.startsWith('/#') && pathname.startsWith(link.href)))
                     ? 'text-foreground'
                     : 'text-foreground/60'
                 )}
@@ -101,6 +102,7 @@ export default function Header() {
             <DropdownMenuContent align="end">
               <DropdownMenuLabel>My Account</DropdownMenuLabel>
               <DropdownMenuSeparator />
+              <DropdownMenuItem asChild><Link href="/login">Login</Link></DropdownMenuItem>
               <DropdownMenuItem>Profile</DropdownMenuItem>
               <DropdownMenuItem>Bookings</DropdownMenuItem>
               <DropdownMenuItem>Settings</DropdownMenuItem>

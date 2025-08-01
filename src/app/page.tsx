@@ -30,8 +30,14 @@ export default function Home() {
               <div className="absolute text-white animate-road" style={{ animationDelay: '0s' }}>
                 <Icons.ambulance className="h-10 w-10 text-primary" />
               </div>
+              <div className="absolute text-white animate-road" style={{ animationDelay: '3.75s' }}>
+                <Icons.cleaningVan className="h-10 w-10 text-primary" />
+              </div>
               <div className="absolute text-white animate-road" style={{ animationDelay: '7.5s' }}>
                 <Icons.truck className="h-10 w-10 text-primary" />
+              </div>
+              <div className="absolute text-white animate-road" style={{ animationDelay: '11.25s' }}>
+                <Icons.plumberVan className="h-10 w-10 text-primary" />
               </div>
             </div>
             
@@ -97,7 +103,7 @@ export default function Home() {
                   alt="Friendly service provider"
                   width={600}
                   height={400}
-                  className="w-full h-full object-cover"
+                  className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
                   data-ai-hint="friendly handyman"
                 />
             </div>

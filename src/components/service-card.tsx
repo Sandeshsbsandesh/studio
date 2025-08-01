@@ -12,9 +12,9 @@ interface ServiceCardProps {
 export default function ServiceCard({ icon, title, description, href }: ServiceCardProps) {
   return (
     <Link href={href} className="group">
-      <Card className="h-full transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-accent">
+      <Card className="h-full transition-all duration-300 ease-in-out group-hover:shadow-lg group-hover:-translate-y-1 group-hover:border-primary bg-card">
         <CardHeader className="flex flex-row items-center gap-4">
-          <div className="bg-primary/10 p-3 rounded-full text-primary group-hover:bg-accent group-hover:text-accent-foreground transition-colors duration-300">
+          <div className="bg-primary/10 p-3 rounded-full text-primary group-hover:bg-primary group-hover:text-primary-foreground transition-colors duration-300">
             {icon}
           </div>
         </CardHeader>

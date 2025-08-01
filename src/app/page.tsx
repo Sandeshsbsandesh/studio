@@ -16,62 +16,12 @@ import {
   Bot,
 } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
-
-const services = [
-  {
-    icon: <GlassWater className="h-8 w-8" />,
-    title: 'Water Can Delivery',
-    description: 'Fresh and clean water at your doorstep.',
-    href: '#',
-  },
-  {
-    icon: <ConciergeBell className="h-8 w-8" />,
-    title: 'House Maids',
-    description: 'Reliable help for your daily chores.',
-    href: '#',
-  },
-  {
-    icon: <Zap className="h-8 w-8" />,
-    title: 'Electricians',
-    description: 'Certified professionals for any electrical job.',
-    href: '#',
-  },
-  {
-    icon: <Wrench className="h-8 w-8" />,
-    title: 'Plumbers',
-    description: 'Quick solutions for all plumbing issues.',
-    href: '#',
-  },
-  {
-    icon: <Stethoscope className="h-8 w-8" />,
-    title: 'Doctor on Call',
-    description: 'Consult with experienced doctors online.',
-    href: '#',
-  },
-  {
-    icon: <Flame className="h-8 w-8" />,
-    title: 'Cylinder Delivery',
-    description: 'Fast and safe gas cylinder refills.',
-    href: '#',
-  },
-  {
-    icon: <SprayCan className="h-8 w-8" />,
-    title: 'Cleaners',
-    description: 'Professional cleaning for a spotless home.',
-    href: '#',
-  },
-  {
-    icon: <ChefHat className="h-8 w-8" />,
-    title: 'Personal Cooks',
-    description: 'Enjoy delicious, home-cooked meals.',
-    href: '#',
-  },
-];
+import { services } from '@/lib/data';
 
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <section className="relative w-full py-20 md:py-32 lg:py-40 bg-primary/10">
+      <section className="relative w-full py-20 md:py-32 lg:py-40 bg-background">
         <div className="container mx-auto px-4 md:px-6 text-center">
           <div className="max-w-3xl mx-auto">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight text-foreground">
@@ -81,7 +31,7 @@ export default function Home() {
               Welcome to UrbanEase. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
             </p>
             <div className="mt-8 flex justify-center gap-4">
-              <Button asChild size="lg" className="bg-accent text-accent-foreground hover:bg-accent/90">
+              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
                 <Link href="#services">
                   Browse Services
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -98,7 +48,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="services" className="py-16 md:py-24 bg-background">
+      <section id="services" className="py-16 md:py-24 bg-secondary">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Our Services</h2>
@@ -114,7 +64,7 @@ export default function Home() {
         </div>
       </section>
       
-      <section className="py-16 md:py-24 bg-primary/10">
+      <section className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg">
@@ -132,7 +82,7 @@ export default function Home() {
               <p className="mt-4 text-muted-foreground font-body text-lg">
                 Our smart AI assistant helps you find better alternatives. Based on your location and service ratings, we'll suggest top-rated professionals nearby to ensure you always get the best service.
               </p>
-              <Button asChild size="lg" className="mt-8 bg-accent text-accent-foreground hover:bg-accent/90">
+              <Button asChild size="lg" className="mt-8 bg-primary text-primary-foreground hover:bg-primary/90">
                 <Link href="/ai-assistant">
                   Find Alternatives Now
                   <ChevronRight className="ml-2 h-5 w-5" />

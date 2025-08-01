@@ -6,8 +6,8 @@ export default function AiAssistantPage() {
     <div className="container mx-auto px-4 md:px-6 py-12">
       <div className="max-w-3xl mx-auto">
         <div className="flex flex-col items-center text-center space-y-4">
-          <div className="p-4 bg-accent/10 rounded-full">
-            <Bot className="h-12 w-12 text-accent" />
+          <div className="p-4 bg-primary/10 rounded-full">
+            <Bot className="h-12 w-12 text-primary" />
           </div>
           <h1 className="text-4xl font-bold font-headline tracking-tight">
             AI-Powered Service Assistant

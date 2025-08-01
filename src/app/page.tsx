@@ -23,39 +23,50 @@ import { Icons } from '@/components/icons';
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <section className="relative w-full py-20 md:py-32 lg:py-40 bg-background">
-        <div className="container mx-auto px-4 md:px-6 text-center">
-          <div className="max-w-3xl mx-auto flex flex-col items-center">
-            <div className="mb-8">
-              <Image
-                src="https://placehold.co/400x100.png"
-                alt="UrbanEase Logo"
-                width={400}
-                height={100}
-                className="w-auto h-auto"
-                priority
-                data-ai-hint="logo"
-              />
+      <section className="relative w-full py-20 md:py-32 lg:py-40 bg-background overflow-hidden">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="relative border-8 border-gray-600/50 rounded-2xl p-8 md:p-16">
+            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
+              <div className="absolute text-white animate-road" style={{ animationDelay: '0s' }}>
+                <Icons.ambulance className="h-10 w-10 text-primary" />
+              </div>
+              <div className="absolute text-white animate-road" style={{ animationDelay: '7.5s' }}>
+                <Icons.truck className="h-10 w-10 text-primary" />
+              </div>
             </div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight text-foreground">
-              Your City, Simplified.
-            </h1>
-            <p className="mt-6 text-lg md:text-xl text-muted-foreground font-body">
-              Welcome to UrbanEase. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
-            </p>
-            <div className="mt-8 flex justify-center gap-4">
-              <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                <Link href="#services">
-                  Browse Services
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
-              <Button asChild size="lg" variant="outline">
-                <Link href="/ai-assistant">
-                  AI Assistant
-                  <Bot className="ml-2 h-5 w-5" />
-                </Link>
-              </Button>
+            
+            <div className="max-w-3xl mx-auto flex flex-col items-center text-center">
+              <div className="mb-8">
+                <Image
+                  src="https://placehold.co/400x100.png"
+                  alt="UrbanEase Logo"
+                  width={400}
+                  height={100}
+                  className="w-auto h-auto"
+                  priority
+                  data-ai-hint="logo"
+                />
+              </div>
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight text-foreground">
+                Your City, Simplified.
+              </h1>
+              <p className="mt-6 text-lg md:text-xl text-muted-foreground font-body">
+                Welcome to UrbanEase. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
+              </p>
+              <div className="mt-8 flex justify-center gap-4">
+                <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                  <Link href="#services">
+                    Browse Services
+                    <ArrowRight className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+                <Button asChild size="lg" variant="outline">
+                  <Link href="/ai-assistant">
+                    AI Assistant
+                    <Bot className="ml-2 h-5 w-5" />
+                  </Link>
+                </Button>
+              </div>
             </div>
           </div>
         </div>

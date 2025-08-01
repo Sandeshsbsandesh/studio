@@ -67,3 +67,46 @@
     @apply bg-background text-foreground;
   }
 }
+
+@layer utilities {
+  @keyframes move-around {
+    0% {
+      top: -20px;
+      left: 0;
+      transform: rotate(0deg);
+    }
+    25% {
+      top: -20px;
+      left: calc(100% - 40px);
+      transform: rotate(0deg);
+    }
+    25.1% {
+      transform: rotate(90deg);
+    }
+    50% {
+      top: calc(100% - 20px);
+      left: calc(100% - 40px);
+      transform: rotate(90deg);
+    }
+    50.1% {
+       transform: rotate(180deg);
+    }
+    75% {
+      top: calc(100% - 20px);
+      left: 0;
+      transform: rotate(180deg);
+    }
+    75.1% {
+      transform: rotate(270deg);
+    }
+    100% {
+      top: -20px;
+      left: 0;
+      transform: rotate(270deg);
+    }
+  }
+  
+  .animate-road {
+    animation: move-around 15s linear infinite;
+  }
+}

@@ -16,6 +16,7 @@ import { Menu, UserCircle } from 'lucide-react';
 import { Icons } from './icons';
 import { usePathname } from 'next/navigation';
 import { cn } from '@/lib/utils';
+import { useEffect, useState } from 'react';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -26,6 +27,18 @@ const navLinks = [
 
 export default function Header() {
   const pathname = usePathname();
+  const [userName, setUserName] = useState<string | null>(null);
+
+  useEffect(() => {
+    // This effect runs on the client-side
+    const name = localStorage.getItem('userName');
+    setUserName(name);
+  }, [pathname]); // Rerun when path changes to update status
+
+  const handleLogout = () => {
+    localStorage.removeItem('userName');
+    setUserName(null);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -100,14 +113,19 @@ export default function Header() {
               </Button>
             </DropdownMenuTrigger>
             <DropdownMenuContent align="end">
-              <DropdownMenuLabel>My Account</DropdownMenuLabel>
+              <DropdownMenuLabel>{userName ? `Welcome, ${userName}` : 'My Account'}</DropdownMenuLabel>
               <DropdownMenuSeparator />
-              <DropdownMenuItem asChild><Link href="/login">Login</Link></DropdownMenuItem>
-              <DropdownMenuItem>Profile</DropdownMenuItem>
-              <DropdownMenuItem>Bookings</DropdownMenuItem>
-              <DropdownMenuItem>Settings</DropdownMenuItem>
-              <DropdownMenuSeparator />
-              <DropdownMenuItem>Logout</DropdownMenuItem>
+              {userName ? (
+                <>
+                  <DropdownMenuItem>Profile</DropdownMenuItem>
+                  <DropdownMenuItem>Bookings</DropdownMenuItem>
+                  <DropdownMenuItem>Settings</DropdownMenuItem>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                </>
+              ) : (
+                <DropdownMenuItem asChild><Link href="/login">Login / Sign Up</Link></DropdownMenuItem>
+              )}
             </DropdownMenuContent>
           </DropdownMenu>
         </div>

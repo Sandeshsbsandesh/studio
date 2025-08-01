@@ -109,4 +109,30 @@
   .animate-road {
     animation: move-around 15s linear infinite;
   }
+
+  @keyframes truck-move {
+    0% {
+      left: -48px;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  .animate-truck-move {
+    animation: truck-move 2s linear infinite;
+  }
+
+  @keyframes loader-progress {
+    0% {
+      width: 0%;
+    }
+    100% {
+      width: 100%;
+    }
+  }
+
+  .animate-loader-progress {
+    animation: loader-progress 2s linear infinite;
+  }
 }

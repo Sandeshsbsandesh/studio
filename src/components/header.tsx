@@ -16,6 +16,7 @@ import { Menu, UserCircle } from 'lucide-react';
 import { usePathname, useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
 import { useEffect, useState } from 'react';
+import { useToast } from '@/hooks/use-toast';
 
 const navLinks = [
   { href: '/', label: 'Home' },
@@ -27,6 +28,7 @@ const navLinks = [
 export default function Header() {
   const pathname = usePathname();
   const router = useRouter();
+  const { toast } = useToast();
   const [userName, setUserName] = useState<string | null>(null);
 
   useEffect(() => {
@@ -42,12 +44,16 @@ export default function Header() {
     return () => {
       window.removeEventListener('storage', updateUserName);
     };
-  }, [pathname]);
+  }, []);
 
   const handleLogout = () => {
     localStorage.removeItem('userName');
     setUserName(null);
     window.dispatchEvent(new Event('storage')); // Notify other tabs
+    toast({
+        title: 'Logged Out',
+        description: 'We hope to see you back soon!',
+    })
     router.push('/');
   };
 

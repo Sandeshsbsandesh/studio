@@ -9,67 +9,119 @@ import {
   Bot,
 } from 'lucide-react';
 import { services } from '@/lib/data';
-import { Icons } from '@/components/icons';
+import { Card, CardContent } from '@/components/ui/card';
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from '@/components/ui/carousel';
+import Autoplay from "embla-carousel-autoplay";
 
 export default function Home() {
   return (
     <div className="flex flex-col">
-      <section className="relative w-full py-20 md:py-32 lg:py-40 bg-background overflow-hidden">
+       <section className="w-full py-12 md:py-20 lg:py-24 bg-secondary/50">
         <div className="container mx-auto px-4 md:px-6">
-          <div className="relative border-8 border-gray-600/50 rounded-2xl p-8 md:p-16">
-            <div className="absolute top-0 left-0 w-full h-full pointer-events-none">
-              <div className="absolute text-white animate-road" style={{ animationDelay: '0s' }}>
-                <Icons.ambulance className="h-10 w-10 text-primary" />
-              </div>
-              <div className="absolute text-white animate-road" style={{ animationDelay: '3.75s' }}>
-                <Icons.cleaningVan className="h-10 w-10 text-primary" />
-              </div>
-              <div className="absolute text-white animate-road" style={{ animationDelay: '7.5s' }}>
-                <Icons.truck className="h-10 w-10 text-primary" />
-              </div>
-              <div className="absolute text-white animate-road" style={{ animationDelay: '11.25s' }}>
-                <Icons.plumberVan className="h-10 w-10 text-primary" />
-              </div>
-            </div>
-            
-            <div className="max-w-3xl mx-auto flex flex-col items-center text-center">
-              <div className="mb-8">
-                <Image
-                  src="https://placehold.co/400x100.png"
-                  alt="UrbanEase Logo"
-                  width={400}
-                  height={100}
-                  className="w-auto h-auto"
-                  priority
-                  data-ai-hint="logo"
-                />
-              </div>
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-headline font-bold tracking-tight text-foreground">
-                Your City, Simplified.
-              </h1>
-              <p className="mt-6 text-lg md:text-xl text-muted-foreground font-body">
-                Welcome to UrbanEase. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
-              </p>
-              <div className="mt-8 flex justify-center gap-4">
-                <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                  <Link href="#services">
-                    Browse Services
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-                <Button asChild size="lg" variant="outline">
-                  <Link href="/ai-assistant">
-                    AI Assistant
-                    <Bot className="ml-2 h-5 w-5" />
-                  </Link>
-                </Button>
-              </div>
-            </div>
-          </div>
+          <Carousel
+            opts={{
+              loop: true,
+            }}
+             plugins={[
+              Autoplay({
+                delay: 4000,
+              }),
+            ]}
+            className="w-full"
+          >
+            <CarouselContent>
+              <CarouselItem>
+                <div className="grid md:grid-cols-2 gap-12 items-center">
+                  <div>
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Your Personal Local Buddy</h2>
+                    <p className="mt-4 text-muted-foreground font-body text-lg">
+                      Need a helping hand? Our Local Buddy service is here for you. From grocery shopping to picking up food orders, get reliable help whenever you're in need or feeling under the weather.
+                    </p>
+                    <Button asChild size="lg" className="mt-8">
+                      <Link href="/service/local-buddy">
+                        Book a Buddy
+                        <ChevronRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </Button>
+                  </div>
+                   <div className="rounded-lg overflow-hidden shadow-lg">
+                      <Image
+                        src="https://placehold.co/600x400.png"
+                        alt="Local Buddy helping with groceries"
+                        width={600}
+                        height={400}
+                        className="w-full h-full object-cover"
+                        data-ai-hint="friendly person groceries"
+                      />
+                  </div>
+                </div>
+              </CarouselItem>
+              <CarouselItem>
+                 <div className="grid md:grid-cols-2 gap-12 items-center">
+                   <div>
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Seamless Shifting & Moving</h2>
+                    <p className="mt-4 text-muted-foreground font-body text-lg">
+                      Relocating? Our professional shifters and movers ensure a safe and hassle-free transition to your new home. From packing to transport, we've got you covered.
+                    </p>
+                    <Button asChild size="lg" className="mt-8">
+                      <Link href="/service/shifters">
+                        Get a Quote
+                        <ChevronRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </Button>
+                  </div>
+                  <div className="rounded-lg overflow-hidden shadow-lg">
+                      <Image
+                        src="https://placehold.co/600x400.png"
+                        alt="Movers carrying a box"
+                        width={600}
+                        height={400}
+                        className="w-full h-full object-cover"
+                        data-ai-hint="movers carrying box"
+                      />
+                  </div>
+                </div>
+              </CarouselItem>
+               <CarouselItem>
+                 <div className="grid md:grid-cols-2 gap-12 items-center">
+                   <div>
+                    <h2 className="text-3xl md:text-4xl font-headline font-bold">Your City, Simplified.</h2>
+                    <p className="mt-4 text-muted-foreground font-body text-lg">
+                     Welcome to UrbanEase. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
+                    </p>
+                     <Button asChild size="lg" className="mt-8">
+                      <Link href="/#services">
+                        Browse All Services
+                        <ArrowRight className="ml-2 h-5 w-5" />
+                      </Link>
+                    </Button>
+                  </div>
+                   <div className="rounded-lg overflow-hidden shadow-lg">
+                      <Image
+                        src="https://placehold.co/600x400.png"
+                        alt="City skyline"
+                        width={600}
+                        height={400}
+                        className="w-full h-full object-cover"
+                        data-ai-hint="city skyline"
+                      />
+                  </div>
+                </div>
+              </CarouselItem>
+            </CarouselContent>
+            <CarouselPrevious className="absolute left-[-50px] top-1/2 -translate-y-1/2 hidden sm:flex" />
+            <CarouselNext className="absolute right-[-50px] top-1/2 -translate-y-1/2 hidden sm:flex" />
+          </Carousel>
         </div>
       </section>
 
-      <section id="services" className="py-16 md:py-24 bg-secondary">
+      <section id="services" className="py-16 md:py-24 bg-background">
         <div className="container mx-auto px-4 md:px-6">
           <div className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-headline font-bold">Our Services</h2>
@@ -85,7 +137,7 @@ export default function Home() {
         </div>
       </section>
       
-      <section className="py-16 md:py-24 bg-background">
+      <section className="py-16 md:py-24 bg-secondary">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg">

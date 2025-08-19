@@ -19,7 +19,6 @@ import {
 import {
   SidebarProvider,
   Sidebar,
-  SidebarHeader,
   SidebarContent,
   SidebarMenu,
   SidebarMenuItem,
@@ -27,6 +26,7 @@ import {
   SidebarFooter,
   SidebarInset,
   SidebarRail,
+  SidebarHeader,
 } from '@/components/ui/sidebar';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -54,14 +54,10 @@ export default function RootLayout({
     <html lang="en" suppressHydrationWarning>
       <head />
       <body className={cn('min-h-screen bg-background font-body antialiased', inter.variable)}>
-        <SidebarProvider>
+        <SidebarProvider defaultOpen={false}>
           <Sidebar collapsible="icon">
              <SidebarRail />
-            <SidebarHeader>
-              <Link href="/" className="flex items-center space-x-2">
-                <span className="font-bold text-xl">UrbanEase</span>
-              </Link>
-            </SidebarHeader>
+            <SidebarHeader />
             <SidebarContent>
               <SidebarMenu>
                 {navLinks.map((link) => (

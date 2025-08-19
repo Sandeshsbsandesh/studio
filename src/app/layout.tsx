@@ -25,8 +25,8 @@ import {
   SidebarMenuItem,
   SidebarMenuButton,
   SidebarFooter,
-  SidebarTrigger,
   SidebarInset,
+  SidebarRail,
 } from '@/components/ui/sidebar';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
@@ -55,7 +55,8 @@ export default function RootLayout({
       <head />
       <body className={cn('min-h-screen bg-background font-body antialiased', inter.variable)}>
         <SidebarProvider>
-          <Sidebar>
+          <Sidebar collapsible="icon">
+             <SidebarRail />
             <SidebarHeader>
               <Link href="/" className="flex items-center space-x-2">
                 <span className="font-bold text-xl">UrbanEase</span>
@@ -67,6 +68,7 @@ export default function RootLayout({
                   <SidebarMenuItem key={link.href}>
                     <Link href={link.href} className="w-full">
                        <SidebarMenuButton 
+                        tooltip={link.label}
                         isActive={
                           pathname === link.href || 
                           (link.href.startsWith('/#') && pathname === '/') || 

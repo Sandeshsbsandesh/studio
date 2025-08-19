@@ -52,38 +52,42 @@ export default function Header() {
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
-          <div className="md:hidden">
-            <SidebarTrigger />
-          </div>
-          <div className="md:hidden">
-             <Link href="/" className="flex items-center space-x-2">
+          <div className="flex items-center gap-2">
+            <SidebarTrigger className="md:hidden" />
+            <Link href="/" className="md:hidden flex items-center space-x-2">
                 <span className="font-bold text-xl">UrbanEase</span>
             </Link>
           </div>
 
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="ghost" size="icon">
-                <UserCircle className="h-6 w-6" />
-                <span className="sr-only">User Profile</span>
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              <DropdownMenuLabel>{userName ? `Welcome, ${userName}` : 'My Account'}</DropdownMenuLabel>
-              <DropdownMenuSeparator />
-              {userName ? (
-                <>
-                  <DropdownMenuItem asChild><Link href="/login">Profile</Link></DropdownMenuItem>
-                  <DropdownMenuItem asChild><Link href="/bookings">Bookings</Link></DropdownMenuItem>
-                  <DropdownMenuItem asChild><Link href="/login">Settings</Link></DropdownMenuItem>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
-                </>
-              ) : (
-                <DropdownMenuItem asChild><Link href="/login">Login / Sign Up</Link></DropdownMenuItem>
-              )}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="flex items-center gap-2">
+            <div className="hidden md:block">
+              <SidebarTrigger />
+            </div>
+
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="ghost" size="icon">
+                  <UserCircle className="h-6 w-6" />
+                  <span className="sr-only">User Profile</span>
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                <DropdownMenuLabel>{userName ? `Welcome, ${userName}` : 'My Account'}</DropdownMenuLabel>
+                <DropdownMenuSeparator />
+                {userName ? (
+                  <>
+                    <DropdownMenuItem asChild><Link href="/login">Profile</Link></DropdownMenuItem>
+                    <DropdownMenuItem asChild><Link href="/bookings">Bookings</Link></DropdownMenuItem>
+                    <DropdownMenuItem asChild><Link href="/login">Settings</Link></DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem onClick={handleLogout}>Logout</DropdownMenuItem>
+                  </>
+                ) : (
+                  <DropdownMenuItem asChild><Link href="/login">Login / Sign Up</Link></DropdownMenuItem>
+                )}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
     </header>

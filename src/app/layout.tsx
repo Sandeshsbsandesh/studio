@@ -1,32 +1,96 @@
+
+'use client';
+
 import type { Metadata } from 'next';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import './globals.css';
 import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
 import { Inter } from 'next/font/google';
+import {
+  Bot,
+  Home,
+  LayoutGrid,
+  CalendarCheck2,
+} from 'lucide-react';
+import {
+  SidebarProvider,
+  Sidebar,
+  SidebarHeader,
+  SidebarContent,
+  SidebarMenu,
+  SidebarMenuItem,
+  SidebarMenuButton,
+  SidebarFooter,
+  SidebarTrigger,
+  SidebarInset,
+} from '@/components/ui/sidebar';
 
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
-export const metadata: Metadata = {
-  title: 'UrbanEase',
-  description: 'Discover, book, and manage essential local services in your city.',
-};
+// export const metadata: Metadata = {
+//   title: 'UrbanEase',
+//   description: 'Discover, book, and manage essential local services in your city.',
+// };
+
+const navLinks = [
+  { href: '/', label: 'Home', icon: <Home /> },
+  { href: '/#services', label: 'Services', icon: <LayoutGrid /> },
+  { href: '/ai-assistant', label: 'AI Assistant', icon: <Bot /> },
+  { href: '/bookings', label: 'My Bookings', icon: <CalendarCheck2 /> },
+];
 
 export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const pathname = usePathname();
+
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
       <body className={cn('min-h-screen bg-background font-body antialiased', inter.variable)}>
-        <div className="relative flex min-h-screen flex-col">
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-        </div>
+        <SidebarProvider>
+          <Sidebar>
+            <SidebarHeader>
+              <Link href="/" className="flex items-center space-x-2">
+                <span className="font-bold text-xl">UrbanEase</span>
+              </Link>
+            </SidebarHeader>
+            <SidebarContent>
+              <SidebarMenu>
+                {navLinks.map((link) => (
+                  <SidebarMenuItem key={link.href}>
+                    <Link href={link.href} className="w-full">
+                       <SidebarMenuButton 
+                        isActive={
+                          pathname === link.href || 
+                          (link.href.startsWith('/#') && pathname === '/') || 
+                          (link.href !== '/' && !link.href.startsWith('/#') && pathname.startsWith(link.href))
+                        }
+                        className="w-full"
+                      >
+                         {link.icon}
+                        <span>{link.label}</span>
+                      </SidebarMenuButton>
+                    </Link>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarContent>
+            <SidebarFooter>
+               <Footer />
+            </SidebarFooter>
+          </Sidebar>
+          <SidebarInset>
+            <Header />
+            <main className="flex-1 p-4 md:p-6">{children}</main>
+          </SidebarInset>
+        </SidebarProvider>
         <Toaster />
       </body>
     </html>

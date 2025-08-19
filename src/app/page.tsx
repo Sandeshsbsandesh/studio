@@ -11,8 +11,27 @@ import {
   Bot,
 } from 'lucide-react';
 import { services } from '@/lib/data';
+import { generateHeroImage } from '@/ai/flows/generate-hero-image';
+import { useEffect, useState } from 'react';
+import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Home() {
+  const [heroImage, setHeroImage] = useState<string | null>(null);
+
+  useEffect(() => {
+    async function getHeroImage() {
+      try {
+        const result = await generateHeroImage('A vibrant collage of urban services: a friendly plumber fixing a sink, a painter adding a splash of color to a wall, a delivery person with a water can, and a moving truck, all united under a modern city skyline. The overall style should be clean, and inviting, with a soft color palette that matches a professional web application.');
+        setHeroImage(result);
+      } catch (error) {
+        console.error('Error generating hero image:', error);
+        // Fallback to a placeholder if image generation fails
+        setHeroImage('https://placehold.co/600x400.png');
+      }
+    }
+    getHeroImage();
+  }, []);
+
   return (
     <div className="flex flex-col">
        <section className="w-full py-12 md:py-20 lg:py-24 bg-secondary/50">
@@ -31,14 +50,17 @@ export default function Home() {
               </Button>
             </div>
              <div className="rounded-lg overflow-hidden shadow-lg">
-                <Image
-                  src="https://placehold.co/600x400.png"
-                  alt="City skyline"
-                  width={600}
-                  height={400}
-                  className="w-full h-full object-cover"
-                  data-ai-hint="city skyline"
-                />
+                {heroImage ? (
+                  <Image
+                    src={heroImage}
+                    alt="City skyline"
+                    width={600}
+                    height={400}
+                    className="w-full h-full object-cover"
+                  />
+                ) : (
+                  <Skeleton className="w-[600px] h-[400px]" />
+                )}
             </div>
           </div>
         </div>

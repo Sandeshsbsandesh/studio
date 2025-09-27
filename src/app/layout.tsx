@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import { Poppins, Pt_Sans } from 'next/font/google';
+import { Poppins, PT_Sans } from 'next/font/google';
 import {
   Bot,
   Home,
@@ -35,7 +35,7 @@ const poppins = Poppins({
   weight: ['400', '600', '700'] 
 });
 
-const ptSans = Pt_Sans({ 
+const ptSans = PT_Sans({ 
   subsets: ['latin'], 
   variable: '--font-pt-sans',
   weight: ['400', '700'] 

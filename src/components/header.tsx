@@ -11,8 +11,8 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { UserCircle } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { UserCircle, ChevronLeft } from 'lucide-react';
+import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { SidebarTrigger } from '@/components/ui/sidebar';
@@ -20,6 +20,7 @@ import { Icons } from './icons';
 
 export default function Header() {
   const router = useRouter();
+  const pathname = usePathname();
   const { toast } = useToast();
   const [userName, setUserName] = useState<string | null>(null);
 
@@ -48,13 +49,22 @@ export default function Header() {
     })
     router.push('/');
   };
+  
+  const showBackButton = pathname !== '/';
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-14 items-center">
         <div className="flex flex-1 items-center justify-between space-x-2">
           <div className="flex items-center gap-2">
-            <SidebarTrigger />
+            {showBackButton ? (
+              <Button variant="ghost" size="icon" onClick={() => router.back()}>
+                <ChevronLeft className="h-6 w-6" />
+                <span className="sr-only">Back</span>
+              </Button>
+            ) : (
+               <SidebarTrigger />
+            )}
             <Link href="/" className="flex items-center space-x-2">
                 <Icons.logo />
             </Link>

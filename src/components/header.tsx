@@ -16,6 +16,7 @@ import { useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { SidebarTrigger } from '@/components/ui/sidebar';
+import { Icons } from './icons';
 
 export default function Header() {
   const router = useRouter();
@@ -55,7 +56,7 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <SidebarTrigger />
             <Link href="/" className="flex items-center space-x-2">
-                <span className="font-bold text-xl">Urbanezii</span>
+                <Icons.logo />
             </Link>
           </div>
 

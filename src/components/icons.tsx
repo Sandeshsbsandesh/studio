@@ -158,5 +158,3 @@ export const Icons = {
     </svg>
   ),
 };
-
-    

@@ -9,7 +9,7 @@ import { cn } from '@/lib/utils';
 import { Toaster } from '@/components/ui/toaster';
 import Header from '@/components/header';
 import Footer from '@/components/footer';
-import { Inter } from 'next/font/google';
+import { Poppins, Pt_Sans } from 'next/font/google';
 import {
   Bot,
   Home,
@@ -29,7 +29,17 @@ import {
   SidebarHeader,
 } from '@/components/ui/sidebar';
 
-const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
+const poppins = Poppins({ 
+  subsets: ['latin'], 
+  variable: '--font-poppins',
+  weight: ['400', '600', '700'] 
+});
+
+const ptSans = Pt_Sans({ 
+  subsets: ['latin'], 
+  variable: '--font-pt-sans',
+  weight: ['400', '700'] 
+});
 
 // export const metadata: Metadata = {
 //   title: 'Urbanezii',
@@ -53,7 +63,7 @@ export default function RootLayout({
   return (
     <html lang="en" suppressHydrationWarning>
       <head />
-      <body className={cn('min-h-screen bg-background font-body antialiased', inter.variable)}>
+      <body className={cn('min-h-screen bg-background font-body antialiased', poppins.variable, ptSans.variable)}>
         <SidebarProvider defaultOpen={false}>
           <Sidebar collapsible="icon">
              <SidebarRail />

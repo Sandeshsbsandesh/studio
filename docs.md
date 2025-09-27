@@ -23,9 +23,9 @@ The app is built with a modern tech stack, including Next.js, React, ShadCN UI, 
 
 ## 3. Style Guidelines
 
--   **Primary Color**: Soft blue (`#77B5FE`) to convey trustworthiness and reliability.
--   **Background Color**: Very light blue (`#EBF4FF`) for a clean and calm backdrop.
--   **Accent Color**: A slightly desaturated purple (`#9370DB`) to highlight key calls-to-action.
+-   **Primary Color**: A strong, trustworthy blue (`#2B85FF`) to convey reliability and professionalism.
+-   **Background Color**: A very light, soft blue (`#F0F8FF`) for a clean and calm backdrop.
+-   **Accent Color**: A warm, inviting purple (`#9370DB`) to highlight key calls-to-action and add a touch of personality.
 -   **Font Pairing**: 'Poppins' for headlines and 'PT Sans' for body text to create a balance of clarity and modern style.
 -   **Layout**: A clean, grid-based layout optimized for mobile responsiveness.
 -   **Icons**: Clear and intuitive icons from the `lucide-react` library are used consistently.

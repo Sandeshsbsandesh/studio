@@ -32,7 +32,7 @@ import {
 const inter = Inter({ subsets: ['latin'], variable: '--font-inter' });
 
 // export const metadata: Metadata = {
-//   title: 'UrbanEase',
+//   title: 'Urbanezii',
 //   description: 'Discover, book, and manage essential local services in your city.',
 // };
 

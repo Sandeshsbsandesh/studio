@@ -5,7 +5,7 @@ export default function Footer() {
   return (
     <footer className="bg-transparent text-sidebar-foreground/70 text-xs p-2">
         <p>
-          © {new Date().getFullYear()} UrbanEase
+          © {new Date().getFullYear()} Urbanezii
         </p>
     </footer>
   );

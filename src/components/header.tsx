@@ -55,7 +55,7 @@ export default function Header() {
           <div className="flex items-center gap-2">
             <SidebarTrigger />
             <Link href="/" className="flex items-center space-x-2">
-                <span className="font-bold text-xl">UrbanEase</span>
+                <span className="font-bold text-xl">Urbanezii</span>
             </Link>
           </div>
 

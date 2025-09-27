@@ -93,7 +93,7 @@ export default function LoginPage() {
               <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-4">
                  <User className="h-12 w-12 text-primary" />
               </div>
-              <CardTitle className="text-3xl font-headline">Welcome to UrbanEase</CardTitle>
+              <CardTitle className="text-3xl font-headline">Welcome to Urbanezii</CardTitle>
               <CardDescription>Sign up or log in to continue</CardDescription>
             </CardHeader>
             <CardContent>

@@ -40,7 +40,7 @@ export default function Home() {
              <div>
               <h1 className="text-4xl md:text-5xl font-headline font-bold">Your City, Simplified.</h1>
               <p className="mt-4 text-muted-foreground font-body text-lg">
-               Welcome to UrbanEase. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
+               Welcome to Urbanezii. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
               </p>
                <Button asChild size="lg" className="mt-8">
                 <Link href="/#services">

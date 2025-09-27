@@ -2,65 +2,9 @@ import type { SVGProps } from 'react';
 
 export const Icons = {
   logo: (props: SVGProps<SVGSVGElement>) => (
-    <svg
-      width="150"
-      height="40"
-      viewBox="0 0 250 64"
-      fill="none"
-      xmlns="http://www.w3.org/2000/svg"
-      {...props}
-    >
-      <circle cx="32" cy="32" r="30" fill="#2B3A85" stroke="white" strokeWidth="2" />
-      <path
-        d="M28.09 23.12L31.83 17.52L35.61 23.12H28.09Z"
-        fill="#F37021"
-      />
-      <path
-        d="M23.08 35.59L17.48 31.85L23.08 28.11V35.59Z"
-        fill="#F37021"
-      />
-      <path
-        d="M36.65 39.73L42.25 36L36.65 32.27V39.73Z"
-        fill="#2B3A85"
-        stroke="#2B3A85"
-        strokeWidth="0.5"
-      />
-      <path
-        d="M31.87 46.24L28.13 40.64H35.65L31.87 46.24Z"
-        fill="#2B3A85"
-        stroke="#2B3A85"
-        strokeWidth="0.5"
-      />
-      <path
-        d="M39.69 28.11V35.59L45.29 31.85L39.69 28.11Z"
-        fill="#F37021"
-      />
-      <path
-        d="M24.12 26.96L20.38 21.36H27.9L24.12 26.96Z"
-        fill="#42B4E8"
-      />
-      <path d="M31.84 29.8L28.1 24.2H35.62L31.84 29.8Z" fill="#42B4E8" />
-      <path
-        d="M27.07 39.73L21.47 36L27.07 32.27V39.73Z"
-        fill="#42B4E8"
-      />
-      <path
-        d="M39.69 26.96L35.95 21.36H43.47L39.69 26.96Z"
-        fill="#9370DB"
-      />
-      <path d="M31.88 39.52L28.14 33.92H35.66L31.88 39.52Z" fill="#9370DB" />
-      <text
-        fill="#2B3A85"
-        xmlSpace="preserve"
-        style={{ whiteSpace: 'pre' }}
-        fontFamily="Poppins"
-        fontSize="36"
-        fontWeight="bold"
-        letterSpacing="0em"
-      >
-        <tspan x="70" y="42.5">Urbanezii</tspan>
-      </text>
-    </svg>
+    <span className="font-headline text-2xl font-bold text-primary" {...props}>
+      UrbanEzii
+    </span>
   ),
   ambulance: (props: SVGProps<SVGSVGElement>) => (
     <svg

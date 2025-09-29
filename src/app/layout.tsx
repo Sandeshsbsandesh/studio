@@ -27,7 +27,9 @@ import {
   SidebarInset,
   SidebarRail,
   SidebarHeader,
+  SidebarTrigger,
 } from '@/components/ui/sidebar';
+import { Icons } from '@/components/icons';
 
 const poppins = Poppins({ 
   subsets: ['latin'], 
@@ -67,7 +69,12 @@ export default function RootLayout({
         <SidebarProvider defaultOpen={false}>
           <Sidebar collapsible="icon">
              <SidebarRail />
-            <SidebarHeader />
+            <SidebarHeader>
+              <div className="flex items-center gap-2">
+                <SidebarTrigger className="hidden md:flex" />
+                <Icons.logo />
+              </div>
+            </SidebarHeader>
             <SidebarContent>
               <SidebarMenu>
                 {navLinks.map((link) => (

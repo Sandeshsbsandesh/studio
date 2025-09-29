@@ -63,9 +63,9 @@ export default function Header() {
                 <span className="sr-only">Back</span>
               </Button>
             ) : (
-               <SidebarTrigger />
+               <SidebarTrigger className="md:hidden" />
             )}
-            <Link href="/" className="flex items-center space-x-2">
+             <Link href="/" className="flex items-center space-x-2">
                 <Icons.logo />
             </Link>
           </div>

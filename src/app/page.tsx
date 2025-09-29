@@ -40,7 +40,7 @@ export default function Home() {
              <div>
               <h1 className="text-4xl md:text-5xl font-headline font-bold">Your City, Simplified.</h1>
               <p className="mt-4 text-muted-foreground font-body text-lg">
-               Welcome to Urbanezii. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
+               Welcome to UrbanEzii. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.
               </p>
                <Button asChild size="lg" className="mt-8">
                 <Link href="/#services">
@@ -87,12 +87,12 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg">
                 <Image
-                  src="https://placehold.co/600x400.png"
-                  alt="Friendly service provider"
+                  src="https://images.unsplash.com/photo-1554224155-83021925a2a4?q=80&w=600&auto=format&fit=crop"
+                  alt="Person searching for services online"
                   width={600}
                   height={400}
                   className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
-                  data-ai-hint="friendly handyman"
+                  data-ai-hint="person searching"
                 />
             </div>
             <div>

@@ -15,7 +15,7 @@ export const generateHeroImageFlow = ai.defineFlow(
   },
   async (prompt) => {
     const { media } = await ai.generate({
-      model: 'googleai/gemini-2.0-flash-preview-image-generation',
+      model: 'googleai/gemini-pro-vision',
       prompt: prompt,
       config: {
         responseModalities: ['TEXT', 'IMAGE'],

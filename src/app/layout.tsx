@@ -72,13 +72,15 @@ export default function RootLayout({
             <SidebarHeader>
               <div className="flex items-center gap-2">
                 <SidebarTrigger className="hidden md:flex" />
-                <Image 
-                  src="/logo final done@3x (1).png" 
-                  alt="Urbanezii Logo" 
-                  width={120} 
-                  height={30}
-                  priority 
-                />
+                 <Link href="/" className="flex items-center">
+                    <Image 
+                      src="/logo final done@3x (1).png" 
+                      alt="Urbanezii Logo" 
+                      width={120} 
+                      height={30}
+                      priority 
+                    />
+                </Link>
               </div>
             </SidebarHeader>
             <SidebarContent>

@@ -65,13 +65,14 @@ export default function Header() {
             ) : (
                <SidebarTrigger className="md:hidden" />
             )}
-             <Link href="/" className="flex items-center space-x-2 md:hidden">
+             <Link href="/" className="flex items-center space-x-2">
                 <Image 
                   src="/logo final done@3x (1).png" 
                   alt="Urbanezii Logo" 
                   width={120} 
                   height={30}
                   priority 
+                  className="md:hidden"
                 />
             </Link>
           </div>

@@ -8,29 +8,13 @@ import ServiceCard from '@/components/service-card';
 import {
   ArrowRight,
   ChevronRight,
-  Bot,
 } from 'lucide-react';
 import { services } from '@/lib/data';
-import { generateHeroImage } from '@/ai/flows/generate-hero-image';
-import { useEffect, useState } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Home() {
-  const [heroImage, setHeroImage] = useState<string | null>(null);
-
-  useEffect(() => {
-    async function getHeroImage() {
-      try {
-        const result = await generateHeroImage('A vibrant collage of urban services: a friendly plumber fixing a sink, a painter adding a splash of color to a wall, a delivery person with a water can, and a moving truck, all united under a modern city skyline. The overall style should be clean, and inviting, with a soft color palette that matches a professional web application.');
-        setHeroImage(result);
-      } catch (error) {
-        console.error('Error generating hero image:', error);
-        // Fallback to a placeholder if image generation fails
-        setHeroImage('https://placehold.co/600x400.png');
-      }
-    }
-    getHeroImage();
-  }, []);
+  // Using a static placeholder for reliability and performance.
+  const heroImage = "https://images.unsplash.com/photo-1542361325-11ab1c667a42?q=80&w=600&auto=format&fit=crop";
 
   return (
     <div className="flex flex-col">
@@ -53,10 +37,11 @@ export default function Home() {
                 {heroImage ? (
                   <Image
                     src={heroImage}
-                    alt="City skyline"
+                    alt="City services collage"
                     width={600}
                     height={400}
                     className="w-full h-full object-cover"
+                    data-ai-hint="city services collage"
                   />
                 ) : (
                   <Skeleton className="w-[600px] h-[400px]" />

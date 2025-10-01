@@ -74,7 +74,7 @@ export default function RootLayout({
                 <SidebarTrigger className="hidden md:flex" />
                 <Image 
                   src="/logo final done@3x (1).png" 
-                  alt="UrbanEzii Logo" 
+                  alt="Urbanezii Logo" 
                   width={120} 
                   height={30}
                   priority 

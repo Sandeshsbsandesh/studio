@@ -68,7 +68,7 @@ export default function Header() {
              <Link href="/" className="flex items-center space-x-2 md:hidden">
                 <Image 
                   src="/logo final done@3x (1).png" 
-                  alt="UrbanEzii Logo" 
+                  alt="Urbanezii Logo" 
                   width={120} 
                   height={30}
                   priority 

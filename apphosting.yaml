@@ -18,6 +18,6 @@ build:
 # Required for a Next.js app
 serve:
   # You can specify a different serve command here
-  command: npm run start
+  command: NODE_ENV=production npm run start
 # Tag this backend as 'latest'
 tag: latest

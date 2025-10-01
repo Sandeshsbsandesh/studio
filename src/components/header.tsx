@@ -72,7 +72,6 @@ export default function Header() {
                   width={120} 
                   height={30}
                   priority 
-                  className="md:hidden"
                 />
             </Link>
           </div>

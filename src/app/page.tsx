@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Home() {
   // Using a static placeholder for reliability and performance.
-  const heroImage = "https://images.unsplash.com/photo-1542361325-11ab1c667a42?q=80&w=600&auto=format&fit=crop";
+  const heroImage = "/Gemini_Generated_Image_x7q69hx7q69hx7q6.png";
 
   return (
     <div className="flex flex-col">

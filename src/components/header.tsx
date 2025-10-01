@@ -2,6 +2,7 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import {
   DropdownMenu,
@@ -16,7 +17,6 @@ import { useRouter, usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { useToast } from '@/hooks/use-toast';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { Icons } from './icons';
 
 export default function Header() {
   const router = useRouter();
@@ -66,7 +66,13 @@ export default function Header() {
                <SidebarTrigger className="md:hidden" />
             )}
              <Link href="/" className="flex items-center space-x-2">
-                <Icons.logo />
+                <Image 
+                  src="/logo final done@3x (1).png" 
+                  alt="UrbanEzii Logo" 
+                  width={120} 
+                  height={30}
+                  priority 
+                />
             </Link>
           </div>
 

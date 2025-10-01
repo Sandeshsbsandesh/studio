@@ -3,6 +3,7 @@
 
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import './globals.css';
 import { cn } from '@/lib/utils';
@@ -29,7 +30,6 @@ import {
   SidebarHeader,
   SidebarTrigger,
 } from '@/components/ui/sidebar';
-import { Icons } from '@/components/icons';
 
 const poppins = Poppins({ 
   subsets: ['latin'], 
@@ -72,7 +72,13 @@ export default function RootLayout({
             <SidebarHeader>
               <div className="flex items-center gap-2">
                 <SidebarTrigger className="hidden md:flex" />
-                <Icons.logo />
+                <Image 
+                  src="/logo final done@3x (1).png" 
+                  alt="UrbanEzii Logo" 
+                  width={120} 
+                  height={30}
+                  priority 
+                />
               </div>
             </SidebarHeader>
             <SidebarContent>

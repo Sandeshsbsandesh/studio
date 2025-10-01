@@ -10,5 +10,5 @@ runConfig:
 build:
   command: npm run build
 serve:
-  command: npm run start
+  command: node .next/standalone/server.js
 tag: latest

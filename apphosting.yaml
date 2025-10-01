@@ -1,14 +1,12 @@
 # Settings to manage and configure a Firebase App Hosting backend.
 # https://firebase.google.com/docs/app-hosting/configure
-backend:
-  id: urbanezii-backend
 runConfig:
   cpu: 1
   memoryMiB: 512
-  concurrency: 80
-  maxInstances: 1
 build:
   command: npm run build
 serve:
-  command: npm run start
+  command: node .next/standalone/server.js
+backend:
+  id: urbanezii-backend
 tag: latest

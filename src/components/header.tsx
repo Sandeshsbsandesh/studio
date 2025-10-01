@@ -65,7 +65,7 @@ export default function Header() {
             ) : (
                <SidebarTrigger className="md:hidden" />
             )}
-             <Link href="/" className="flex items-center space-x-2">
+             <Link href="/" className="flex items-center space-x-2 md:hidden">
                 <Image 
                   src="/logo final done@3x (1).png" 
                   alt="UrbanEzii Logo" 

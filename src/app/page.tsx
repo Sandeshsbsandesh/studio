@@ -81,7 +81,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg">
                 <Image
-                  src="https://images.unsplash.com/photo-1554224155-83021925a2a4?q=80&w=600&auto=format&fit=crop"
+                  src="/Gemini_Generated_Image_ifk32vifk32vifk3.png"
                   alt="Person searching for services online"
                   width={600}
                   height={400}

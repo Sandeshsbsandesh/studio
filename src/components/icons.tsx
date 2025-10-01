@@ -1,10 +1,15 @@
 import type { SVGProps } from 'react';
+import Image from 'next/image';
 
 export const Icons = {
   logo: (props: SVGProps<SVGSVGElement>) => (
-    <span className="font-headline text-2xl font-bold text-primary" {...props}>
-      UrbanEzii
-    </span>
+    <Image 
+      src="/logo final done@3x (1).png" 
+      alt="UrbanEzii Logo" 
+      width={120} 
+      height={30}
+      priority 
+    />
   ),
   ambulance: (props: SVGProps<SVGSVGElement>) => (
     <svg

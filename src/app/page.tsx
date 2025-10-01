@@ -22,6 +22,15 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
            <div className="grid md:grid-cols-2 gap-12 items-center">
              <div>
+              <div className="mb-4">
+                <Image
+                  src="/logo final done@3x (1).png"
+                  alt="Urbanezii Logo"
+                  width={180}
+                  height={45}
+                  priority
+                />
+              </div>
               <h1 className="text-4xl md:text-5xl font-headline font-bold">Your City, Simplified.</h1>
               <p className="mt-4 text-muted-foreground font-body text-lg">
                Welcome to UrbanEzii. Discover, book, and manage essential local services all in one place. Your new city life just got a whole lot easier.

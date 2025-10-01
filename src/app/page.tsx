@@ -14,7 +14,7 @@ import { Skeleton } from '@/components/ui/skeleton';
 
 export default function Home() {
   // Using a static placeholder for reliability and performance.
-  const heroImage = "/Gemini_Generated_Image_x7q69hx7q69hx7q6.png";
+  const heroImage = "/hero-image.png";
 
   return (
     <div className="flex flex-col">
@@ -24,7 +24,7 @@ export default function Home() {
              <div>
               <div className="mb-4">
                 <Image
-                  src="/logo final done@3x (1).png"
+                  src="/logo.png"
                   alt="Urbanezii Logo"
                   width={180}
                   height={45}
@@ -81,7 +81,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg">
                 <Image
-                  src="/Gemini_Generated_Image_ifk32vifk32vifk3.png"
+                  src="/promo-image.png"
                   alt="Person searching for services online"
                   width={600}
                   height={400}

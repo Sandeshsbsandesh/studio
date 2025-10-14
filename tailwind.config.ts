@@ -18,8 +18,8 @@ export default {
     },
     extend: {
       fontFamily: {
-        headline: ['Poppins', 'sans-serif'],
-        body: ['PT Sans', 'sans-serif'],
+        headline: ['var(--font-headline)', 'sans-serif'],
+        body: ['var(--font-body)', 'sans-serif'],
       },
       colors: {
         background: 'hsl(var(--background))',
@@ -93,10 +93,23 @@ export default {
             height: '0',
           },
         },
+         'loader-progress': {
+          '0%': { transform: 'translateX(-100%)', width: '0%' },
+          '50%': { transform: 'translateX(0)', width: '100%' },
+          '100%': { transform: 'translateX(100%)', width: '0%' },
+        },
+        'truck-move': {
+          '0%': { left: '0%', transform: 'translateX(-100%)' },
+          '10%': { left: '0%', transform: 'translateX(-100%)' },
+          '90%': { left: '100%', transform: 'translateX(0%)' },
+          '100%': { left: '100%', transform: 'translateX(0%)' },
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
         'accordion-up': 'accordion-up 0.2s ease-out',
+        'loader-progress': 'loader-progress 2s ease-in-out infinite',
+        'truck-move': 'truck-move 2s ease-in-out infinite',
       },
     },
   },

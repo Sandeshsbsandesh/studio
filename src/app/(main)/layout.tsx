@@ -4,7 +4,6 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { cn } from '@/lib/utils';
 import Header from '@/components/header';
 import {
   SidebarProvider,
@@ -22,7 +21,7 @@ import Footer from '@/components/footer';
 
 const navLinks = [
   { href: '/', label: 'Home', icon: <House /> },
-  { href: '/#services', label: 'Services', icon: <LayoutGrid /> },
+  { href: '/services', label: 'Services', icon: <LayoutGrid /> },
   { href: '/about', label: 'About Us', icon: <Info /> },
   { href: '/features', label: 'Features', icon: <Sparkles /> },
   { href: '/pricing', label: 'Pricing', icon: <DollarSign /> },
@@ -41,11 +40,11 @@ export default function MainLayout({
 
   return (
     <SidebarProvider>
-      <Sidebar side="left" variant="sidebar" collapsible="offcanvas">
+      <Sidebar side="left" variant="sidebar" collapsible="icon">
         <SidebarRail />
         <SidebarHeader>
           <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} className="text-sidebar-foreground"/>
+            <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
             <span className="font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
               UrbanEzii
             </span>
@@ -59,7 +58,7 @@ export default function MainLayout({
                 <Link href={link.href} className="w-full">
                   <SidebarMenuButton
                     tooltip={link.label}
-                    isActive={pathname === link.href || (link.href.includes('/#') && pathname ==='/')}
+                    isActive={pathname === link.href}
                     className="w-full"
                   >
                     {link.icon}
@@ -71,7 +70,7 @@ export default function MainLayout({
           </SidebarMenu>
         </SidebarContent>
       </Sidebar>
-      <main className="relative flex min-h-svh flex-1 flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-2 md:peer-data-[variant=inset]:ml-0 md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow">
+      <main className="relative flex min-h-svh flex-1 flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-[calc(theme(spacing.4)_+_var(--sidebar-width-icon))] md:peer-data-[variant=inset]:ml-[calc(theme(spacing.4)_+_var(--sidebar-width-icon))] md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

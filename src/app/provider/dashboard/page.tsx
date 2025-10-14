@@ -17,9 +17,13 @@ export default function ProviderDashboardPage() {
 
   useEffect(() => {
     const storedName = localStorage.getItem('userName');
+    const userType = localStorage.getItem('userType');
+    
     if (storedName) {
       setUserName(storedName);
-    } else {
+    } 
+    
+    if (userType !== 'provider') {
       router.push('/login');
     }
   }, [router]);
@@ -73,8 +77,8 @@ export default function ProviderDashboardPage() {
           </CardHeader>
           <CardContent>
             <div className="flex items-center gap-2">
-                <span className="text-2xl font-bold">0.0</span>
-                <StarRating rating={0} />
+                <span className="text-2xl font-bold">4.8</span>
+                <StarRating rating={4.8} />
             </div>
             <p className="text-xs text-muted-foreground">Across all services</p>
           </CardContent>

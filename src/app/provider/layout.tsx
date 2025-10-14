@@ -101,12 +101,10 @@ export default function ProviderLayout({ children }: { children: React.ReactNode
                 </SidebarMenu>
                 <SidebarMenu>
                    <SidebarMenuItem>
-                      <button onClick={handleLogout} className="w-full">
-                        <SidebarMenuButton tooltip="Logout" className="w-full">
-                          <LogOut />
-                          <span className="group-data-[collapsible=icon]:hidden">Logout</span>
-                        </SidebarMenuButton>
-                      </button>
+                      <SidebarMenuButton tooltip="Logout" className="w-full" onClick={handleLogout}>
+                        <LogOut />
+                        <span className="group-data-[collapsible=icon]:hidden">Logout</span>
+                      </SidebarMenuButton>
                     </SidebarMenuItem>
                 </SidebarMenu>
               </SidebarContent>

@@ -1,15 +1,15 @@
 
 'use client';
 
-import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts"
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis, Tooltip } from "recharts"
 
 const data = [
-  { name: "Jan", total: 0 },
-  { name: "Feb", total: 0 },
-  { name: "Mar", total: 0 },
-  { name: "Apr", total: 0 },
-  { name: "May", total: 0 },
-  { name: "Jun", total: 0 },
+  { name: "Jan", total: Math.floor(Math.random() * 5000) + 1000 },
+  { name: "Feb", total: Math.floor(Math.random() * 5000) + 1000 },
+  { name: "Mar", total: Math.floor(Math.random() * 5000) + 1000 },
+  { name: "Apr", total: Math.floor(Math.random() * 5000) + 1000 },
+  { name: "May", total: Math.floor(Math.random() * 5000) + 1000 },
+  { name: "Jun", total: 25000 },
 ]
 
 export default function EarningsTrend() {
@@ -28,13 +28,18 @@ export default function EarningsTrend() {
           fontSize={12}
           tickLine={false}
           axisLine={false}
-          tickFormatter={(value) => `₹${value}`}
+          tickFormatter={(value) => `₹${value / 1000}k`}
+        />
+        <Tooltip
+          cursor={{ fill: 'hsl(var(--muted))' }}
+          contentStyle={{ 
+            backgroundColor: 'hsl(var(--background))',
+            borderColor: 'hsl(var(--border))'
+          }}
+          formatter={(value) => [`₹${value}`, 'Earnings']}
         />
         <Bar dataKey="total" fill="hsl(var(--primary))" radius={[4, 4, 0, 0]} />
       </BarChart>
-       <div className="absolute inset-0 flex items-center justify-center">
-            <p className="text-muted-foreground">Chart coming soon</p>
-        </div>
     </ResponsiveContainer>
   )
 }

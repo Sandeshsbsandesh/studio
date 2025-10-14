@@ -8,9 +8,11 @@ import ServiceCard from '@/components/service-card';
 import {
   ArrowRight,
   ChevronRight,
+  Download,
 } from 'lucide-react';
 import { services } from '@/lib/data';
 import { Skeleton } from '@/components/ui/skeleton';
+import placeholderImages from '@/lib/placeholder-images.json';
 
 export default function Home() {
   // Using a static placeholder for reliability and performance.
@@ -100,6 +102,37 @@ export default function Home() {
                   <ChevronRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="py-16 md:py-24 bg-background">
+        <div className="container mx-auto px-4 md:px-6">
+          <div className="grid md:grid-cols-2 gap-12 items-center">
+            <div className="flex flex-col items-start text-left">
+              <h2 className="text-3xl md:text-4xl font-headline font-bold">Get Our App</h2>
+              <p className="mt-4 text-muted-foreground font-body text-lg">
+                Download the UrbanEzii app for a seamless experience on the go. Book services, track your appointments, and get instant notifications, all from your mobile device.
+              </p>
+              <Button asChild size="lg" className="mt-8">
+                <Link href="#">
+                  <Download className="mr-2 h-5 w-5" />
+                  Download the App
+                </Link>
+              </Button>
+            </div>
+            <div className="flex items-center justify-center">
+              <div className="rounded-lg overflow-hidden shadow-lg bg-white p-4">
+                <Image
+                  src={placeholderImages.qrCode.src}
+                  alt={placeholderImages.qrCode.alt}
+                  width={200}
+                  height={200}
+                  className="w-full h-full object-contain"
+                  data-ai-hint={placeholderImages.qrCode['data-ai-hint']}
+                />
+              </div>
             </div>
           </div>
         </div>

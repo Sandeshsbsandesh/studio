@@ -5,12 +5,24 @@ import ServiceProvidersList from './service-providers-list';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 
+// Helper function to capitalize the first letter
+function capitalizeFirstLetter(string: string) {
+  return string.charAt(0).toUpperCase() + string.slice(1);
+}
+
+// Helper function to format the slug from the URL to match the category
+function formatSlugToCategory(slug: string) {
+  // Example: "water-can-delivery" -> "Water Can Delivery"
+  // Example: "electricians" -> "Electricians"
+  return slug.split('-').map(capitalizeFirstLetter).join(' ');
+}
+
+
 async function getProviders(serviceSlug: string) {
   try {
     const providersCol = collection(db, 'providers');
-    // Correcting the query to match the full path stored in Firestore
-    const fullPath = `/service/${serviceSlug}`;
-    const q = query(providersCol, where('serviceSlug', '==', fullPath));
+    const category = formatSlugToCategory(serviceSlug);
+    const q = query(providersCol, where('category', '==', category));
     const querySnapshot = await getDocs(q);
     const providers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
     return providers;

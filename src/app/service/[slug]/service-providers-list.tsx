@@ -8,8 +8,8 @@ import { useState } from 'react';
 import BookingModal from '@/components/booking-modal';
 
 interface ServiceProvider {
-  id: string; // Changed to string to match Firestore doc id
-  name: string;
+  id: string; 
+  businessName: string; // Updated from name to businessName
   address: string;
   rating: number;
   reviews: number;
@@ -42,7 +42,7 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
               serviceProviders.map(provider => (
                   <Card key={provider.id} className="transition-all duration-300 ease-in-out hover:shadow-lg hover:-translate-y-1 hover:border-primary">
                       <CardHeader>
-                          <CardTitle>{provider.name}</CardTitle>
+                          <CardTitle>{provider.businessName}</CardTitle>
                           <CardDescription className="flex items-center pt-1">
                               <MapPin className="h-4 w-4 mr-2" /> {provider.address}
                           </CardDescription>
@@ -50,8 +50,8 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
                       <CardContent>
                           <div className="flex items-center gap-2">
                               <Star className="h-5 w-5 text-yellow-400" />
-                              <span className="font-semibold text-lg">{provider.rating.toFixed(1)}</span>
-                              <span className="text-muted-foreground">({provider.reviews} reviews)</span>
+                              <span className="font-semibold text-lg">{provider.rating ? provider.rating.toFixed(1) : 'N/A'}</span>
+                              <span className="text-muted-foreground">({provider.reviews || 0} reviews)</span>
                           </div>
                       </CardContent>
                       <CardFooter className="flex justify-end gap-2">

@@ -8,7 +8,7 @@ import { useState } from 'react';
 import BookingModal from '@/components/booking-modal';
 
 interface ServiceProvider {
-  id: number;
+  id: string; // Changed to string to match Firestore doc id
   name: string;
   address: string;
   rating: number;
@@ -64,7 +64,11 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
                   </Card>
               ))
           ) : (
-              <p>No providers found for this service.</p>
+              <Card>
+                <CardContent className='pt-6'>
+                    <p className='text-center text-muted-foreground'>No providers found for this service at the moment. Please check back later.</p>
+                </CardContent>
+              </Card>
           )}
       </div>
       {selectedProvider && (

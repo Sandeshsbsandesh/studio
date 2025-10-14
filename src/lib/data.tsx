@@ -89,6 +89,8 @@ export const services = [
   },
 ];
 
+// This hardcoded data is now replaced by Firestore fetching on the service pages.
+// It can be removed or kept for reference/fallback. For now, I will keep it.
 export const providers: Record<string, any[]> = {
   'water-can-delivery': [
     { id: 1, name: 'AquaPure Deliveries', address: '1.2 km away - Koramangala', rating: 4.8, reviews: 120 },
@@ -138,7 +140,7 @@ export const providers: Record<string, any[]> = {
   'shifters': [
     { id: 1, name: 'QuickShift Movers', address: 'Koramangala', rating: 4.8, reviews: 150 },
     { id: 2, name: 'SafeMove Packers', address: 'Indiranagar', rating: 4.9, reviews: 200 },
-    { id: 3, name: 'CityExpress Shifters', address: 'HSR Layout', rating: 4.7, reviews: 180 },
+    { id: 3, 'name': 'CityExpress Shifters', address: 'HSR Layout', rating: 4.7, reviews: 180 },
   ],
   'painters': [
     { id: 1, name: 'Pro-Finish Painters', address: 'Koramangala', rating: 4.9, reviews: 90 },

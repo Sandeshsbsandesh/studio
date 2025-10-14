@@ -1,3 +1,4 @@
+
 'use client';
 import React, { createContext, useContext, ReactNode } from 'react';
 import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
@@ -12,11 +13,13 @@ const firebaseConfig = {
 };
 
 let firebaseApp: FirebaseApp;
+// Initialize Firebase
 if (!getApps().length) {
   firebaseApp = initializeApp(firebaseConfig);
 } else {
   firebaseApp = getApps()[0];
 }
+
 
 const FirebaseAppContext = createContext<FirebaseApp | undefined>(undefined);
 
@@ -35,3 +38,5 @@ export const useFirebaseApp = () => {
   }
   return app;
 };
+
+export { firebaseApp };

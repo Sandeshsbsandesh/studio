@@ -4,6 +4,7 @@ import { services } from '@/lib/data';
 import ServiceProvidersList from './service-providers-list';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
+import BackButton from '@/components/back-button';
 
 // Helper function to capitalize the first letter
 function capitalizeFirstLetter(string: string) {
@@ -45,6 +46,9 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
   return (
     <div className="container mx-auto px-4 md:px-6 py-12">
       <div className="max-w-4xl mx-auto">
+        <div className="mb-4">
+          <BackButton />
+        </div>
         <div className="mb-8 text-center">
             <div className="inline-block bg-primary/10 p-4 rounded-full text-primary mb-4">
                 {service.icon}

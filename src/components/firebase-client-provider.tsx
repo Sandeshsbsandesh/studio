@@ -1,5 +1,6 @@
 'use client';
-import { FirebaseAppProvider } from 'reactfire';
+import React, { createContext, useContext, ReactNode } from 'react';
+import { initializeApp, getApps, FirebaseApp } from 'firebase/app';
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -10,6 +11,27 @@ const firebaseConfig = {
   appId: process.env.NEXT_PUBLIC_FIREBASE_APP_ID,
 };
 
-export function FirebaseClientProvider({ children }: { children: React.ReactNode }) {
-  return <FirebaseAppProvider firebaseConfig={firebaseConfig}>{children}</FirebaseAppProvider>;
+let firebaseApp: FirebaseApp;
+if (!getApps().length) {
+  firebaseApp = initializeApp(firebaseConfig);
+} else {
+  firebaseApp = getApps()[0];
 }
+
+const FirebaseAppContext = createContext<FirebaseApp | undefined>(undefined);
+
+export const FirebaseClientProvider = ({ children }: { children: ReactNode }) => {
+  return (
+    <FirebaseAppContext.Provider value={firebaseApp}>
+      {children}
+    </FirebaseAppContext.Provider>
+  );
+};
+
+export const useFirebaseApp = () => {
+  const app = useContext(FirebaseAppContext);
+  if (app === undefined) {
+    throw new Error('useFirebaseApp must be used within a FirebaseClientProvider');
+  }
+  return app;
+};

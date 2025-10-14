@@ -8,7 +8,7 @@ import { ArrowRight } from 'lucide-react';
 export default function Home() {
   return (
     <div className="flex flex-col flex-1">
-      <section className="w-full flex-1 flex items-center">
+      <section className="w-full flex-1 flex items-center justify-center">
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
@@ -30,13 +30,13 @@ export default function Home() {
                 </Button>
               </div>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-2xl p-4 bg-white/50 backdrop-blur-sm border">
-              <Image
-                src="/Gemini_Generated_Image_x7q69hx7q69hx7q6.png"
-                alt="A collage of various home services like plumbing, cleaning, and electrical work."
+            <div className="p-4">
+               <Image
+                src="https://picsum.photos/seed/hero/600/400"
+                alt="A collage of various home services."
                 width={600}
                 height={400}
-                className="w-full h-full object-cover rounded-md"
+                className="w-full h-auto object-cover rounded-lg shadow-2xl"
                 data-ai-hint="city services collage"
               />
             </div>

@@ -70,7 +70,7 @@ export default function MainLayout({
           </SidebarMenu>
         </SidebarContent>
       </Sidebar>
-      <main className="relative flex min-h-svh flex-1 flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=inset]:m-2 md:peer-data-[state=collapsed]:peer-data-[variant=inset]:ml-[calc(theme(spacing.4)_+_var(--sidebar-width-icon))] md:peer-data-[variant=inset]:ml-[calc(theme(spacing.4)_+_var(--sidebar-width-icon))] md:peer-data-[variant=inset]:rounded-xl md:peer-data-[variant=inset]:shadow">
+      <main className="relative flex min-h-svh flex-1 flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=sidebar]:ml-[var(--sidebar-width-icon)] md:peer-data-[state=expanded]:peer-data-[variant=sidebar]:ml-[var(--sidebar-width)]">
         <Header />
         <main className="flex-1">{children}</main>
         <Footer />

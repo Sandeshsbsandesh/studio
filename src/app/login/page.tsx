@@ -62,7 +62,7 @@ export default function LoginPage() {
           });
         },
         (error) => {
-          console.error('Error getting location:', error);
+          console.error('Error getting location:', error.message);
           setLocationError('Could not get location access. Please enable it in your browser settings.');
           toast({
             variant: "destructive",

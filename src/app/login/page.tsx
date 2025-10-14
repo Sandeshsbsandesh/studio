@@ -9,14 +9,19 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { AtSign, Phone, MapPin, User, KeyRound, PartyPopper, Briefcase, LogIn, UserPlus } from 'lucide-react';
-import { useState } from "react";
+import { AtSign, Phone, MapPin, User, KeyRound, Briefcase } from 'lucide-react';
+import { useState, useEffect, useMemo } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ReactConfetti from 'react-confetti';
 import { useToast } from "@/hooks/use-toast";
 import { signInUser, signUpUser } from "./actions";
 
-const formSchema = z.object({
+const loginSchema = z.object({
+  email: z.string().email('Please enter a valid email address.'),
+  password: z.string().min(1, 'Password is required.'),
+});
+
+const signupSchema = z.object({
   email: z.string().email('Please enter a valid email address.'),
   password: z.string().min(6, 'Password must be at least 6 characters.'),
   name: z.string().min(1, 'Please enter your name.'),
@@ -24,7 +29,7 @@ const formSchema = z.object({
   userType: z.enum(['customer', 'provider'], { required_error: 'Please select a registration type.' }),
 });
 
-type FormValues = z.infer<typeof formSchema>;
+type FormValues = z.infer<typeof loginSchema> | z.infer<typeof signupSchema>;
 
 export default function LoginPage() {
   const [formType, setFormType] = useState<'login' | 'signup'>('login');
@@ -36,8 +41,10 @@ export default function LoginPage() {
   const searchParams = useSearchParams();
   const { toast } = useToast();
 
+  const currentSchema = useMemo(() => formType === 'login' ? loginSchema : signupSchema, [formType]);
+
   const form = useForm<FormValues>({
-    resolver: zodResolver(formSchema),
+    resolver: zodResolver(currentSchema),
     defaultValues: {
       email: '',
       password: '',
@@ -46,6 +53,16 @@ export default function LoginPage() {
       userType: searchParams.get('as') === 'provider' ? 'provider' : 'customer',
     },
   });
+
+  useEffect(() => {
+    form.reset({
+       email: '',
+       password: '',
+       name: '',
+       phone: '',
+       userType: searchParams.get('as') === 'provider' ? 'provider' : 'customer',
+    });
+  }, [formType, form, searchParams]);
 
   const handleLocationAccess = () => {
     setLocationError(null);
@@ -94,6 +111,7 @@ export default function LoginPage() {
     setLoading(true);
 
     const action = formType === 'signup' ? signUpUser : signInUser;
+    // @ts-ignore
     const result = await action({ ...values, location });
 
     setLoading(false);
@@ -289,3 +307,5 @@ export default function LoginPage() {
     </>
   );
 }
+
+    

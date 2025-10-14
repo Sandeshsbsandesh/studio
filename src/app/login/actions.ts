@@ -39,8 +39,8 @@ export async function signUpUser(data: FormValues): Promise<ActionResult> {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Store additional user data in Firestore
-    const userDocRef = doc(db, 'users', user.uid);
+    // Store additional user data in Firestore in the 'customers' collection
+    const userDocRef = doc(db, 'customers', user.uid);
     await setDoc(userDocRef, {
       name,
       email,
@@ -78,8 +78,8 @@ export async function signInUser(data: FormValues): Promise<ActionResult> {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
-    // Retrieve user type from Firestore
-    const userDocRef = doc(db, 'users', user.uid);
+    // Retrieve user type from Firestore from the 'customers' collection
+    const userDocRef = doc(db, 'customers', user.uid);
     const userDoc = await getDoc(userDocRef);
 
     if (!userDoc.exists()) {

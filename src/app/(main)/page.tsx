@@ -163,7 +163,7 @@ export default function Home() {
                 <Image
                     src="https://picsum.photos/seed/provider/600/450"
                     alt="A skilled professional smiling and ready for work."
-                    data-ai-hint="skilled professional"
+                    data-ai-hint="photographer vintage camera"
                     width={600}
                     height={450}
                     className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"

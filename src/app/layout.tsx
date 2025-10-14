@@ -3,7 +3,6 @@ import './globals.css';
 import { Toaster } from '@/components/ui/toaster';
 import { Poppins, PT_Sans } from 'next/font/google';
 import { cn } from '@/lib/utils';
-import { FirebaseClientProvider } from '@/components/firebase-client-provider';
 import type { Metadata } from 'next';
 import { SpeedInsights } from '@vercel/speed-insights/next';
 
@@ -77,11 +76,9 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         />
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased', fontHeadline.variable, fontBody.variable)}>
-        <FirebaseClientProvider>
-            {children}
-            <Toaster />
-            <SpeedInsights />
-        </FirebaseClientProvider>
+          {children}
+          <Toaster />
+          <SpeedInsights />
       </body>
     </html>
   );

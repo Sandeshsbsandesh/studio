@@ -99,7 +99,7 @@ export async function signInUser(data: FormValues): Promise<ActionResult> {
     };
   } catch (error: any) {
     let errorMessage = 'An unexpected error occurred during sign in.';
-    if (error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS) {
+    if (error.code === AuthErrorCodes.INVALID_LOGIN_CREDENTIALS || error.code === 'auth/invalid-credential') {
       errorMessage = 'Invalid email or password. Please try again.';
     }
     console.error('Sign in error:', error);

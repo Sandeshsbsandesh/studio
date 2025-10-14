@@ -27,7 +27,7 @@ const signupSchema = z.object({
   password: z.string().min(6, 'Password must be at least 6 characters.'),
   name: z.string().min(1, 'Please enter your name.'),
   phone: z.string().regex(/^\d{10}$/, 'Please enter a valid 10-digit phone number.'),
-  userType: z.enum(['customer', 'provider'], { required_error: 'Please select a registration type.' }),
+  role: z.enum(['customer', 'provider'], { required_error: 'Please select a registration type.' }),
 });
 
 type FormValues = z.infer<typeof loginSchema> | z.infer<typeof signupSchema>;
@@ -52,7 +52,7 @@ export default function LoginPage() {
       password: '',
       name: '',
       phone: '',
-      userType: searchParams.get('as') === 'provider' ? 'provider' : 'customer',
+      role: searchParams.get('as') === 'provider' ? 'provider' : 'customer',
     },
   });
 
@@ -62,7 +62,7 @@ export default function LoginPage() {
        password: '',
        name: '',
        phone: '',
-       userType: searchParams.get('as') === 'provider' ? 'provider' : 'customer',
+       role: searchParams.get('as') === 'provider' ? 'provider' : 'customer',
     });
   }, [formType, form, searchParams]);
 
@@ -101,20 +101,26 @@ export default function LoginPage() {
   };
 
   async function onSubmit(values: FormValues) {
-    if (formType === 'signup' && !location) {
-      toast({
-        variant: "destructive",
-        title: 'Location Required',
-        description: 'Please allow location access to sign up.',
-      });
-      return;
+    if (formType === 'signup') {
+        const signupValues = values as z.infer<typeof signupSchema>;
+        if (signupValues.role === 'provider' && !location) {
+             toast({
+                variant: "destructive",
+                title: 'Location Required',
+                description: 'Please allow location access to sign up as a provider.',
+            });
+            return;
+        }
     }
     
     setLoading(true);
 
     const action = formType === 'signup' ? signUpUser : signInUser;
+    
+    const finalValues = formType === 'signup' ? { ...(values as z.infer<typeof signupSchema>), location } : values;
+
     // @ts-ignore
-    const result = await action({ ...values, location });
+    const result = await action(finalValues);
 
     setLoading(false);
 
@@ -143,7 +149,7 @@ export default function LoginPage() {
     }
   }
 
-  const initialUserType = searchParams.get('as') === 'provider' ? 'provider' : 'customer';
+  const initialRole = searchParams.get('as') === 'provider' ? 'provider' : 'customer';
 
   return (
     <>
@@ -169,14 +175,14 @@ export default function LoginPage() {
                   <>
                     <FormField
                       control={form.control}
-                      name="userType"
+                      name="role"
                       render={({ field }) => (
                         <FormItem className="space-y-3">
                           <FormLabel>Register as a...</FormLabel>
                           <FormControl>
                             <RadioGroup
                               onValueChange={field.onChange}
-                              defaultValue={initialUserType}
+                              defaultValue={initialRole}
                               className="grid grid-cols-2 gap-4"
                             >
                               <FormItem>
@@ -271,7 +277,7 @@ export default function LoginPage() {
                   )}
                 />
 
-                {formType === 'signup' && (
+                {formType === 'signup' && form.watch('role') === 'provider' && (
                   <div className="space-y-4">
                     <div>
                       <FormLabel>Location</FormLabel>
@@ -280,7 +286,7 @@ export default function LoginPage() {
                         {location ? 'Location Captured!' : 'Allow Location Access'}
                       </Button>
                       <FormDescription className="mt-2">
-                        We require your location to complete the registration.
+                        We require your location to complete your provider registration.
                         {location && <span className="block text-green-600 font-medium">Latitude: {location.latitude.toFixed(5)}, Longitude: {location.longitude.toFixed(5)}</span>}
                         {locationError && <span className="block text-destructive font-medium">{locationError}</span>}
                       </FormDescription>

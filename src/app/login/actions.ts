@@ -10,7 +10,7 @@ interface FormValues {
   password?: string;
   name?: string;
   phone?: string;
-  userType?: 'customer' | 'provider';
+  role?: 'customer' | 'provider';
   location?: {
     latitude: number;
     longitude: number;
@@ -29,9 +29,9 @@ interface ActionResult {
 }
 
 export async function signUpUser(data: FormValues): Promise<ActionResult> {
-  const { email, password, name, phone, userType, location } = data;
+  const { email, password, name, phone, role, location } = data;
 
-  if (!password || !name || !phone || !userType || !location) {
+  if (!password || !name || !phone || !role || !location) {
     return { success: false, error: 'Missing required fields for sign up.' };
   }
 
@@ -39,13 +39,12 @@ export async function signUpUser(data: FormValues): Promise<ActionResult> {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
 
-    // Store additional user data in Firestore in the 'customers' collection
     const userDocRef = doc(db, 'customers', user.uid);
     await setDoc(userDocRef, {
       name,
       email,
       phone,
-      userType,
+      role: role, // Changed from userType to role
       locationLatitude: location.latitude,
       locationLongitude: location.longitude,
       createdAt: new Date(),
@@ -53,7 +52,7 @@ export async function signUpUser(data: FormValues): Promise<ActionResult> {
 
     return { 
       success: true,
-      user: { uid: user.uid, email: user.email!, name, userType }
+      user: { uid: user.uid, email: user.email!, name, userType: role }
     };
   } catch (error: any) {
     let errorMessage = 'An unexpected error occurred during sign up.';
@@ -78,7 +77,6 @@ export async function signInUser(data: FormValues): Promise<ActionResult> {
     const userCredential = await signInWithEmailAndPassword(auth, email, password);
     const user = userCredential.user;
     
-    // Retrieve user type from Firestore from the 'customers' collection
     const userDocRef = doc(db, 'customers', user.uid);
     const userDoc = await getDoc(userDocRef);
 
@@ -87,6 +85,7 @@ export async function signInUser(data: FormValues): Promise<ActionResult> {
     }
 
     const userData = userDoc.data();
+    const userType = userData.role === 'service_provider' ? 'provider' : 'customer'; // Read from role field
 
     return { 
       success: true,
@@ -94,7 +93,7 @@ export async function signInUser(data: FormValues): Promise<ActionResult> {
         uid: user.uid,
         email: user.email!,
         name: userData.name,
-        userType: userData.userType
+        userType: userType
       }
     };
   } catch (error: any) {

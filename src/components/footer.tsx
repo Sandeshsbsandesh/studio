@@ -1,3 +1,4 @@
+
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -34,7 +35,7 @@ export default function Footer() {
             <h4 className="font-semibold mb-2">For Users</h4>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link className="text-muted-foreground hover:text-primary" href="/#services">
+                <Link className="text-muted-foreground hover:text-primary" href="/services">
                   Our Services
                 </Link>
               </li>
@@ -72,7 +73,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear() + 1} UrbanEzii Technologies. All Rights Reserved.</p>
+          <p>© {new Date().getFullYear()} UrbanEzii Technologies. All Rights Reserved.</p>
           <div className="flex gap-4 mt-4 sm:mt-0">
             <Link className="hover:text-primary" href="/privacy-policy">
               Privacy Policy

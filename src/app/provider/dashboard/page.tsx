@@ -95,7 +95,7 @@ export default function ProviderDashboardPage() {
           <CardHeader>
             <CardTitle>Earnings Trend</CardTitle>
             <CardDescription>Your earnings over the last 6 months.</CardDescription>
-          </Header>
+          </CardHeader>
           <CardContent>
             <EarningsTrend />
           </CardContent>

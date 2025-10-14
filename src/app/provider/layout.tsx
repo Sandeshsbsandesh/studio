@@ -7,7 +7,6 @@ import { cn } from '@/lib/utils';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import Header from '@/components/header';
 import {
   SidebarProvider,
   Sidebar,
@@ -21,6 +20,8 @@ import {
 } from '@/components/ui/sidebar';
 import { LayoutDashboard, User, Briefcase, Book, DollarSign, Star, FileText, Settings, LogOut } from 'lucide-react';
 import { useEffect } from 'react';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+
 
 const fontHeadline = Poppins({
   subsets: ['latin'],
@@ -54,7 +55,7 @@ export default function ProviderLayout({ children }: { children: React.ReactNode
   useEffect(() => {
     const userType = localStorage.getItem('userType');
     if (userType !== 'provider') {
-      router.push('/login');
+      router.replace('/login');
     }
   }, [router]);
 
@@ -66,55 +67,60 @@ export default function ProviderLayout({ children }: { children: React.ReactNode
   };
 
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className={cn('min-h-screen bg-background font-body antialiased', fontHeadline.variable, fontBody.variable)}>
-          <SidebarProvider>
-            <Sidebar side="left" variant="sidebar" collapsible="icon" className="bg-sidebar text-sidebar-foreground">
-              <SidebarRail />
-              <SidebarHeader>
-                <div className="flex items-center gap-2">
-                  <Link href="/provider/dashboard" className="flex items-center gap-2 font-bold">
-                    <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
-                    <span className="font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
-                      UrbanEzii
-                    </span>
+      <SidebarProvider>
+        <Sidebar side="left" variant="sidebar" collapsible="icon" className="bg-sidebar text-sidebar-foreground">
+          <SidebarRail />
+          <SidebarHeader>
+            <div className="flex items-center gap-2">
+              <Link href="/provider/dashboard" className="flex items-center gap-2 font-bold">
+                <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
+                <span className="font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
+                  UrbanEzii
+                </span>
+              </Link>
+              <SidebarTrigger className="ml-auto" />
+            </div>
+          </SidebarHeader>
+          <SidebarContent className="flex-1 flex flex-col">
+            <SidebarMenu className="flex-1">
+              {providerNavLinks.map((link) => (
+                <SidebarMenuItem key={link.href}>
+                  <Link href={link.href} className="w-full">
+                    <SidebarMenuButton
+                      tooltip={link.label}
+                      isActive={pathname === link.href}
+                      className="w-full"
+                    >
+                      {link.icon}
+                      <span className="group-data-[collapsible=icon]:hidden">{link.label}</span>
+                    </SidebarMenuButton>
                   </Link>
-                  <SidebarTrigger className="ml-auto" />
-                </div>
-              </SidebarHeader>
-              <SidebarContent className="flex-1 flex flex-col">
-                <SidebarMenu className="flex-1">
-                  {providerNavLinks.map((link) => (
-                    <SidebarMenuItem key={link.href}>
-                      <Link href={link.href} className="w-full">
-                        <SidebarMenuButton
-                          tooltip={link.label}
-                          isActive={pathname === link.href}
-                          className="w-full"
-                        >
-                          {link.icon}
-                          <span className="group-data-[collapsible=icon]:hidden">{link.label}</span>
-                        </SidebarMenuButton>
-                      </Link>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-                <SidebarMenu>
-                   <SidebarMenuItem>
-                      <SidebarMenuButton tooltip="Logout" className="w-full" onClick={handleLogout}>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+            <SidebarMenu>
+               <SidebarMenuItem>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <SidebarMenuButton className="w-full" onClick={handleLogout}>
                         <LogOut />
                         <span className="group-data-[collapsible=icon]:hidden">Logout</span>
                       </SidebarMenuButton>
-                    </SidebarMenuItem>
-                </SidebarMenu>
-              </SidebarContent>
-            </Sidebar>
-            <main className="relative flex min-h-svh flex-1 flex-col bg-slate-50 peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=sidebar]:ml-[var(--sidebar-width-icon)] md:peer-data-[state=expanded]:peer-data-[variant=sidebar]:ml-[var(--sidebar-width)] transition-[margin-left] duration-300 ease-in-out">
-              {children}
-            </main>
-          </SidebarProvider>
-          <Toaster />
-      </body>
-    </html>
+                    </TooltipTrigger>
+                    <TooltipContent side="right" align="center">Logout</TooltipContent>
+                  </Tooltip>
+                </SidebarMenuItem>
+            </SidebarMenu>
+          </SidebarContent>
+        </Sidebar>
+        <main className={cn(
+            "relative flex min-h-svh flex-1 flex-col bg-slate-50 peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=sidebar]:ml-[var(--sidebar-width-icon)] md:peer-data-[state=expanded]:peer-data-[variant=sidebar]:ml-[var(--sidebar-width)] transition-[margin-left] duration-300 ease-in-out",
+            fontHeadline.variable,
+            fontBody.variable
+        )}>
+          {children}
+        </main>
+        <Toaster />
+      </SidebarProvider>
   );
 }

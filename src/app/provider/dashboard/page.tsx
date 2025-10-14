@@ -33,7 +33,7 @@ export default function ProviderDashboardPage() {
       <div className="flex items-center justify-between space-y-2">
         <div>
           <h2 className="text-3xl font-bold tracking-tight">Your Dashboard</h2>
-          <p className="text-muted-foreground">Welcome back, {userName}!</p>
+          <p className="text-muted-foreground">Welcome back, {userName || 'Provider'}!</p>
         </div>
         <div className="flex items-center space-x-2">
           <Button>My Services</Button>

@@ -9,7 +9,7 @@ import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { AtSign, Phone, MapPin, Wallet, User, KeyRound, PartyPopper, Briefcase } from 'lucide-react';
+import { AtSign, Phone, MapPin, User, KeyRound, PartyPopper, Briefcase } from 'lucide-react';
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ReactConfetti from 'react-confetti';
@@ -122,6 +122,8 @@ export default function LoginPage() {
     }
   };
   
+  const initialUserType = searchParams.get('as') === 'provider' ? 'provider' : 'customer';
+
   return (
     <>
     {showConfetti && <ReactConfetti />}
@@ -148,7 +150,7 @@ export default function LoginPage() {
                         <FormControl>
                           <RadioGroup
                             onValueChange={field.onChange}
-                            defaultValue={field.value}
+                            defaultValue={initialUserType}
                             className="grid grid-cols-2 gap-4"
                           >
                             <FormItem>
@@ -250,7 +252,7 @@ export default function LoginPage() {
                       </Button>
                       <FormDescription className="mt-2">
                         We use your location to find the best services near you.
-                        {location && <span className="block text-green-600 font-medium">Latitude: {location.latitude}, Longitude: {location.longitude}</span>}
+                        {location && <span className="block text-green-600 font-medium">Latitude: {location.latitude.toFixed(5)}, Longitude: {location.longitude.toFixed(5)}</span>}
                         {locationError && <span className="block text-destructive font-medium">{locationError}</span>}
                       </FormDescription>
                     </div>
@@ -272,7 +274,7 @@ export default function LoginPage() {
                  <KeyRound className="h-12 w-12 text-primary" />
               </div>
               <CardTitle className="text-3xl font-headline">Verify Your Identity</CardTitle>
-              <CardDescription>Enter the 4-digit OTP sent to your phone.</CardDescription>
+              <CardDescription>Enter the 4-digit OTP sent to your phone. (Hint: it's 1234)</CardDescription>
             </CardHeader>
             <CardContent className="space-y-6">
               <div className="flex justify-center">
@@ -298,7 +300,7 @@ export default function LoginPage() {
                  <PartyPopper className="h-12 w-12 text-primary" />
               </div>
               <CardTitle className="text-3xl font-headline">Welcome, {formData?.name}!</CardTitle>
-              <CardDescription className="mt-2">You're all set! Redirecting you to your dashboard...</CardDescription>
+              <CardDescription className="mt-2">You're all set! Redirecting you now...</CardDescription>
             </CardContent>
         )}
       </Card>

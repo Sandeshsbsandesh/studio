@@ -1,4 +1,3 @@
-// This is a placeholder file. You can edit it to add your own content.
 import { Card, CardHeader, CardTitle, CardDescription } from "@/components/ui/card";
 import { Zap, LayoutGrid, Bot, ShieldCheck } from "lucide-react";
 

@@ -1,7 +1,5 @@
-
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
-import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { bookingHistory, scheduledBookings } from "@/lib/data";
 import StarRating from "@/components/star-rating";
@@ -68,9 +66,9 @@ export default function BookingsPage() {
                         <Calendar className="h-4 w-4" />
                         <span>{booking.date}</span>
                       </div>
-                      <div className="flex items-center gap-2 text-muted-foreground">
+                      <div className="flex items-center gap-2">
                         <StarRating rating={booking.rating} />
-                        <span>({booking.rating.toFixed(1)})</span>
+                        <span className="text-muted-foreground">({booking.rating.toFixed(1)})</span>
                       </div>
                     </CardContent>
                     <CardFooter className="flex justify-end">

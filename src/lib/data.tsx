@@ -1,7 +1,6 @@
-
 import {
-  Home,
   Droplets,
+  House,
   Zap,
   Wrench,
   Stethoscope,
@@ -21,7 +20,7 @@ export const services = [
     href: '/service/water-can-delivery',
   },
   {
-    icon: <Home className="h-8 w-8" />,
+    icon: <House className="h-8 w-8" />,
     title: 'House Maids',
     description: 'Reliable help for your daily chores.',
     href: '/service/house-maids',
@@ -61,24 +60,6 @@ export const services = [
     title: 'Personal Cooks',
     description: 'Enjoy delicious, home-cooked meals.',
     href: '/service/personal-cooks',
-  },
-  {
-    icon: <ConciergeBell className="h-8 w-8" />,
-    title: 'Local Buddy',
-    description: 'A friendly hand for shopping, errands, and help when you need it.',
-    href: '/service/local-buddy',
-  },
-  {
-    icon: <Truck className="h-8 w-8" />,
-    title: 'Shifters & Movers',
-    description: 'Reliable and safe house shifting services.',
-    href: '/service/shifters',
-  },
-  {
-    icon: <PaintBucket className="h-8 w-8" />,
-    title: 'Painters',
-    description: 'Professional painters for a fresh new look.',
-    href: '/service/painters',
   },
 ];
 

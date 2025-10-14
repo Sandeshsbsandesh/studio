@@ -1,4 +1,3 @@
-// This is a placeholder file. You can edit it to add your own content.
 import { CheckCircle, Users, Target } from 'lucide-react';
 
 export default function AboutPage() {

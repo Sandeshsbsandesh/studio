@@ -1,4 +1,3 @@
-// This is a placeholder file. You can edit it to add your own content.
 'use client';
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -36,15 +35,15 @@ export default function ContactPage() {
                     <CardContent>
                         <form className="space-y-4" onSubmit={handleSubmit}>
                             <div>
-                                <label htmlFor="name" className="block text-sm font-medium text-gray-700 mb-1">Name</label>
+                                <label htmlFor="name" className="block text-sm font-medium mb-1">Name</label>
                                 <Input id="name" name="name" type="text" required />
                             </div>
                             <div>
-                                <label htmlFor="email" className="block text-sm font-medium text-gray-700 mb-1">Email</label>
+                                <label htmlFor="email" className="block text-sm font-medium mb-1">Email</label>
                                 <Input id="email" name="email" type="email" required />
                             </div>
                             <div>
-                                <label htmlFor="message" className="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                                <label htmlFor="message" className="block text-sm font-medium mb-1">Message</label>
                                 <Textarea id="message" name="message" required />
                             </div>
                             <Button type="submit" className="w-full">Submit</Button>

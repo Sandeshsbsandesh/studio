@@ -12,15 +12,12 @@ export default function Header() {
         <div className="flex flex-1 items-center justify-between space-x-2">
           <div className="flex items-center gap-2">
             <SidebarTrigger className="md:hidden" />
-             <Link href="/" className="hidden md:flex items-center space-x-2 font-bold">
-                <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
-                <span className="text-lg">UrbanEzii</span>
+            <Link href="/" className="flex items-center space-x-2 font-bold">
+              <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
+              <span className="hidden sm:inline">UrbanEzii</span>
             </Link>
           </div>
-          <div className="flex items-center gap-2">
-            <Button asChild>
-                <Link href="/login">Login</Link>
-            </Button>
+          <div className="flex items-center gap-4">
           </div>
         </div>
       </div>

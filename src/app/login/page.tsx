@@ -3,21 +3,24 @@
 
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
-import { AtSign, Phone, MapPin, Wallet, User, KeyRound, PartyPopper } from 'lucide-react';
+import { AtSign, Phone, MapPin, Wallet, User, KeyRound, PartyPopper, Briefcase } from 'lucide-react';
 import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import ReactConfetti from 'react-confetti';
+import { useToast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
   name: z.string().min(1, 'Please enter your name.'),
   email: z.string().email('Please enter a valid email address.'),
   phone: z.string().regex(/^\d{10}$/, 'Please enter a valid 10-digit phone number.'),
   altPhone: z.string().regex(/^\d{10}$/, 'Please enter a valid 10-digit phone number.').optional().or(z.literal('')),
+  userType: z.enum(['customer', 'provider'], { required_error: 'Please select a registration type.' }),
 });
 
 type LoginForm = z.infer<typeof loginSchema>;
@@ -28,7 +31,11 @@ export default function LoginPage() {
   const [otp, setOtp] = useState('');
   const [error, setError] = useState('');
   const [showConfetti, setShowConfetti] = useState(false);
+  const [location, setLocation] = useState<{ latitude: number, longitude: number} | null>(null);
+  const [locationError, setLocationError] = useState<string | null>(null);
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const { toast } = useToast();
 
   const form = useForm<LoginForm>({
     resolver: zodResolver(loginSchema),
@@ -37,28 +44,53 @@ export default function LoginPage() {
       email: '',
       phone: '',
       altPhone: '',
+      userType: searchParams.get('as') === 'provider' ? 'provider' : 'customer',
     },
   });
 
   const handleLocationAccess = () => {
+    setLocationError(null);
     if (navigator.geolocation) {
       navigator.geolocation.getCurrentPosition(
         (position) => {
-          console.log('Latitude:', position.coords.latitude);
-          console.log('Longitude:', position.coords.longitude);
-          alert('Location access granted!');
+          setLocation({
+            latitude: position.coords.latitude,
+            longitude: position.coords.longitude,
+          });
+          toast({
+            title: 'Location Captured!',
+            description: 'Your location has been successfully recorded.',
+          });
         },
         (error) => {
           console.error('Error getting location:', error);
-          alert('Could not get location access. Please enable it in your browser settings.');
+          setLocationError('Could not get location access. Please enable it in your browser settings.');
+          toast({
+            variant: "destructive",
+            title: 'Location Error',
+            description: 'Could not get location access. Please enable it in your browser settings.',
+          });
         }
       );
     } else {
-      alert('Geolocation is not supported by this browser.');
+      setLocationError('Geolocation is not supported by this browser.');
+       toast({
+          variant: "destructive",
+          title: 'Unsupported Browser',
+          description: 'Geolocation is not supported by this browser.',
+        });
     }
   };
 
   function onSubmit(values: LoginForm) {
+    if (!location) {
+      toast({
+        variant: "destructive",
+        title: 'Location Required',
+        description: 'Please allow location access to continue.',
+      });
+      return;
+    }
     console.log('Form Data:', values);
     setFormData(values);
     setStep('otp');
@@ -70,13 +102,21 @@ export default function LoginPage() {
     // We'll simulate success if OTP is '1234'.
     if (otp === '1234') {
       setError('');
-      localStorage.setItem('userName', formData?.name || 'User');
-      window.dispatchEvent(new Event('storage')); // Dispatch storage event
-      setShowConfetti(true);
-      setStep('success');
-      setTimeout(() => {
-        router.push('/');
-      }, 4000);
+      if (formData) {
+        localStorage.setItem('userName', formData.name);
+        localStorage.setItem('userType', formData.userType);
+        window.dispatchEvent(new Event('storage')); // Dispatch storage event
+        setShowConfetti(true);
+        setStep('success');
+
+        setTimeout(() => {
+          if (formData.userType === 'provider') {
+            router.push('/provider/dashboard');
+          } else {
+            router.push('/');
+          }
+        }, 4000);
+      }
     } else {
       setError('Invalid OTP. Please try again.');
     }
@@ -94,11 +134,48 @@ export default function LoginPage() {
                  <User className="h-12 w-12 text-primary" />
               </div>
               <CardTitle className="text-3xl font-headline">Welcome to Urbanezii</CardTitle>
-              <CardDescription>Sign up or log in to continue</CardDescription>
+              <CardDescription>Sign up or log in to get started.</CardDescription>
             </CardHeader>
             <CardContent>
               <Form {...form}>
                 <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
+                   <FormField
+                    control={form.control}
+                    name="userType"
+                    render={({ field }) => (
+                      <FormItem className="space-y-3">
+                        <FormLabel>Register as a...</FormLabel>
+                        <FormControl>
+                          <RadioGroup
+                            onValueChange={field.onChange}
+                            defaultValue={field.value}
+                            className="grid grid-cols-2 gap-4"
+                          >
+                            <FormItem>
+                              <FormControl>
+                                <RadioGroupItem value="customer" id="customer" className="sr-only peer" />
+                              </FormControl>
+                              <FormLabel htmlFor="customer" className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer">
+                                <User className="mb-3 h-6 w-6" />
+                                Customer
+                              </FormLabel>
+                            </FormItem>
+                            <FormItem>
+                              <FormControl>
+                                <RadioGroupItem value="provider" id="provider" className="sr-only peer" />
+                              </FormControl>
+                              <FormLabel htmlFor="provider" className="flex flex-col items-center justify-between rounded-md border-2 border-muted bg-popover p-4 hover:bg-accent hover:text-accent-foreground peer-data-[state=checked]:border-primary [&:has([data-state=checked])]:border-primary cursor-pointer">
+                                <Briefcase className="mb-3 h-6 w-6" />
+                                Service Provider
+                              </FormLabel>
+                            </FormItem>
+                          </RadioGroup>
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
                   <FormField
                     control={form.control}
                     name="name"
@@ -166,21 +243,16 @@ export default function LoginPage() {
 
                   <div className="space-y-4">
                     <div>
-                      <FormLabel>Location Access</FormLabel>
+                      <FormLabel>Location</FormLabel>
                       <Button type="button" variant="outline" className="w-full mt-2" onClick={handleLocationAccess}>
                         <MapPin className="mr-2 h-5 w-5" />
-                        Allow Location Access
+                        {location ? 'Location Captured!' : 'Allow Location Access'}
                       </Button>
-                       <p className="text-xs text-muted-foreground mt-2">We use your location to find the best services near you.</p>
-                    </div>
-                    
-                    <div>
-                      <FormLabel>Wallet</FormLabel>
-                       <div className="relative mt-2">
-                         <Wallet className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                         <Input readOnly disabled value="₹ 0.00" className="pl-10 font-bold bg-muted/50" />
-                      </div>
-                      <p className="text-xs text-muted-foreground mt-2">Your wallet will be used for quick and easy payments.</p>
+                      <FormDescription className="mt-2">
+                        We use your location to find the best services near you.
+                        {location && <span className="block text-green-600 font-medium">Latitude: {location.latitude}, Longitude: {location.longitude}</span>}
+                        {locationError && <span className="block text-destructive font-medium">{locationError}</span>}
+                      </FormDescription>
                     </div>
                   </div>
 
@@ -226,7 +298,7 @@ export default function LoginPage() {
                  <PartyPopper className="h-12 w-12 text-primary" />
               </div>
               <CardTitle className="text-3xl font-headline">Welcome, {formData?.name}!</CardTitle>
-              <CardDescription className="mt-2">You're all set! Redirecting you to the homepage...</CardDescription>
+              <CardDescription className="mt-2">You're all set! Redirecting you to your dashboard...</CardDescription>
             </CardContent>
         )}
       </Card>

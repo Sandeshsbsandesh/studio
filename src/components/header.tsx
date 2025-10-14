@@ -15,21 +15,27 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User, LayoutDashboard } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 
 export default function Header() {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [userName, setUserName] = useState('');
+  const [userType, setUserType] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     const checkLoginStatus = () => {
       const storedName = localStorage.getItem('userName');
-      if (storedName) {
+      const storedType = localStorage.getItem('userType');
+      if (storedName && storedType) {
         setIsLoggedIn(true);
         setUserName(storedName);
+        setUserType(storedType);
       } else {
         setIsLoggedIn(false);
         setUserName('');
+        setUserType('');
       }
     };
 
@@ -40,15 +46,22 @@ export default function Header() {
 
   const handleLogout = () => {
     localStorage.removeItem('userName');
+    localStorage.removeItem('userType');
     window.dispatchEvent(new Event('storage'));
+    router.push('/');
   };
 
   const getInitials = (name: string) => {
+    if (!name) return '';
     const names = name.split(' ');
     if (names.length > 1) {
       return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
     }
     return name.substring(0, 2).toUpperCase();
+  }
+
+  const handleProviderDashboard = () => {
+    router.push('/provider/dashboard');
   }
 
   return (
@@ -78,16 +91,23 @@ export default function Header() {
                     <DropdownMenuLabel className="font-normal">
                         <div className="flex flex-col space-y-1">
                             <p className="text-sm font-medium leading-none">{userName}</p>
-                            <p className="text-xs leading-none text-muted-foreground">
-                                Customer
+                            <p className="text-xs leading-none text-muted-foreground capitalize">
+                                {userType}
                             </p>
                         </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
-                    <DropdownMenuItem>
+                     <DropdownMenuItem>
                         <User className="mr-2 h-4 w-4" />
                         <span>Profile</span>
                     </DropdownMenuItem>
+                    {userType === 'provider' && (
+                       <DropdownMenuItem onClick={handleProviderDashboard}>
+                        <LayoutDashboard className="mr-2 h-4 w-4" />
+                        <span>Dashboard</span>
+                    </DropdownMenuItem>
+                    )}
+                     <DropdownMenuSeparator />
                      <DropdownMenuItem onClick={handleLogout}>
                         <LogOut className="mr-2 h-4 w-4" />
                         <span>Log out</span>
@@ -95,9 +115,14 @@ export default function Header() {
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-              <Button asChild>
-                <Link href="/login">Login</Link>
-              </Button>
+               <div className="flex items-center gap-2">
+                 <Button variant="outline" asChild>
+                    <Link href="/login?as=provider">Join as Provider</Link>
+                 </Button>
+                 <Button asChild>
+                   <Link href="/login">Login</Link>
+                 </Button>
+               </div>
             )}
           </div>
         </div>

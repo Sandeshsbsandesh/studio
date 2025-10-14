@@ -7,8 +7,15 @@ import { ArrowRight, CircleCheckBig, Smartphone } from 'lucide-react';
 import ServiceCard from '@/components/service-card';
 import { services } from '@/lib/data';
 import placeholderImages from '@/lib/placeholder-images.json';
+import { useRouter } from 'next/navigation';
 
 export default function Home() {
+  const router = useRouter();
+
+  const handleBecomeProvider = () => {
+    router.push('/login?as=provider');
+  };
+
   return (
     <div className="flex flex-col flex-1">
         <section className="w-full py-20 md:py-32 lg:py-40 bg-secondary/30">
@@ -28,8 +35,8 @@ export default function Home() {
                     <ArrowRight className="ml-2 h-5 w-5" />
                   </Link>
                 </Button>
-                <Button asChild variant="outline" size="lg">
-                   <Link href="/provider/dashboard">Become a Provider</Link>
+                <Button variant="outline" size="lg" onClick={handleBecomeProvider}>
+                   Become a Provider
                 </Button>
               </div>
             </div>
@@ -162,8 +169,8 @@ export default function Home() {
                   Secure &amp; Timely Payments
                 </li>
               </ul>
-              <Button asChild size="lg">
-                <Link href="/provider/dashboard">Join as a Provider</Link>
+              <Button size="lg" onClick={handleBecomeProvider}>
+                Join as a Provider
               </Button>
             </div>
           </div>

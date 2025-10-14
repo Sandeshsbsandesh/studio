@@ -15,6 +15,7 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ReactConfetti from 'react-confetti';
 import { useToast } from "@/hooks/use-toast";
 import { signInUser, signUpUser } from "./actions";
+import { useAuth } from "@/context/auth-context";
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address.'),
@@ -40,6 +41,7 @@ export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
+  const { login } = useAuth();
 
   const currentSchema = useMemo(() => formType === 'login' ? loginSchema : signupSchema, [formType]);
 
@@ -116,10 +118,8 @@ export default function LoginPage() {
 
     setLoading(false);
 
-    if (result.success) {
-      localStorage.setItem('userName', result.user?.name || '');
-      localStorage.setItem('userType', result.user?.userType || '');
-      window.dispatchEvent(new Event('storage'));
+    if (result.success && result.user) {
+      login(result.user.name, result.user.userType);
 
       setShowConfetti(true);
       toast({
@@ -307,5 +307,3 @@ export default function LoginPage() {
     </>
   );
 }
-
-    

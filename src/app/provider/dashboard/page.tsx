@@ -8,25 +8,12 @@ import { Calendar, DollarSign, Info, Star, CheckCircle } from "lucide-react";
 import StarRating from "@/components/star-rating";
 import UpcomingAppointments from "./upcoming-appointments";
 import EarningsTrend from "./earnings-trend";
-import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import { useAuth } from "@/context/auth-context";
 
 export default function ProviderDashboardPage() {
-  const [userName, setUserName] = useState('');
+  const { userName } = useAuth();
   const router = useRouter();
-
-  useEffect(() => {
-    const storedName = localStorage.getItem('userName');
-    const userType = localStorage.getItem('userType');
-    
-    if (storedName) {
-      setUserName(storedName);
-    } 
-    
-    if (userType !== 'provider') {
-      router.push('/login');
-    }
-  }, [router]);
 
   return (
     <div className="flex-1 space-y-4 p-8 pt-6">

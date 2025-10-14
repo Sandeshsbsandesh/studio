@@ -5,7 +5,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { Button } from '@/components/ui/button';
 import { SidebarTrigger } from '@/components/ui/sidebar';
-import { useState, useEffect } from 'react';
 import { Avatar, AvatarFallback, AvatarImage } from './ui/avatar';
 import {
   DropdownMenu,
@@ -17,37 +16,14 @@ import {
 } from '@/components/ui/dropdown-menu';
 import { LogOut, User, LayoutDashboard } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useAuth } from '@/context/auth-context';
 
 export default function Header() {
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [userName, setUserName] = useState('');
-  const [userType, setUserType] = useState('');
+  const { isLoggedIn, userName, userType, logout } = useAuth();
   const router = useRouter();
 
-  useEffect(() => {
-    const checkLoginStatus = () => {
-      const storedName = localStorage.getItem('userName');
-      const storedType = localStorage.getItem('userType');
-      if (storedName && storedType) {
-        setIsLoggedIn(true);
-        setUserName(storedName);
-        setUserType(storedType);
-      } else {
-        setIsLoggedIn(false);
-        setUserName('');
-        setUserType('');
-      }
-    };
-
-    checkLoginStatus();
-    window.addEventListener('storage', checkLoginStatus);
-    return () => window.removeEventListener('storage', checkLoginStatus);
-  }, []);
-
   const handleLogout = () => {
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userType');
-    window.dispatchEvent(new Event('storage'));
+    logout();
     router.push('/');
   };
 
@@ -58,11 +34,11 @@ export default function Header() {
       return `${names[0][0]}${names[names.length - 1][0]}`.toUpperCase();
     }
     return name.substring(0, 2).toUpperCase();
-  }
+  };
 
   const handleProviderDashboard = () => {
     router.push('/provider/dashboard');
-  }
+  };
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -80,49 +56,47 @@ export default function Header() {
             {isLoggedIn ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                        <Avatar className="h-9 w-9">
-                            <AvatarImage src={`https://avatar.vercel.sh/${userName}.png`} alt={userName} />
-                            <AvatarFallback>{getInitials(userName)}</AvatarFallback>
-                        </Avatar>
-                    </Button>
+                  <Button variant="ghost" className="relative h-8 w-8 rounded-full">
+                    <Avatar className="h-9 w-9">
+                      <AvatarImage src={`https://avatar.vercel.sh/${userName}.png`} alt={userName} />
+                      <AvatarFallback>{getInitials(userName)}</AvatarFallback>
+                    </Avatar>
+                  </Button>
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-56" align="end" forceMount>
-                    <DropdownMenuLabel className="font-normal">
-                        <div className="flex flex-col space-y-1">
-                            <p className="text-sm font-medium leading-none">{userName}</p>
-                            <p className="text-xs leading-none text-muted-foreground capitalize">
-                                {userType}
-                            </p>
-                        </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                     <DropdownMenuItem>
-                        <User className="mr-2 h-4 w-4" />
-                        <span>Profile</span>
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-medium leading-none">{userName}</p>
+                      <p className="text-xs leading-none text-muted-foreground capitalize">{userType}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem>
+                    <User className="mr-2 h-4 w-4" />
+                    <span>Profile</span>
+                  </DropdownMenuItem>
+                  {userType === 'provider' && (
+                    <DropdownMenuItem onClick={handleProviderDashboard}>
+                      <LayoutDashboard className="mr-2 h-4 w-4" />
+                      <span>Dashboard</span>
                     </DropdownMenuItem>
-                    {userType === 'provider' && (
-                       <DropdownMenuItem onClick={handleProviderDashboard}>
-                        <LayoutDashboard className="mr-2 h-4 w-4" />
-                        <span>Dashboard</span>
-                    </DropdownMenuItem>
-                    )}
-                     <DropdownMenuSeparator />
-                     <DropdownMenuItem onClick={handleLogout}>
-                        <LogOut className="mr-2 h-4 w-4" />
-                        <span>Log out</span>
-                    </DropdownMenuItem>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
                 </DropdownMenuContent>
               </DropdownMenu>
             ) : (
-               <div className="flex items-center gap-2">
-                 <Button variant="outline" asChild>
-                    <Link href="/login?as=provider">Join as Provider</Link>
-                 </Button>
-                 <Button asChild>
-                   <Link href="/login">Login</Link>
-                 </Button>
-               </div>
+              <div className="flex items-center gap-2">
+                <Button variant="outline" asChild>
+                  <Link href="/login?as=provider">Join as Provider</Link>
+                </Button>
+                <Button asChild>
+                  <Link href="/login">Login</Link>
+                </Button>
+              </div>
             )}
           </div>
         </div>

@@ -20,7 +20,8 @@ import {
 } from '@/components/ui/sidebar';
 import { LayoutDashboard, User, Briefcase, Book, DollarSign, Star, FileText, Settings, LogOut } from 'lucide-react';
 import { useEffect } from 'react';
-import { Tooltip, TooltipContent, TooltipTrigger } from '@/components/ui/tooltip';
+import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
+import { useAuth } from '@/context/auth-context';
 
 
 const fontHeadline = Poppins({
@@ -51,22 +52,31 @@ const providerNavLinks = [
 export default function ProviderLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const router = useRouter();
+  const { userType, logout, isLoggedIn } = useAuth();
 
   useEffect(() => {
-    const userType = localStorage.getItem('userType');
-    if (userType !== 'provider') {
+    if (isLoggedIn === false) {
       router.replace('/login');
+    } else if (userType && userType !== 'provider') {
+      router.replace('/');
     }
-  }, [router]);
+  }, [userType, isLoggedIn, router]);
 
   const handleLogout = () => {
-    localStorage.removeItem('userName');
-    localStorage.removeItem('userType');
-    window.dispatchEvent(new Event('storage'));
+    logout();
     router.push('/');
   };
 
+  if (isLoggedIn === null || (isLoggedIn && userType !== 'provider')) {
+    return (
+      <div className="flex h-screen items-center justify-center">
+        <p>Loading...</p>
+      </div>
+    );
+  }
+
   return (
+    <TooltipProvider>
       <SidebarProvider>
         <Sidebar side="left" variant="sidebar" collapsible="icon" className="bg-sidebar text-sidebar-foreground">
           <SidebarRail />
@@ -122,5 +132,6 @@ export default function ProviderLayout({ children }: { children: React.ReactNode
         </main>
         <Toaster />
       </SidebarProvider>
+    </TooltipProvider>
   );
 }

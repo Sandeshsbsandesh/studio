@@ -16,7 +16,7 @@ import {
   SidebarTrigger,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { House, LayoutGrid, Info, Sparkles, DollarSign, CircleHelp, Newspaper, Phone, BookUser } from 'lucide-react';
+import { House, LayoutGrid, Info, Sparkles, DollarSign, CircleHelp, Newspaper, Phone, BookUser, Bot } from 'lucide-react';
 import Footer from '@/components/footer';
 
 const navLinks = [
@@ -29,6 +29,7 @@ const navLinks = [
   { href: '/blog', label: 'Blog', icon: <Newspaper /> },
   { href: '/contact', label: 'Contact Us', icon: <Phone /> },
   { href: '/bookings', label: 'My Bookings', icon: <BookUser /> },
+  { href: '/ai-assistant', label: 'AI Assistant', icon: <Bot /> },
 ];
 
 export default function MainLayout({
@@ -62,7 +63,7 @@ export default function MainLayout({
                     className="w-full"
                   >
                     {link.icon}
-                    <span>{link.label}</span>
+                    <span className="group-data-[collapsible=icon]:hidden">{link.label}</span>
                   </SidebarMenuButton>
                 </Link>
               </SidebarMenuItem>
@@ -70,7 +71,7 @@ export default function MainLayout({
           </SidebarMenu>
         </SidebarContent>
       </Sidebar>
-      <main className="relative flex min-h-svh flex-1 flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=sidebar]:ml-[var(--sidebar-width-icon)] md:peer-data-[state=expanded]:peer-data-[variant=sidebar]:ml-[var(--sidebar-width)]">
+      <main className="relative flex min-h-svh flex-1 flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=sidebar]:ml-[var(--sidebar-width-icon)] md:peer-data-[state=expanded]:peer-data-[variant=sidebar]:ml-[var(--sidebar-width)] transition-[margin-left] duration-300 ease-in-out">
         <Header />
         <div className="flex-1">{children}</div>
         <Footer />

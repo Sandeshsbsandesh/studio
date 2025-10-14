@@ -1,3 +1,4 @@
+
 import {
   Droplets,
   House,
@@ -10,6 +11,7 @@ import {
   ConciergeBell,
   Truck,
   PaintBucket,
+  Bot
 } from 'lucide-react';
 
 export const services = [
@@ -60,6 +62,30 @@ export const services = [
     title: 'Personal Cooks',
     description: 'Enjoy delicious, home-cooked meals.',
     href: '/service/personal-cooks',
+  },
+  {
+    icon: <ConciergeBell className="h-8 w-8" />,
+    title: 'Local Buddy',
+    description: 'Get help with errands and local tasks.',
+    href: '/service/local-buddy',
+  },
+  {
+    icon: <Truck className="h-8 w-8" />,
+    title: 'Shifters & Movers',
+    description: 'Hassle-free moving and shifting services.',
+    href: '/service/shifters',
+  },
+  {
+    icon: <PaintBucket className="h-8 w-8" />,
+    title: 'Painters',
+    description: 'Professional painting services for your home.',
+    href: '/service/painters',
+  },
+  {
+    icon: <Bot className="h-8 w-8" />,
+    title: 'AI Assistant',
+    description: 'Get smart recommendations for services.',
+    href: '/ai-assistant',
   },
 ];
 

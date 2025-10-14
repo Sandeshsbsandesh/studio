@@ -45,11 +45,13 @@ export default function MainLayout({
         <SidebarRail />
         <SidebarHeader>
           <div className="flex items-center gap-2">
-            <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
-            <span className="font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
-              UrbanEzii
-            </span>
-            <SidebarTrigger className="md:hidden ml-auto" />
+            <Link href="/" className="flex items-center gap-2 font-bold">
+              <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
+              <span className="font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
+                UrbanEzii
+              </span>
+            </Link>
+            <SidebarTrigger className="ml-auto" />
           </div>
         </SidebarHeader>
         <SidebarContent>

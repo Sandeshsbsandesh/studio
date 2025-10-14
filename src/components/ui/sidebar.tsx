@@ -104,6 +104,16 @@ const SidebarProvider = React.forwardRef<
       return () => window.removeEventListener("keydown", handleKeyDown)
     }, [toggleSidebar])
 
+    React.useEffect(() => {
+        if (typeof window === 'undefined') return;
+        const cookie = document.cookie
+            .split(";")
+            .find((c) => c.trim().startsWith(`${SIDEBAR_COOKIE_NAME}=`))
+        if (cookie) {
+            setOpen(cookie.split("=")[1] === "true")
+        }
+    }, [setOpen])
+
     const state = open ? "expanded" : "collapsed"
 
     const contextValue = React.useMemo<SidebarContext>(
@@ -165,19 +175,8 @@ const Sidebar = React.forwardRef<
     },
     ref
   ) => {
-    const { isMobile, state, open, setOpen, openMobile, setOpenMobile } = useSidebar()
+    const { isMobile, state, openMobile, setOpenMobile } = useSidebar()
     
-    React.useEffect(() => {
-        if (typeof window === 'undefined') return;
-        const cookie = document.cookie
-            .split(";")
-            .find((c) => c.trim().startsWith(`${SIDEBAR_COOKIE_NAME}=`))
-        if (cookie) {
-            setOpen(cookie.split("=")[1] === "true")
-        }
-    }, [setOpen])
-
-
     if (collapsible === "none") {
       return (
         <div
@@ -216,7 +215,7 @@ const Sidebar = React.forwardRef<
     return (
       <div
         ref={ref}
-        className={cn("group peer hidden md:block text-sidebar-foreground transition-[width]",
+        className={cn("group peer hidden md:flex h-svh flex-col fixed top-0 text-sidebar-foreground transition-[width]",
          state === 'collapsed' && 'w-[--sidebar-width-icon]',
          state === 'expanded' && 'w-[--sidebar-width]',
         className)}

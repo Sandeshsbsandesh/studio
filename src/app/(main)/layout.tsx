@@ -72,7 +72,7 @@ export default function MainLayout({
       </Sidebar>
       <main className="relative flex min-h-svh flex-1 flex-col bg-background peer-data-[variant=inset]:min-h-[calc(100svh-theme(spacing.4))] md:peer-data-[variant=sidebar]:ml-[var(--sidebar-width-icon)] md:peer-data-[state=expanded]:peer-data-[variant=sidebar]:ml-[var(--sidebar-width)]">
         <Header />
-        <main className="flex-1">{children}</main>
+        <div className="flex-1">{children}</div>
         <Footer />
       </main>
     </SidebarProvider>

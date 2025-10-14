@@ -2,8 +2,9 @@
 import Link from 'next/link';
 
 export default function Footer() {
+  const currentYear = new Date().getFullYear();
   return (
-    <footer className="bg-card text-card-foreground border-t mt-auto">
+    <footer className="bg-background text-foreground border-t mt-auto">
       <div className="container mx-auto px-4 md:px-6 py-8">
         <div className="grid md:grid-cols-4 gap-8">
           <div>
@@ -72,7 +73,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="mt-8 border-t pt-6 flex flex-col sm:flex-row justify-between items-center text-sm text-muted-foreground">
-          <p>© {new Date().getFullYear()} UrbanEzii Technologies. All Rights Reserved.</p>
+          <p>© {currentYear} UrbanEzii Technologies. All Rights Reserved.</p>
           <div className="flex gap-4 mt-4 sm:mt-0">
             <Link className="hover:text-primary" href="/privacy-policy">
               Privacy Policy

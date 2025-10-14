@@ -138,7 +138,6 @@ export default function Home() {
         <div className="container mx-auto px-4 md:px-6">
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="space-y-6">
-              <Badge>For Service Providers</Badge>
               <h2 className="text-3xl md:text-4xl font-headline font-bold">Where Skills Meet Opportunity</h2>
               <p className="text-muted-foreground font-body text-lg">Are you a skilled professional looking to grow your business? Join UrbanEzii to connect with thousands of customers in your city, manage bookings seamlessly, and build your online reputation.</p>
               <ul className="space-y-3 font-body">
@@ -159,15 +158,18 @@ export default function Home() {
                 <Link href="/provider/dashboard">Join as a Provider</Link>
               </Button>
             </div>
-            <div className="rounded-lg overflow-hidden shadow-lg">
+            <div className="rounded-lg overflow-hidden shadow-lg relative aspect-[4/3]">
                 <Image
-                    src="https://picsum.photos/seed/provider/600/450"
-                    alt="A skilled professional smiling and ready for work."
-                    data-ai-hint="photographer vintage camera"
-                    width={600}
-                    height={450}
+                    src="https://picsum.photos/seed/grow-business/600/450"
+                    alt="A group of diverse service professionals smiling and looking at their phones."
+                    data-ai-hint="service professionals team"
+                    fill
                     className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
                 />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent"></div>
+                <div className="absolute top-4 left-4">
+                  <h3 className="text-white text-2xl font-bold">Grow Your Business with UrbanEzii</h3>
+                </div>
             </div>
           </div>
         </div>

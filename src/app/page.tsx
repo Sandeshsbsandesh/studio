@@ -143,7 +143,7 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg relative aspect-[4/3]">
                 <Image
-                    src="/ChatGPT Image Oct 12, 2025, 02_30_57 PM.png"
+                    src="/skills.png"
                     alt="A group of diverse service professionals smiling and looking at their phones."
                     fill
                     className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"

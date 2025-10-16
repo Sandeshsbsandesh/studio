@@ -22,7 +22,7 @@ import {
   SidebarTrigger,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { House, LayoutGrid, Info, Sparkles, DollarSign, CircleHelp, Newspaper, Phone, BookUser } from 'lucide-react';
+import { House, LayoutGrid, Info, Sparkles, IndianRupee, CircleHelp, Newspaper, Phone, BookUser } from 'lucide-react';
 import Footer from '@/components/footer';
 import { AuthProvider } from '@/context/auth-context';
 
@@ -45,7 +45,7 @@ const navLinks = [
   { href: '/services', label: 'Services', icon: <LayoutGrid /> },
   { href: '/about', label: 'About Us', icon: <Info /> },
   { href: '/features', label: 'Features', icon: <Sparkles /> },
-  { href: '/pricing', label: 'Pricing', icon: <DollarSign /> },
+  { href: '/pricing', label: 'Pricing', icon: <IndianRupee /> },
   { href: '/faq', label: 'FAQs', icon: <CircleHelp /> },
   { href: '/blog', label: 'Blog', icon: <Newspaper /> },
   { href: '/contact', label: 'Contact Us', icon: <Phone /> },

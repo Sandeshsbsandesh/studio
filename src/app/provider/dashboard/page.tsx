@@ -5,7 +5,7 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Alert, AlertDescription, AlertTitle } from "@/components/ui/alert";
-import { Calendar, DollarSign, Info, Star, CheckCircle, Bell, TrendingUp, Clock, Users } from "lucide-react";
+import { Calendar, IndianRupee, Info, Star, CheckCircle, Bell, TrendingUp, Clock, Users } from "lucide-react";
 import StarRating from "@/components/star-rating";
 import UpcomingAppointments from "./upcoming-appointments";
 import EarningsTrend from "./earnings-trend";
@@ -303,7 +303,7 @@ export default function ProviderDashboardPage() {
         <Card className="border-l-4 border-l-green-500 hover:shadow-lg transition-shadow">
           <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
             <CardTitle className="text-sm font-medium">Monthly Earnings</CardTitle>
-            <DollarSign className="h-5 w-5 text-green-500" />
+            <IndianRupee className="h-5 w-5 text-green-500" />
           </CardHeader>
           <CardContent>
             <div className="text-3xl font-bold">₹{loading ? '...' : stats.monthlyEarnings.toLocaleString()}</div>

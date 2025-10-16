@@ -18,7 +18,7 @@ import {
   SidebarTrigger,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { LayoutDashboard, User, Briefcase, Book, DollarSign, Star, FileText, Settings, LogOut } from 'lucide-react';
+import { LayoutDashboard, User, Briefcase, Book, IndianRupee, Star, FileText, Settings, LogOut } from 'lucide-react';
 import { useEffect } from 'react';
 import { Tooltip, TooltipContent, TooltipTrigger, TooltipProvider } from '@/components/ui/tooltip';
 import { useAuth } from '@/context/auth-context';
@@ -43,7 +43,7 @@ const providerNavLinks = [
   { href: '/provider/profile', label: 'My Profile', icon: <User /> },
   { href: '/provider/services', label: 'My Services', icon: <Briefcase /> },
   { href: '/provider/bookings', label: 'My Bookings', icon: <Book /> },
-  { href: '/provider/earnings', label: 'Earnings', icon: <DollarSign /> },
+  { href: '/provider/earnings', label: 'Earnings', icon: <IndianRupee /> },
   { href: '/provider/reviews', label: 'Reviews', icon: <Star /> },
   { href: '/provider/documents', label: 'Documents', icon: <FileText /> },
   { href: '/provider/settings', label: 'Settings', icon: <Settings /> },

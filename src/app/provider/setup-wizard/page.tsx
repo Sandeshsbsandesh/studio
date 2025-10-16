@@ -687,7 +687,7 @@ export default function SetupWizardPage() {
                                                 setSelectedServices(updatedServices);
                                               }}
                                               className="w-24 h-8"
-                                              placeholder="Price"
+                                              placeholder="₹ Price"
                                             />
                                           </div>
                                         )}
@@ -753,7 +753,7 @@ export default function SetupWizardPage() {
                                               setSelectedServices(updatedServices);
                                             }}
                                             className="w-24 h-8"
-                                            placeholder="Price"
+                                            placeholder="₹ Price"
                                           />
                                           <Button
                                             type="button"

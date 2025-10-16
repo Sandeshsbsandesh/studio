@@ -64,7 +64,7 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
     return Object.entries(categoryServices).map(([subService, price]) => ({
       name: subService,
       price: price as string,
-      displayText: `${subService} - ₹${price}`,
+      displayText: `${subService} - \u20B9${price}`,
     }));
   };
 

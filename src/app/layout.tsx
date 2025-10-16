@@ -22,7 +22,7 @@ import {
   SidebarTrigger,
   SidebarRail,
 } from '@/components/ui/sidebar';
-import { House, LayoutGrid, Info, Sparkles, DollarSign, CircleHelp, Newspaper, Phone, BookUser, Bot } from 'lucide-react';
+import { House, LayoutGrid, Info, Sparkles, DollarSign, CircleHelp, Newspaper, Phone, BookUser } from 'lucide-react';
 import Footer from '@/components/footer';
 import { AuthProvider } from '@/context/auth-context';
 
@@ -50,15 +50,20 @@ const navLinks = [
   { href: '/blog', label: 'Blog', icon: <Newspaper /> },
   { href: '/contact', label: 'Contact Us', icon: <Phone /> },
   { href: '/bookings', label: 'My Bookings', icon: <BookUser /> },
-  { href: '/ai-assistant', label: 'AI Assistant', icon: <Bot /> },
 ];
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   
   if (pathname === '/login' || pathname.startsWith('/provider')) {
+    const pageTitle = pathname === '/login' ? 'UrbanEzii - Login' : 'UrbanEzii - Provider Dashboard';
     return (
        <html lang="en" suppressHydrationWarning>
+        <head>
+          <title>{pageTitle}</title>
+          <meta name="description" content="Discover, book, and manage verified professionals for every home need." />
+          <link rel="icon" href="/favicon.ico" />
+        </head>
         <body className={cn('min-h-screen bg-background font-body antialiased', fontHeadline.variable, fontBody.variable)}>
           <AuthProvider>
             {children}
@@ -72,34 +77,46 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <head>
+        <title>UrbanEzii - Your Local Service Bridge</title>
+        <meta name="description" content="Discover, book, and manage verified professionals for every home need. From plumbing to cleaning, find trusted local service providers all in one place." />
+        <meta name="keywords" content="local services, service providers, plumber, electrician, house cleaning, home services, verified professionals, book services online" />
+        <meta name="author" content="UrbanEzii Technologies" />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content="https://urbanezii.com" />
+        <meta property="og:title" content="UrbanEzii - Your Local Service Bridge" />
+        <meta property="og:description" content="Discover, book, and manage verified professionals for every home need." />
+        <meta property="og:site_name" content="UrbanEzii" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content="UrbanEzii - Your Local Service Bridge" />
+        <meta name="twitter:description" content="Discover, book, and manage verified professionals for every home need." />
+        <link rel="icon" href="/favicon.ico" />
+      </head>
       <body className={cn('min-h-screen bg-background font-body antialiased', fontHeadline.variable, fontBody.variable)}>
         <AuthProvider>
-          <SidebarProvider>
-            <Sidebar side="left" variant="sidebar" collapsible="icon">
-              <SidebarRail />
-              <SidebarHeader>
-                <div className="flex items-center gap-2">
-                  <Link href="/" className="flex items-center gap-2 font-bold">
-                    <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
-                    <span className="font-bold text-sidebar-foreground group-data-[collapsible=icon]:hidden">
-                      UrbanEzii
-                    </span>
-                  </Link>
-                  <SidebarTrigger className="ml-auto" />
-                </div>
-              </SidebarHeader>
-              <SidebarContent>
-                <SidebarMenu>
+      <SidebarProvider>
+        <Sidebar side="left" variant="sidebar" collapsible="offcanvas" className="border-r">
+          <SidebarRail />
+          <SidebarHeader className="border-b border-sidebar-border py-4 px-4">
+            <Link href="/" className="flex items-center gap-3">
+              <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} className="flex-shrink-0" />
+              <span className="font-bold text-xl text-sidebar-foreground tracking-tight">
+                UrbanEzii
+              </span>
+            </Link>
+          </SidebarHeader>
+              <SidebarContent className="px-3 py-4">
+                <SidebarMenu className="space-y-1">
                   {navLinks.map((link) => (
                     <SidebarMenuItem key={link.href}>
                       <Link href={link.href} className="w-full">
                         <SidebarMenuButton
                           tooltip={link.label}
                           isActive={pathname === link.href}
-                          className="w-full"
+                          className="w-full justify-start gap-3 px-3 py-2.5 text-sidebar-foreground hover:bg-sidebar-accent hover:text-sidebar-accent-foreground data-[active=true]:bg-sidebar-accent data-[active=true]:text-sidebar-accent-foreground"
                         >
                           {link.icon}
-                          <span className="group-data-[collapsible=icon]:hidden">{link.label}</span>
+                          <span>{link.label}</span>
                         </SidebarMenuButton>
                       </Link>
                     </SidebarMenuItem>

@@ -24,7 +24,7 @@ export default function Header() {
 
   const handleLogout = () => {
     logout();
-    router.push('/');
+    router.push('/login');
   };
 
   const getInitials = (name: string) => {
@@ -40,15 +40,19 @@ export default function Header() {
     router.push('/provider/dashboard');
   };
 
+  const handleProfile = () => {
+    router.push('/profile');
+  };
+
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center">
         <div className="flex flex-1 items-center justify-between space-x-2">
-          <div className="flex items-center gap-2">
-            <SidebarTrigger className="md:hidden" />
-            <Link href="/" className="flex items-center space-x-2 font-bold md:hidden">
+          <div className="flex items-center gap-3">
+            <SidebarTrigger />
+            <Link href="/" className="flex items-center gap-2">
               <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
-              <span className="sm:inline">UrbanEzii</span>
+              <span className="text-lg font-bold">UrbanEzii</span>
             </Link>
           </div>
           <div className="flex-1" />
@@ -71,7 +75,7 @@ export default function Header() {
                     </div>
                   </DropdownMenuLabel>
                   <DropdownMenuSeparator />
-                  <DropdownMenuItem>
+                  <DropdownMenuItem onClick={handleProfile}>
                     <User className="mr-2 h-4 w-4" />
                     <span>Profile</span>
                   </DropdownMenuItem>

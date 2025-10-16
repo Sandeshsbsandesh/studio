@@ -5,32 +5,32 @@
 
 @layer base {
   :root {
-    --background: 210 100% 97%; /* Very light, soft blue */
+    --background: 220 17% 93%; /* Light grayish blue background */
     --foreground: 222.2 84% 4.9%;
     --card: 0 0% 100%;
     --card-foreground: 222.2 84% 4.9%;
     --popover: 0 0% 100%;
     --popover-foreground: 222.2 84% 4.9%;
-    --primary: 214 100% 57%; /* Trustworthy blue (#2B85FF) */
-    --primary-foreground: 210 40% 98%;
+    --primary: 214 100% 50%; /* Bright blue for buttons and accents */
+    --primary-foreground: 0 0% 100%;
     --secondary: 210 40% 96.1%;
     --secondary-foreground: 222.2 47.4% 11.2%;
     --muted: 210 40% 96.1%;
     --muted-foreground: 215.4 16.3% 46.9%;
-    --accent: 275 61% 64%; /* Inviting purple (#9370DB) */
-    --accent-foreground: 210 40% 98%;
+    --accent: 214 100% 50%;
+    --accent-foreground: 0 0% 100%;
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 210 40% 98%;
     --border: 214.3 31.8% 91.4%;
     --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --ring: 214 100% 50%;
     --radius: 0.5rem;
-    --sidebar: 224 71% 4%; /* Dark Blue */
-    --sidebar-foreground: 210 40% 98%;
-    --sidebar-border: 215 28% 17%;
-    --sidebar-accent: 217 91% 60%;
-    --sidebar-accent-foreground: 210 40% 98%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar: 220 26% 14%; /* Very dark navy/charcoal sidebar */
+    --sidebar-foreground: 0 0% 100%;
+    --sidebar-border: 220 20% 20%;
+    --sidebar-accent: 214 100% 50%;
+    --sidebar-accent-foreground: 0 0% 100%;
+    --sidebar-ring: 214 100% 50%;
   }
 
   .dark {

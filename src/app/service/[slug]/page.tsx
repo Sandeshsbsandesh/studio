@@ -23,9 +23,82 @@ async function getProviders(serviceSlug: string) {
   try {
     const providersCol = collection(db, 'providers');
     const category = formatSlugToCategory(serviceSlug);
-    const q = query(providersCol, where('category', '==', category));
-    const querySnapshot = await getDocs(q);
-    const providers = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    
+    // Get ALL providers (no filter - we'll filter in JavaScript)
+    // This is needed because old providers might not have the 'active' field
+    const querySnapshot = await getDocs(providersCol);
+    
+    // Filter providers that match either:
+    // 1. New structure: serviceCategories array contains the category AND active is true (or undefined for backward compatibility)
+    // 2. Old structure: category field equals the category AND active is not explicitly false
+    const providers = querySnapshot.docs
+      .filter(doc => {
+        const data = doc.data();
+        
+        // Skip if explicitly set to inactive
+        if (data.active === false) {
+          return false;
+        }
+        
+        // Check new structure (array)
+        if (Array.isArray(data.serviceCategories) && data.serviceCategories.includes(category)) {
+          return true;
+        }
+        
+        // Check old structure (single field) - case insensitive
+        if (data.category && data.category.toLowerCase() === category.toLowerCase()) {
+          return true;
+        }
+        
+        return false;
+      })
+      .map(doc => {
+        const data = doc.data();
+        
+        // Transform services array to object format
+        let servicesObject = {};
+        if (Array.isArray(data.services)) {
+          // Convert array format to object format
+          data.services.forEach((serviceCategory: any) => {
+            if (serviceCategory.category && Array.isArray(serviceCategory.subcategories)) {
+              servicesObject[serviceCategory.category] = {};
+              serviceCategory.subcategories.forEach((subcat: any) => {
+                if (subcat.name && subcat.price !== undefined) {
+                  servicesObject[serviceCategory.category][subcat.name] = String(subcat.price);
+                }
+              });
+            }
+          });
+        } else if (typeof data.services === 'object' && data.services !== null) {
+          // Already in object format
+          servicesObject = data.services;
+        }
+        
+        // Convert Firestore Timestamps to plain JavaScript objects
+        return {
+          id: doc.id,
+          name: data.name || data.businessName || '',
+          businessName: data.businessName || data.name || '',
+          email: data.email || '',
+          phone: data.phone || '',
+          address: data.address || data.city || '',
+          city: data.city || '',
+          rating: data.rating || 0,
+          reviews: data.reviews || 0,
+          totalRatings: data.totalRatings || 0,
+          experience: data.experience || '',
+          priceRange: data.priceRange || '',
+          active: data.active !== false, // Default to true if not set
+          verified: data.verified || false,
+          companyLogo: data.companyLogo || '',
+          services: servicesObject, // Include the services object with subcategories and pricing
+          // Convert Timestamps to ISO strings for serialization
+          createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
+          updatedAt: data.updatedAt?.toDate?.()?.toISOString() || null,
+          setupCompletedAt: data.setupCompletedAt?.toDate?.()?.toISOString() || null,
+        };
+      });
+    
     return providers;
   } catch (error) {
     console.error("Error fetching providers: ", error);
@@ -34,14 +107,17 @@ async function getProviders(serviceSlug: string) {
 }
 
 
-export default async function ServiceDetailPage({ params }: { params: { slug: string } }) {
-  const service = services.find(s => s.href === `/service/${params.slug}`);
+export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
+  // Await params in Next.js 15
+  const { slug } = await params;
+  
+  const service = services.find(s => s.href === `/service/${slug}`);
 
   if (!service) {
     notFound();
   }
 
-  const serviceProviders = await getProviders(params.slug);
+  const serviceProviders = await getProviders(slug);
 
   return (
     <div className="container mx-auto px-4 md:px-6 py-12">
@@ -57,7 +133,8 @@ export default async function ServiceDetailPage({ params }: { params: { slug: st
             <p className="mt-2 text-lg text-muted-foreground">{service.description}</p>
         </div>
 
-        <ServiceProvidersList serviceSlug={params.slug} serviceProviders={serviceProviders as any} />
+        <h2 className="text-2xl font-bold font-headline mb-6">Available Providers</h2>
+        <ServiceProvidersList serviceSlug={slug} serviceProviders={serviceProviders} />
       </div>
     </div>
   );

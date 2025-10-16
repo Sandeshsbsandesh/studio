@@ -42,12 +42,11 @@ export default function Home() {
             </div>
             <div className="rounded-lg overflow-hidden shadow-2xl aspect-video">
                <Image
-                src="https://picsum.photos/seed/hero/600/400"
+                src="/Gemini_Generated_Image_x7q69hx7q69hx7q6.png"
                 alt="A collage of various home services like plumbing, cleaning, and electrical work."
                 width={600}
                 height={400}
                 className="w-full h-full object-cover"
-                data-ai-hint="city services collage"
               />
             </div>
           </div>
@@ -144,9 +143,8 @@ export default function Home() {
           <div className="grid md:grid-cols-2 gap-12 items-center">
             <div className="rounded-lg overflow-hidden shadow-lg relative aspect-[4/3]">
                 <Image
-                    src="https://picsum.photos/seed/grow-business/600/450"
+                    src="/ChatGPT Image Oct 12, 2025, 02_30_57 PM.png"
                     alt="A group of diverse service professionals smiling and looking at their phones."
-                    data-ai-hint="service professionals team"
                     fill
                     className="w-full h-full object-cover transition-transform duration-300 ease-in-out hover:scale-105"
                 />

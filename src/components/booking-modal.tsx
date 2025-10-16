@@ -45,11 +45,11 @@ export default function BookingModal({ isOpen, onClose, serviceSlug, provider }:
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[500px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Book Service</DialogTitle>
           <DialogDescription>
-            Complete the details below to book {provider?.name}.
+            Complete the details below to book {provider?.businessName || provider?.name}.
           </DialogDescription>
         </DialogHeader>
         <div className="py-4">

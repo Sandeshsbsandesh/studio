@@ -8,9 +8,50 @@ import ServiceCard from '@/components/service-card';
 import { services } from '@/lib/data';
 import placeholderImages from '@/lib/placeholder-images.json';
 import { useRouter } from 'next/navigation';
+import { useState, useEffect } from 'react';
+import NativeMobileLayout from '@/components/native-mobile-layout';
+import NativeMobileHome from '@/components/native-mobile-home';
 
 export default function Home() {
   const router = useRouter();
+  const [isMobile, setIsMobile] = useState(false);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      // Check if running in Capacitor (native app)
+      const isCapacitor = !!(window as any).Capacitor;
+      // Check if mobile device
+      const isMobileDevice = window.innerWidth < 768 || 
+                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      
+      setIsMobile(isCapacitor || isMobileDevice);
+      setIsLoaded(true);
+    };
+
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  if (!isLoaded) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <div className="w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-2xl mx-auto mb-4 animate-pulse" />
+          <p className="text-gray-600">Loading...</p>
+        </div>
+      </div>
+    );
+  }
+
+  if (isMobile) {
+    return (
+      <NativeMobileLayout title="Home">
+        <NativeMobileHome />
+      </NativeMobileLayout>
+    );
+  }
 
   const handleBecomeProvider = () => {
     router.push('/login?as=provider');

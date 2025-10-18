@@ -21,7 +21,7 @@
     "@capacitor/cli": "^7.4.3",
     "@capacitor/core": "^7.4.3",
     "@capacitor/geolocation": "^7.1.5",
-    "@capacitor/push-notifications": "^7.1.0",
+    "@capacitor/push-notifications": "^7.0.3",
     "@genkit-ai/googleai": "^1.14.1",
     "@genkit-ai/next": "^1.14.1",
     "@hookform/resolvers": "^4.1.3",

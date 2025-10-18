@@ -1,0 +1,10 @@
+{
+  "functions": {
+    "api/send-notification.js": {
+      "runtime": "nodejs18.x"
+    }
+  },
+  "env": {
+    "FIREBASE_PROJECT_ID": "studio-9158883051-f75ec"
+  }
+}

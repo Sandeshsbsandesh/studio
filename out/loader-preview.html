@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UrbanEzii Loader Preview</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #f5f5f5;
+            padding: 40px 20px;
+        }
+        
+        .preview-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 40px;
+            font-size: 32px;
+        }
+        
+        .loader-demo {
+            background: white;
+            border-radius: 16px;
+            padding: 40px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+        }
+        
+        .loader-demo h2 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 20px;
+        }
+        
+        .loader-demo p {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+        
+        /* Fullscreen Loader */
+        .fullscreen-loader {
+            min-height: 600px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            position: relative;
+            overflow: hidden;
+            border-radius: 16px;
+        }
+        
+        .fullscreen-loader .bg-bubble-1 {
+            position: absolute;
+            width: 300px;
+            height: 300px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            top: -100px;
+            right: -100px;
+            animation: float 6s ease-in-out infinite;
+        }
+        
+        .fullscreen-loader .bg-bubble-2 {
+            position: absolute;
+            width: 200px;
+            height: 200px;
+            background: rgba(255,255,255,0.05);
+            border-radius: 50%;
+            bottom: -50px;
+            left: -50px;
+            animation: float 8s ease-in-out infinite reverse;
+        }
+        
+        /* Inline Loaders */
+        .inline-loader {
+            padding: 60px 20px;
+            background: transparent;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        /* Logo Spinner Container */
+        .logo-spinner {
+            position: relative;
+            margin-bottom: 24px;
+        }
+        
+        .logo-spinner.large { width: 160px; height: 160px; }
+        .logo-spinner.medium { width: 120px; height: 120px; }
+        .logo-spinner.small { width: 80px; height: 80px; }
+        
+        /* Glow Rings */
+        .glow-ring-1 {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.15) 0%, transparent 70%);
+            animation: pulse 2s ease-in-out infinite;
+        }
+        
+        .glow-ring-2 {
+            position: absolute;
+            width: 90%;
+            height: 90%;
+            top: 5%;
+            left: 5%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(102, 126, 234, 0.2) 0%, transparent 70%);
+            animation: pulse 2s ease-in-out 0.5s infinite;
+        }
+        
+        .fullscreen-loader .glow-ring-1 {
+            background: radial-gradient(circle, rgba(255,255,255,0.15) 0%, transparent 70%);
+        }
+        
+        .fullscreen-loader .glow-ring-2 {
+            background: radial-gradient(circle, rgba(255,255,255,0.2) 0%, transparent 70%);
+        }
+        
+        /* Spinning Border */
+        .spinning-border {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            border: 3px solid transparent;
+            border-top-color: #667eea;
+            border-right-color: #667eea;
+            border-radius: 50%;
+            animation: spin 1.5s linear infinite;
+        }
+        
+        .fullscreen-loader .spinning-border {
+            border-top-color: white;
+            border-right-color: white;
+        }
+        
+        /* Logo Circle */
+        .logo-circle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            background: rgba(255,255,255,0.95);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 8px 32px rgba(102, 126, 234, 0.25);
+            animation: logoFloat 3s ease-in-out infinite;
+        }
+        
+        .logo-spinner.large .logo-circle { width: 140px; height: 140px; padding: 24px; }
+        .logo-spinner.medium .logo-circle { width: 100px; height: 100px; padding: 18px; }
+        .logo-spinner.small .logo-circle { width: 60px; height: 60px; padding: 12px; }
+        
+        .fullscreen-loader .logo-circle {
+            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+        }
+        
+        .logo-circle img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            animation: logoBreathe 2s ease-in-out infinite;
+        }
+        
+        /* Orbiting Dots */
+        .orbit-dot {
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+        }
+        
+        .orbit-dot-1 {
+            background: #667eea;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: orbit 3s linear infinite;
+        }
+        
+        .orbit-dot-2 {
+            background: #764ba2;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            animation: orbit 3s linear 1.5s infinite;
+        }
+        
+        .fullscreen-loader .orbit-dot-1,
+        .fullscreen-loader .orbit-dot-2 {
+            background: white;
+        }
+        
+        /* Loading Text */
+        .loading-text {
+            font-size: 14px;
+            font-weight: 600;
+            text-align: center;
+            animation: fadeInUp 1s ease-out;
+            margin: 0;
+        }
+        
+        .fullscreen-loader .loading-text {
+            color: rgba(255,255,255,0.9);
+            font-size: 16px;
+        }
+        
+        .inline-loader .loading-text {
+            color: #333;
+        }
+        
+        /* Brand Info (Fullscreen only) */
+        .brand-name {
+            color: white;
+            font-size: 32px;
+            font-weight: 800;
+            margin-top: 32px;
+            letter-spacing: 2px;
+            animation: fadeInUp 1s ease-out 0.2s backwards;
+        }
+        
+        .brand-tagline {
+            color: rgba(255,255,255,0.85);
+            font-size: 14px;
+            margin-top: 8px;
+            animation: fadeInUp 1s ease-out 0.4s backwards;
+        }
+        
+        /* Animations */
+        @keyframes logoFloat {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) translateY(-8px) scale(1.05); }
+        }
+        
+        @keyframes logoBreathe {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(0.95); }
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 0.6; transform: scale(1); }
+            50% { opacity: 1; transform: scale(1.1); }
+        }
+        
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(30px, -30px); }
+        }
+        
+        @keyframes orbit {
+            0% { transform: translateX(-50%) rotate(0deg) translateX(60px) rotate(0deg); }
+            100% { transform: translateX(-50%) rotate(360deg) translateX(60px) rotate(-360deg); }
+        }
+        
+        /* Info Box */
+        .info-box {
+            background: #f0f4ff;
+            border-left: 4px solid #667eea;
+            padding: 20px;
+            border-radius: 8px;
+            margin-top: 30px;
+        }
+        
+        .info-box h3 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 16px;
+        }
+        
+        .info-box ul {
+            margin-left: 20px;
+            color: #666;
+            font-size: 14px;
+            line-height: 1.8;
+        }
+    </style>
+</head>
+<body>
+    <div class="preview-container">
+        <h1>🎨 UrbanEzii Beautiful Loader Preview</h1>
+        
+        <!-- Fullscreen Loader -->
+        <div class="loader-demo">
+            <h2>1. Fullscreen Loader (App Launch)</h2>
+            <p>Used on initial app load with gradient background</p>
+            
+            <div class="fullscreen-loader">
+                <div class="bg-bubble-1"></div>
+                <div class="bg-bubble-2"></div>
+                
+                <div class="logo-spinner large">
+                    <div class="glow-ring-1"></div>
+                    <div class="glow-ring-2"></div>
+                    <div class="spinning-border"></div>
+                    <div class="logo-circle">
+                        <img src="logo.png" alt="UrbanEzii">
+                    </div>
+                    <div class="orbit-dot orbit-dot-1"></div>
+                    <div class="orbit-dot orbit-dot-2"></div>
+                </div>
+                
+                <p class="loading-text">Loading your experience...</p>
+                <h1 class="brand-name">UrbanEzii</h1>
+                <p class="brand-tagline">Your Local Service Bridge</p>
+            </div>
+        </div>
+        
+        <!-- Medium Inline Loader -->
+        <div class="loader-demo">
+            <h2>2. Medium Inline Loader (Loading Content)</h2>
+            <p>Used when loading providers, services, etc.</p>
+            
+            <div class="inline-loader">
+                <div class="logo-spinner medium">
+                    <div class="glow-ring-1"></div>
+                    <div class="glow-ring-2"></div>
+                    <div class="spinning-border"></div>
+                    <div class="logo-circle">
+                        <img src="logo.png" alt="UrbanEzii">
+                    </div>
+                    <div class="orbit-dot orbit-dot-1"></div>
+                    <div class="orbit-dot orbit-dot-2"></div>
+                </div>
+                <p class="loading-text">Loading providers...</p>
+            </div>
+        </div>
+        
+        <!-- Small Inline Loader -->
+        <div class="loader-demo">
+            <h2>3. Small Inline Loader (Quick Actions)</h2>
+            <p>Used for bookings, quick data loads, etc.</p>
+            
+            <div class="inline-loader">
+                <div class="logo-spinner small">
+                    <div class="glow-ring-1"></div>
+                    <div class="glow-ring-2"></div>
+                    <div class="spinning-border"></div>
+                    <div class="logo-circle">
+                        <img src="logo.png" alt="UrbanEzii">
+                    </div>
+                    <div class="orbit-dot orbit-dot-1"></div>
+                    <div class="orbit-dot orbit-dot-2"></div>
+                </div>
+                <p class="loading-text">Loading bookings...</p>
+            </div>
+        </div>
+        
+        <!-- Info Box -->
+        <div class="info-box">
+            <h3>🎬 Animation Features:</h3>
+            <ul>
+                <li><strong>Logo Float:</strong> Smooth up/down movement (3s loop)</li>
+                <li><strong>Logo Breathe:</strong> Gentle opacity + scale pulse (2s loop)</li>
+                <li><strong>Spinning Border:</strong> Circular progress indicator (1.5s loop)</li>
+                <li><strong>Pulse Glow Rings:</strong> Dual pulsing rings with opacity (2s, offset by 0.5s)</li>
+                <li><strong>Orbiting Dots:</strong> 2 dots rotating around the logo (3s, offset by 1.5s)</li>
+                <li><strong>Background Bubbles:</strong> Floating animated bubbles (fullscreen only)</li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
+

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover, user-scalable=no">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#3b82f6">
+    <meta name="msapplication-navbutton-color" content="#3b82f6">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <title>UrbanEzii</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', sans-serif;
+            background: #f8f9fa;
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            overflow-x: hidden;
+            overflow-y: auto;
+            -webkit-overflow-scrolling: touch;
+        }
+        
+        #app {
+            width: 100%;
+            min-height: 100vh;
+            position: relative;
+            padding-top: env(safe-area-inset-top);
+            padding-bottom: env(safe-area-inset-bottom);
+            padding-left: env(safe-area-inset-left);
+            padding-right: env(safe-area-inset-right);
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); opacity: 1; }
+            50% { transform: scale(1.05); opacity: 0.9; }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <!-- App Container -->
+    <div id="app"></div>
+
+        <!-- Load notification service first -->
+        <script type="module" src="./notification-service.js"></script>
+        <!-- Load Firebase Admin SDK notifications -->
+        <script type="module" src="./api/firebase-admin-notifications.js"></script>
+        <!-- Load system notification API (legacy fallback) -->
+        <script type="module" src="./api/send-system-notification.js"></script>
+        <!-- Load admin panel -->
+        <script type="module" src="./admin-notification-panel.js"></script>
+        <!-- Load mobile app JavaScript as ES6 module -->
+        <script type="module" src="./mobile-app.js"></script>
+</body>
+</html>

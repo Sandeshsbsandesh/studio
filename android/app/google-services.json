@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "857576805556",
+    "project_id": "studio-9158883051-f75ec",
+    "storage_bucket": "studio-9158883051-f75ec.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:857576805556:android:c303762bff99ccfdf973e1",
+        "android_client_info": {
+          "package_name": "com.urbanezii.app"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAuA7IKyy1l4KEst4glhjtu-uMWb-xGVBk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

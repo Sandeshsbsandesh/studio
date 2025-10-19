@@ -7,7 +7,7 @@
 
 class FirebaseAdminNotifications {
   constructor() {
-    this.apiEndpoint = '/api/send-notification'; // Your backend endpoint
+    this.apiEndpoint = 'https://us-central1-studio-9158883051-f75ec.cloudfunctions.net/sendNotification';
     this.isConfigured = false;
   }
 

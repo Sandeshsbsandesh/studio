@@ -209,14 +209,258 @@ const SERVICES = [
 ];
 
 // ============================================================================
+// SPLASH SCREEN
+// ============================================================================
+function showSplashScreen() {
+  const app = document.getElementById('app');
+  if (!app) return;
+  
+  app.innerHTML = `
+    <div style="
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 50%, #8b5cf6 100%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 9999;
+      animation: splashFadeIn 0.8s ease-out;
+    ">
+      <!-- Logo Container -->
+      <div style="
+        position: relative;
+        margin-bottom: 40px;
+        animation: logoFloat 2s ease-in-out infinite;
+      ">
+        <!-- Main Logo -->
+        <div style="
+          width: 120px;
+          height: 120px;
+          background: white;
+          border-radius: 30px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+          position: relative;
+          overflow: hidden;
+        ">
+          <!-- Logo Icon -->
+          <div style="
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #3b82f6 0%, #06b6d4 100%);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+          ">
+            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+              <circle cx="12" cy="10" r="3"></circle>
+            </svg>
+          </div>
+          
+          <!-- Shine Effect -->
+          <div style="
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.3) 50%, transparent 70%);
+            animation: logoShine 2s ease-in-out infinite;
+          "></div>
+        </div>
+        
+        <!-- Floating Particles -->
+        <div style="
+          position: absolute;
+          top: -20px;
+          left: -20px;
+          width: 160px;
+          height: 160px;
+          pointer-events: none;
+        ">
+          <div style="
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            width: 6px;
+            height: 6px;
+            background: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            animation: particleFloat1 3s ease-in-out infinite;
+          "></div>
+          <div style="
+            position: absolute;
+            top: 40px;
+            right: 30px;
+            width: 4px;
+            height: 4px;
+            background: rgba(255,255,255,0.4);
+            border-radius: 50%;
+            animation: particleFloat2 2.5s ease-in-out infinite;
+          "></div>
+          <div style="
+            position: absolute;
+            bottom: 30px;
+            left: 10px;
+            width: 5px;
+            height: 5px;
+            background: rgba(255,255,255,0.5);
+            border-radius: 50%;
+            animation: particleFloat3 3.5s ease-in-out infinite;
+          "></div>
+        </div>
+      </div>
+      
+      <!-- App Name -->
+      <div style="
+        color: white;
+        font-size: 32px;
+        font-weight: 800;
+        margin-bottom: 8px;
+        text-shadow: 0 4px 8px rgba(0,0,0,0.3);
+        animation: textSlideUp 1s ease-out 0.5s both;
+      ">
+        UrbanEzii
+      </div>
+      
+      <!-- Tagline -->
+      <div style="
+        color: rgba(255,255,255,0.9);
+        font-size: 16px;
+        font-weight: 500;
+        text-align: center;
+        margin-bottom: 60px;
+        text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        animation: textSlideUp 1s ease-out 0.7s both;
+      ">
+        Your Trusted Service Partner
+      </div>
+      
+      <!-- Loading Indicator -->
+      <div style="
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        animation: textSlideUp 1s ease-out 0.9s both;
+      ">
+        <div style="
+          width: 8px;
+          height: 8px;
+          background: white;
+          border-radius: 50%;
+          animation: loadingDot1 1.4s ease-in-out infinite;
+        "></div>
+        <div style="
+          width: 8px;
+          height: 8px;
+          background: white;
+          border-radius: 50%;
+          animation: loadingDot2 1.4s ease-in-out infinite;
+        "></div>
+        <div style="
+          width: 8px;
+          height: 8px;
+          background: white;
+          border-radius: 50%;
+          animation: loadingDot3 1.4s ease-in-out infinite;
+        "></div>
+      </div>
+      
+      <!-- Version Info -->
+      <div style="
+        position: absolute;
+        bottom: 40px;
+        color: rgba(255,255,255,0.7);
+        font-size: 12px;
+        font-weight: 500;
+        animation: textSlideUp 1s ease-out 1.1s both;
+      ">
+        Version 1.0 • Made with ❤️ in India
+      </div>
+    </div>
+    
+    <style>
+      @keyframes splashFadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
+      }
+      
+      @keyframes logoFloat {
+        0%, 100% { transform: translateY(0px); }
+        50% { transform: translateY(-10px); }
+      }
+      
+      @keyframes logoShine {
+        0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+        50% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        100% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+      }
+      
+      @keyframes particleFloat1 {
+        0%, 100% { transform: translateY(0px) scale(1); opacity: 0.6; }
+        50% { transform: translateY(-20px) scale(1.2); opacity: 1; }
+      }
+      
+      @keyframes particleFloat2 {
+        0%, 100% { transform: translateY(0px) scale(1); opacity: 0.4; }
+        50% { transform: translateY(-15px) scale(1.1); opacity: 0.8; }
+      }
+      
+      @keyframes particleFloat3 {
+        0%, 100% { transform: translateY(0px) scale(1); opacity: 0.5; }
+        50% { transform: translateY(-25px) scale(1.3); opacity: 0.9; }
+      }
+      
+      @keyframes textSlideUp {
+        from { 
+          opacity: 0; 
+          transform: translateY(30px); 
+        }
+        to { 
+          opacity: 1; 
+          transform: translateY(0px); 
+        }
+      }
+      
+      @keyframes loadingDot1 {
+        0%, 20% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.7; }
+        80%, 100% { transform: scale(1); opacity: 1; }
+      }
+      
+      @keyframes loadingDot2 {
+        0%, 20% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.7; }
+        80%, 100% { transform: scale(1); opacity: 1; }
+      }
+      
+      @keyframes loadingDot3 {
+        0%, 20% { transform: scale(1); opacity: 1; }
+        50% { transform: scale(1.5); opacity: 0.7; }
+        80%, 100% { transform: scale(1); opacity: 1; }
+      }
+    </style>
+  `;
+}
+
+// ============================================================================
 // INITIALIZATION
 // ============================================================================
 async function initApp() {
   console.log('🚀 Initializing UrbanEzii Mobile App...');
   
-  // Initialize notifications
+  // Initialize notification service (but don't request permissions yet)
   if (window.notificationService) {
-    await window.notificationService.initialize();
+    console.log('🔔 Notification service available');
   }
   
   // Load location from localStorage if available
@@ -231,20 +475,145 @@ async function initApp() {
     }
   }
   
-  // Show loading screen immediately
-  showScreen('loading');
-  
+  // Set up Firebase auth listener
   onAuthStateChanged(auth, (user) => {
     if (user) {
-      console.log('✅ User authenticated:', user.uid);
       currentUser = user;
       loadUserData(user.uid);
     } else {
-      console.log('❌ No user authenticated');
       currentUser = null;
       showScreen('login');
     }
   });
+  
+  // Show login screen directly (no splash screen interference)
+  showScreen('login');
+  
+  // Request notification permission after a short delay
+  setTimeout(() => {
+    requestNotificationPermissionDirect();
+  }, 1000);
+}
+
+// ============================================================================
+// DIRECT NOTIFICATION PERMISSION REQUEST
+// ============================================================================
+async function requestNotificationPermissionDirect() {
+  try {
+    if (typeof Capacitor === 'undefined') return;
+    
+    const { PushNotifications } = await import('@capacitor/push-notifications');
+    
+    // Direct permission request
+    const result = await PushNotifications.requestPermissions();
+    
+    if (result.receive === 'granted') {
+      await PushNotifications.register();
+      
+      // Listen for registration token
+      PushNotifications.addListener('registration', (token) => {
+        console.log('🔔 FCM Token received:', token.value);
+        saveFCMTokenToDatabase(token.value);
+      });
+      
+      // Listen for registration errors
+      PushNotifications.addListener('registrationError', (error) => {
+        console.error('❌ FCM Registration error:', error);
+      });
+    }
+  } catch (error) {
+    console.error('❌ Notification permission error:', error);
+  }
+}
+
+// Save FCM token to database
+async function saveFCMTokenToDatabase(token) {
+  try {
+    if (!currentUser) return;
+    
+    const userType = localStorage.getItem('userType') || 'customer';
+    const collectionName = userType === 'provider' ? 'providers' : 'customers';
+    
+    await updateDoc(doc(db, collectionName, currentUser.uid), {
+      fcmToken: token,
+      lastTokenUpdate: new Date()
+    });
+    
+    console.log('✅ FCM Token saved to database');
+  } catch (error) {
+    console.error('❌ Error saving FCM token:', error);
+  }
+}
+
+// ============================================================================
+// NOTIFICATION PERMISSION CHECK
+// ============================================================================
+async function checkAndRequestNotificationPermission() {
+  try {
+    console.log('🔔 Checking notification permission status...');
+    
+    // Check if we're on mobile
+    if (typeof Capacitor === 'undefined') {
+      console.log('📱 Not on mobile platform, skipping notification check');
+      return;
+    }
+    
+    // Import PushNotifications dynamically
+    const { PushNotifications } = await import('@capacitor/push-notifications');
+    
+    // Check current permission status
+    const permissionStatus = await PushNotifications.checkPermissions();
+    console.log('🔔 Current permission status:', permissionStatus);
+    
+    if (permissionStatus.receive === 'granted') {
+      console.log('✅ Notification permission already granted');
+      return;
+    }
+    
+    // Permission not granted, request it with explicit options
+    console.log('🔔 Requesting notification permission...');
+    
+    // Request permissions with explicit options
+    const newPermissionStatus = await PushNotifications.requestPermissions({
+      permissions: ['receive']
+    });
+    
+    console.log('🔔 New permission status:', newPermissionStatus);
+    
+    if (newPermissionStatus.receive === 'granted') {
+      console.log('✅ Notification permission granted!');
+      
+      // Register for push notifications
+      await PushNotifications.register();
+      console.log('✅ Registered for push notifications');
+      
+      // Show success message
+      setTimeout(() => {
+        alert('🔔 Notifications enabled! You will now receive alerts on your lock screen.');
+      }, 1000);
+      
+    } else {
+      console.log('❌ Notification permission denied');
+      // Show message that user can enable later
+      setTimeout(() => {
+        alert('🔔 Notification permission denied. You can enable it later in Settings > Apps > UrbanEzii > Notifications');
+      }, 1000);
+    }
+    
+  } catch (error) {
+    console.error('❌ Error checking notification permission:', error);
+    console.log('🔔 Trying alternative permission request...');
+    
+    // Fallback: try direct permission request
+    try {
+      if (typeof PushNotifications !== 'undefined') {
+        const result = await PushNotifications.requestPermissions();
+        console.log('🔔 Fallback permission result:', result);
+      }
+    } catch (fallbackError) {
+      console.error('❌ Fallback permission request failed:', fallbackError);
+    }
+  }
 }
 
 // ============================================================================
@@ -274,7 +643,15 @@ async function loadUserData(uid) {
     }
 
     const userData = userDoc.data();
-    console.log('✅ User found:', userData);
+    console.log('✅ User found:', {
+      name: userData.name,
+      businessName: userData.businessName,
+      email: userData.email,
+      phone: userData.phone,
+      servicesCount: userData.services?.length || 0,
+      role: userData.role,
+      userType: userData.userType
+    });
     
     // Handle different role field formats (SAME AS WEB APP)
     if (userData.role === 'provider' || userData.role === 'service_provider' || userData.userType === 'provider') {
@@ -310,6 +687,9 @@ async function loadUserData(uid) {
     
     console.log('✅ User type:', userType);
     
+    // Check notification permission after successful login
+    await checkAndRequestNotificationPermission();
+    
     // Redirect based on userType (SAME AS WEB APP)
     if (userType === 'provider') {
       console.log('🔄 Checking provider profile completeness...');
@@ -320,16 +700,16 @@ async function loadUserData(uid) {
         termsAccepted: userData.termsAccepted
       });
       
-      // Check if provider profile is complete
-      // Primary check: explicit flag
-      let isProfileComplete = userData.isProfileComplete === true;
+      // Check if provider profile is complete (SAME LOGIC AS WEB APP)
+      // Web app checks for document existence and required fields, not isProfileComplete flag
+      let isProfileComplete = userData.businessName && 
+                            userData.services && 
+                            userData.services.length > 0 &&
+                            userData.termsAccepted === true;
       
-      // Fallback check: verify required fields (for existing providers)
-      if (!isProfileComplete) {
-        isProfileComplete = userData.businessName && 
-                          userData.services && 
-                          userData.services.length > 0 &&
-                          userData.termsAccepted === true;
+      // Also check for explicit flag if it exists (for mobile-specific providers)
+      if (!isProfileComplete && userData.isProfileComplete === true) {
+        isProfileComplete = true;
       }
       
       if (!isProfileComplete) {
@@ -719,9 +1099,19 @@ async function handleLogin() {
   btn.disabled = true;
   errorDiv.style.display = 'none';
   
+  // Add timeout to prevent hanging
+  const loginTimeout = setTimeout(() => {
+    btn.textContent = 'Sign In';
+    btn.disabled = false;
+    errorDiv.textContent = 'Login timeout. Please try again.';
+    errorDiv.style.display = 'block';
+  }, 10000); // 10 second timeout
+  
   try {
     await signInWithEmailAndPassword(auth, email, password);
+    clearTimeout(loginTimeout);
   } catch (error) {
+    clearTimeout(loginTimeout);
     console.error('Login error:', error);
     errorDiv.textContent = error.message.replace('Firebase: ', '');
     errorDiv.style.display = 'block';
@@ -844,8 +1234,17 @@ async function handleSignup() {
   btn.disabled = true;
   errorDiv.style.display = 'none';
   
+  // Add timeout to prevent hanging
+  const signupTimeout = setTimeout(() => {
+    btn.textContent = 'Sign Up';
+    btn.disabled = false;
+    errorDiv.textContent = 'Signup timeout. Please try again.';
+    errorDiv.style.display = 'block';
+  }, 15000); // 15 second timeout for signup
+  
   try {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    clearTimeout(signupTimeout);
     const user = userCredential.user;
     
     // Prepare user data (SAME AS WEB APP)
@@ -872,6 +1271,7 @@ async function handleSignup() {
     
     // The onAuthStateChanged listener will handle the redirect
   } catch (error) {
+    clearTimeout(signupTimeout);
     console.error('Signup error:', error);
     errorDiv.textContent = error.message.replace('Firebase: ', '');
     errorDiv.style.display = 'block';
@@ -3052,8 +3452,13 @@ async function loadProviderDashboardDataRealtime() {
       const profileReminder = document.getElementById('profileReminder');
       
       if (profileReminder) {
-        // Show reminder if profile is not complete
-        if (!providerData.isProfileComplete) {
+        // Show reminder if profile is not complete (SAME LOGIC AS WEB APP)
+        const isProfileComplete = providerData.businessName && 
+                                providerData.services && 
+                                providerData.services.length > 0 &&
+                                providerData.termsAccepted === true;
+        
+        if (!isProfileComplete) {
           profileReminder.style.display = 'block';
           console.log('⚠️ Profile incomplete - showing reminder');
         } else {
@@ -3541,24 +3946,35 @@ async function loadProviderServices() {
   const providerId = auth.currentUser?.uid;
   if (!providerId) return;
   
+  console.log('🔍 Loading provider services for ID:', providerId);
+  
   try {
     const providerDoc = await getDoc(doc(db, 'providers', providerId));
     
     if (!providerDoc.exists()) {
+      console.log('❌ Provider document not found for ID:', providerId);
       providerServices = [];
       renderProviderServices();
       return;
     }
     
     const data = providerDoc.data();
+    console.log('✅ Provider document found:', {
+      name: data.name,
+      businessName: data.businessName,
+      servicesCount: data.services?.length || 0,
+      services: data.services
+    });
+    
     providerServices = data.services || [];
+    console.log('📋 Services loaded:', providerServices);
     renderProviderServices();
     
   } catch (error) {
-    console.error('Error loading provider services:', error);
+    console.error('❌ Error loading provider services:', error);
     const container = document.getElementById('providerServicesContainer');
     if (container) {
-      container.innerHTML = `<div style="text-align: center; padding: 40px 20px; color: #dc2626;">Error loading services</div>`;
+      container.innerHTML = `<div style="text-align: center; padding: 40px 20px; color: #dc2626;">Error loading services: ${error.message}</div>`;
     }
   }
 }
@@ -4457,37 +4873,48 @@ async function requestNotificationPermission() {
   console.log('🔔 Manual notification permission request');
   
   try {
-    if (window.notificationService) {
-      const success = await window.notificationService.initialize();
-      if (success) {
-        alert('✅ Notification permission granted! You will now receive push notifications.');
-        
-        // Update the toggle to show enabled
-        const notificationToggle = document.getElementById('notificationToggle');
-        if (notificationToggle) {
-          notificationToggle.checked = true;
-        }
-      } else {
-        alert('❌ Notification permission denied. Please enable in device settings.');
-      }
-    } else {
-      // Fallback for web
-      const permission = await Notification.requestPermission();
-      if (permission === 'granted') {
-        alert('✅ Notification permission granted! You will now receive notifications.');
-        
-        // Update the toggle to show enabled
-        const notificationToggle = document.getElementById('notificationToggle');
-        if (notificationToggle) {
-          notificationToggle.checked = true;
-        }
-      } else {
-        alert('❌ Notification permission denied. Please enable in browser settings.');
-      }
+    // Check if we're on mobile
+    if (typeof Capacitor === 'undefined') {
+      alert('❌ This feature is only available on mobile devices');
+      return;
     }
+    
+    // Import PushNotifications dynamically
+    const { PushNotifications } = await import('@capacitor/push-notifications');
+    
+    console.log('🔔 Requesting notification permission manually...');
+    
+    // Request permissions with explicit options
+    const permissionStatus = await PushNotifications.requestPermissions({
+      permissions: ['receive']
+    });
+    
+    console.log('🔔 Manual permission result:', permissionStatus);
+    
+    if (permissionStatus.receive === 'granted') {
+      console.log('✅ Notification permission granted!');
+      
+      // Register for push notifications
+      await PushNotifications.register();
+      console.log('✅ Registered for push notifications');
+      
+      alert('✅ Notification permission granted! You will now receive push notifications on your lock screen.');
+      
+      // Update the toggle to show enabled
+      const notificationToggle = document.getElementById('notificationToggle');
+      if (notificationToggle) {
+        notificationToggle.checked = true;
+        updateToggleVisual('notificationToggle', true);
+      }
+      
+    } else {
+      console.log('❌ Notification permission denied');
+      alert('❌ Notification permission denied. You can enable it later in Settings > Apps > UrbanEzii > Notifications');
+    }
+    
   } catch (error) {
-    console.error('Error requesting notification permission:', error);
-    alert('❌ Failed to request notification permission: ' + error.message);
+    console.error('❌ Error requesting notification permission:', error);
+    alert('❌ Error requesting notification permission: ' + error.message);
   }
 }
 

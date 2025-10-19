@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- Background Gradient -->
+    <item>
+        <shape android:shape="rectangle">
+            <gradient
+                android:startColor="#3b82f6"
+                android:centerColor="#06b6d4"
+                android:endColor="#8b5cf6"
+                android:angle="135" />
+        </shape>
+    </item>
+    
+    <!-- Logo Container Background -->
+    <item android:gravity="center">
+        <shape android:shape="rectangle">
+            <size android:width="120dp" android:height="120dp" />
+            <solid android:color="#ffffff" />
+            <corners android:radius="30dp" />
+        </shape>
+    </item>
+    
+    <!-- Actual Logo -->
+    <item android:gravity="center">
+        <bitmap
+            android:src="@drawable/logo"
+            android:gravity="center"
+            android:width="80dp"
+            android:height="80dp" />
+    </item>
+</layer-list>

@@ -76,6 +76,11 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
     : serviceOptions.map(opt => ({ name: opt, price: '500', displayText: opt }));
   const { toast } = useToast();
   const [loadingLocation, setLoadingLocation] = React.useState(false);
+  const [customerLocation, setCustomerLocation] = React.useState<{
+    lat: number;
+    lng: number;
+    formattedAddress?: string | null;
+  } | null>(null);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -111,10 +116,17 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
           
           if (data.display_name) {
             form.setValue('address', data.display_name);
+            setCustomerLocation({
+              lat: latitude,
+              lng: longitude,
+              formattedAddress: data.display_name,
+            });
             toast({
               title: 'Location Found!',
               description: 'Your current location has been set.',
             });
+          } else {
+            setCustomerLocation({ lat: latitude, lng: longitude });
           }
         } catch (error) {
           toast({
@@ -160,12 +172,22 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
         notes: values.notes,
         amount: amount,
         status: 'pending' as const,
+        customerLocation: customerLocation
+          ? {
+              lat: customerLocation.lat,
+              lng: customerLocation.lng,
+              formattedAddress: customerLocation.formattedAddress ?? values.address,
+            }
+          : undefined,
       };
 
       // Save to Firebase
       const result = await createBooking(bookingData);
 
       if (result.success) {
+        form.reset();
+        setCustomerLocation(null);
+
         toast({
           title: '🎉 Booking Confirmed!',
           description: `${serviceName} appointment with ${provider.businessName} for ${values.serviceType} on ${format(values.date, 'PPP')} at ${values.timeSlot}.`,
@@ -295,6 +317,10 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
                     placeholder="Enter your complete address..."
                     className="resize-none"
                     {...field}
+                    onChange={(event) => {
+                      field.onChange(event);
+                      setCustomerLocation(null);
+                    }}
                   />
                 </FormControl>
               </div>

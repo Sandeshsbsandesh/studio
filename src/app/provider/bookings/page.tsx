@@ -17,6 +17,8 @@ import {
   SelectTrigger,
   SelectValue,
 } from '@/components/ui/select';
+import NavigateButton from '@/components/NavigateButton';
+import LiveTracking from '@/components/LiveTracking';
 
 interface Booking {
   id: string;
@@ -31,6 +33,17 @@ interface Booking {
   amount: number;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
   createdAt: Date;
+  customerLocation: {
+    lat: number;
+    lng: number;
+    formattedAddress?: string | null;
+  } | null;
+  providerLiveLocation: {
+    lat: number;
+    lng: number;
+    updatedAt?: Date | null;
+    isActive?: boolean;
+  } | null;
 }
 
 export default function ProviderBookingsPage() {
@@ -60,6 +73,26 @@ export default function ProviderBookingsPage() {
         
         snapshot.forEach((doc) => {
           const data = doc.data();
+
+          const customerLocation = data.customerLocation && typeof data.customerLocation.lat === 'number' && typeof data.customerLocation.lng === 'number'
+            ? {
+                lat: data.customerLocation.lat,
+                lng: data.customerLocation.lng,
+                formattedAddress: data.customerLocation.formattedAddress ?? null,
+              }
+            : null;
+
+          const providerLiveLocation = data.providerLiveLocation && typeof data.providerLiveLocation.lat === 'number' && typeof data.providerLiveLocation.lng === 'number'
+            ? {
+                lat: data.providerLiveLocation.lat,
+                lng: data.providerLiveLocation.lng,
+                updatedAt: data.providerLiveLocation.updatedAt instanceof Timestamp
+                  ? data.providerLiveLocation.updatedAt.toDate()
+                  : data.providerLiveLocation.updatedAt ?? null,
+                isActive: data.providerLiveLocation.isActive ?? null,
+              }
+            : null;
+ 
           bookingsData.push({
             id: doc.id,
             customerName: data.customerName || 'Customer',
@@ -73,6 +106,8 @@ export default function ProviderBookingsPage() {
             amount: data.amount || 0,
             status: data.status,
             createdAt: data.createdAt?.toDate() || new Date(),
+            customerLocation,
+            providerLiveLocation,
           });
         });
 
@@ -303,10 +338,18 @@ export default function ProviderBookingsPage() {
                     </div>
                   </div>
 
-                  {/* Status Update */}
-                  <div className="flex items-center gap-2 pt-3 border-t">
+                  <LiveTracking
+                    bookingId={booking.id}
+                    customerLocation={booking.customerLocation}
+                    className="mt-2"
+                  />
+                </CardContent>
+
+                {/* Status Update */}
+                <div className="px-6 pb-6">
+                  <div className="flex flex-wrap items-center gap-3 border-t pt-3">
                     <span className="text-sm font-medium">Update Status:</span>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       {booking.status !== 'confirmed' && (
                         <Button
                           size="sm"
@@ -337,8 +380,15 @@ export default function ProviderBookingsPage() {
                         </Button>
                       )}
                     </div>
+                    <NavigateButton
+                      destination={booking.customerLocation}
+                      variant="outline"
+                      size="sm"
+                      label="Navigate"
+                      className="ml-auto"
+                    />
                   </div>
-                </CardContent>
+                </div>
               </Card>
             ))}
           </div>

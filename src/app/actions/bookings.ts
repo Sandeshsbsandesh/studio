@@ -2,6 +2,7 @@
 
 import { db } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+import { getGeocodeFromAddress } from '@/lib/maps/geocode';
 
 export interface BookingData {
   providerId: string;
@@ -17,15 +18,47 @@ export interface BookingData {
   notes?: string;
   amount?: number;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  customerLocation?: {
+    lat: number;
+    lng: number;
+    formattedAddress?: string | null;
+    placeId?: string | null;
+  } | null;
 }
 
 export async function createBooking(data: BookingData) {
   try {
-    const bookingRef = await addDoc(collection(db, 'bookings'), {
+    let resolvedLocation = data.customerLocation ?? null;
+
+    if (!resolvedLocation) {
+      const geocodeResult = await getGeocodeFromAddress(data.address);
+
+      if (geocodeResult) {
+        resolvedLocation = {
+          lat: geocodeResult.lat,
+          lng: geocodeResult.lng,
+          formattedAddress: geocodeResult.formattedAddress ?? data.address,
+          placeId: geocodeResult.placeId ?? null,
+        };
+      }
+    }
+
+    const bookingPayload = {
       ...data,
+      customerLocation: resolvedLocation
+        ? {
+            lat: resolvedLocation.lat,
+            lng: resolvedLocation.lng,
+            formattedAddress: resolvedLocation.formattedAddress ?? data.address,
+            placeId: resolvedLocation.placeId ?? null,
+          }
+        : null,
+      providerLiveLocation: null,
       createdAt: serverTimestamp(),
       updatedAt: serverTimestamp(),
-    });
+    };
+
+    const bookingRef = await addDoc(collection(db, 'bookings'), bookingPayload);
 
     return {
       success: true,

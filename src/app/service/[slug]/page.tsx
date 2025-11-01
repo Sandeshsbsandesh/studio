@@ -92,6 +92,12 @@ async function getProviders(serviceSlug: string) {
           verified: data.verified || false,
           companyLogo: data.companyLogo || '',
           services: servicesObject, // Include the services object with subcategories and pricing
+          latitude: typeof data.latitude === 'number'
+            ? data.latitude
+            : (data.location?.latitude ?? data.location?.lat ?? null),
+          longitude: typeof data.longitude === 'number'
+            ? data.longitude
+            : (data.location?.longitude ?? data.location?.lng ?? null),
           // Convert Timestamps to ISO strings for serialization
           createdAt: data.createdAt?.toDate?.()?.toISOString() || null,
           updatedAt: data.updatedAt?.toDate?.()?.toISOString() || null,

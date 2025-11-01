@@ -25,6 +25,7 @@ import {
 import { House, LayoutGrid, Info, Sparkles, IndianRupee, CircleHelp, Newspaper, Phone, BookUser } from 'lucide-react';
 import Footer from '@/components/footer';
 import { AuthProvider } from '@/context/auth-context';
+import PermissionGuard from '@/components/PermissionGuard';
 
 const fontHeadline = Poppins({
   subsets: ['latin'],
@@ -94,6 +95,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased', fontHeadline.variable, fontBody.variable)}>
         <AuthProvider>
+          <PermissionGuard>
       <SidebarProvider>
         <Sidebar side="left" variant="sidebar" collapsible="offcanvas" className="border-r">
           <SidebarRail />
@@ -130,6 +132,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
               <Footer />
             </main>
           </SidebarProvider>
+          </PermissionGuard>
         </AuthProvider>
           <Toaster />
           <SpeedInsights />

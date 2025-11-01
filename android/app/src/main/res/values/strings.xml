@@ -5,4 +5,5 @@
     <string name="package_name">com.urbanezii.app</string>
     <string name="custom_url_scheme">com.urbanezii.app</string>
     <string name="default_notification_channel_id">urbanezii_notifications</string>
+       <string name="google_maps_api_key">AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q</string>
 </resources>

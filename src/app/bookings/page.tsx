@@ -12,6 +12,7 @@ import { collection, query, where, onSnapshot } from "firebase/firestore";
 import { format } from "date-fns";
 import { Badge } from "@/components/ui/badge";
 import { useRouter } from 'next/navigation';
+import LiveMap from '@/components/maps/LiveMap';
 
 interface Booking {
   id: string;
@@ -25,6 +26,17 @@ interface Booking {
   amount: number;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
   createdAt: Date;
+  customerLocation: {
+    lat: number;
+    lng: number;
+    formattedAddress?: string | null;
+  } | null;
+  providerLiveLocation: {
+    lat: number;
+    lng: number;
+    updatedAt?: Date | null;
+    isActive?: boolean;
+  } | null;
 }
 
 export default function BookingsPage() {
@@ -59,6 +71,24 @@ export default function BookingsPage() {
         
         snapshot.forEach((doc) => {
           const data = doc.data();
+
+          const customerLocation = data.customerLocation && typeof data.customerLocation.lat === 'number' && typeof data.customerLocation.lng === 'number'
+            ? {
+                lat: data.customerLocation.lat,
+                lng: data.customerLocation.lng,
+                formattedAddress: data.customerLocation.formattedAddress ?? null,
+              }
+            : null;
+
+          const providerLiveLocation = data.providerLiveLocation && typeof data.providerLiveLocation.lat === 'number' && typeof data.providerLiveLocation.lng === 'number'
+            ? {
+                lat: data.providerLiveLocation.lat,
+                lng: data.providerLiveLocation.lng,
+                updatedAt: data.providerLiveLocation.updatedAt?.toDate ? data.providerLiveLocation.updatedAt.toDate() : data.providerLiveLocation.updatedAt ?? null,
+                isActive: data.providerLiveLocation.isActive ?? null,
+              }
+            : null;
+ 
           bookingsData.push({
             id: doc.id,
             providerName: data.providerName || 'Provider',
@@ -71,6 +101,8 @@ export default function BookingsPage() {
             amount: data.amount || 0,
             status: data.status || 'pending',
             createdAt: data.createdAt?.toDate() || new Date(),
+            customerLocation,
+            providerLiveLocation,
           });
         });
 
@@ -198,6 +230,16 @@ export default function BookingsPage() {
                         <IndianRupee className="h-5 w-5" />
                         <span>{booking.amount.toLocaleString()}</span>
                       </div>
+
+                      {(booking.customerLocation || booking.providerLiveLocation) && (
+                        <div className="pt-4">
+                          <LiveMap
+                            bookingId={booking.id}
+                            customerLocation={booking.customerLocation}
+                            providerLocation={booking.providerLiveLocation}
+                          />
+                        </div>
+                      )}
                     </CardContent>
                     <CardFooter className="flex justify-end gap-2">
                       <Button variant="outline">Cancel</Button>

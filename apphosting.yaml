@@ -3,7 +3,7 @@
 runConfig:
   cpu: 1
   memoryMiB: 512
-  # Environment variables for runtime
+  # Environment variables (NEXT_PUBLIC_ vars are available during build automatically)
   env:
     - variable: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
       secret: AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q

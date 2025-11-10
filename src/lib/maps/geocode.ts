@@ -12,7 +12,8 @@ export async function getGeocodeFromAddress(address: string): Promise<GeocodeRes
     throw new Error('Address is required to perform geocoding.');
   }
 
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  // Get API key from environment variable, with fallback to hardcoded key
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q';
 
   if (!apiKey) {
     console.warn('NEXT_PUBLIC_GOOGLE_MAPS_API_KEY is not set; skipping geocoding.');

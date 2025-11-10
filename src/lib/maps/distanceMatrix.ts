@@ -39,7 +39,8 @@ function isCacheEntryFresh(entry: DistanceMatrixCacheEntry) {
 }
 
 async function fetchDistanceMatrix(origin: LatLng, destinations: DistanceMatrixDestination[]) {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  // Get API key from environment variable, with fallback to hardcoded key
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q';
 
   if (!apiKey) {
     throw new Error('Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.');

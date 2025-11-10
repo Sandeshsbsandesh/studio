@@ -86,12 +86,26 @@ export default function LiveMap({
   height = 260,
   showRoute = true,
 }: LiveMapProps) {
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY;
+  // Get API key from environment variable, with fallback to hardcoded key
+  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q';
+
+  // Debug logging (only in development)
+  useEffect(() => {
+    if (process.env.NODE_ENV === 'development') {
+      console.log('Google Maps API Key check:', {
+        hasApiKey: !!apiKey,
+        apiKeyLength: apiKey?.length || 0,
+        apiKeyPrefix: apiKey?.substring(0, 10) || 'N/A',
+        source: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ? 'env' : 'hardcoded',
+      });
+    }
+  }, [apiKey]);
 
   const { isLoaded, loadError } = useJsApiLoader(
     useMemo(
       () => ({
         googleMapsApiKey: apiKey ?? '',
+        libraries: ['places', 'geometry'] as const,
       }),
       [apiKey]
     )
@@ -146,20 +160,31 @@ export default function LiveMap({
   }, [customerLocation, providerLocation, showRoute, isLoaded]);
 
   if (!apiKey) {
+    console.warn('Google Maps API key is missing. Check NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.');
     return (
       <Card>
         <CardContent className="py-10 text-center text-sm text-muted-foreground">
-          Add <code>NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code> to enable the live map preview.
+          <p className="mb-2">Map preview unavailable</p>
+          <p className="text-xs text-muted-foreground">
+            Google Maps API key not configured. Please contact support.
+          </p>
         </CardContent>
       </Card>
     );
   }
 
   if (loadError) {
+    console.error('Google Maps load error:', loadError);
     return (
       <Card>
         <CardContent className="py-10 text-center text-sm text-destructive">
-          We could not load the map right now. Please refresh to try again.
+          <p className="mb-2">We could not load the map right now.</p>
+          <p className="text-xs text-muted-foreground mt-2">
+            Error: {loadError.message || 'Unknown error'}
+          </p>
+          <p className="text-xs text-muted-foreground mt-1">
+            Please refresh to try again or contact support if the issue persists.
+          </p>
         </CardContent>
       </Card>
     );

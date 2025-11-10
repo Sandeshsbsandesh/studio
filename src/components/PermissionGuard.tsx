@@ -7,6 +7,15 @@ import { Button } from '@/components/ui/button';
 import { Bell, MapPin, Shield } from 'lucide-react';
 import { requestAllPermissions, hasNotificationPermission, hasLocationPermission } from '@/lib/permissions';
 
+// Helper to safely check if Capacitor is available
+function isCapacitorAvailable(): boolean {
+  try {
+    return typeof Capacitor !== 'undefined' && Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+}
+
 interface PermissionGuardProps {
   children: React.ReactNode;
 }
@@ -22,26 +31,51 @@ export default function PermissionGuard({ children }: PermissionGuardProps) {
   }, []);
 
   async function checkPermissions() {
-    // Only check on native mobile, skip on web
-    if (!Capacitor.isNativePlatform()) {
+    // Add a timeout to prevent infinite loading
+    const timeoutId = setTimeout(() => {
+      console.warn('Permission check timeout - forcing load');
       setLoading(false);
-      return;
+    }, 2000);
+
+    try {
+      // Check if Capacitor is available and if we're on native platform
+      const isNative = isCapacitorAvailable();
+
+      // Only check on native mobile, skip on web
+      if (!isNative) {
+        clearTimeout(timeoutId);
+        setLoading(false);
+        return;
+      }
+
+      // Set a shorter timeout for permission checks
+      const permissionTimeout = setTimeout(() => {
+        console.warn('Permission checks timed out');
+        setLoading(false);
+      }, 1500);
+
+      const [notifications, location] = await Promise.all([
+        hasNotificationPermission().catch(() => false),
+        hasLocationPermission().catch(() => false),
+      ]);
+
+      clearTimeout(permissionTimeout);
+      clearTimeout(timeoutId);
+
+      setHasNotifications(notifications);
+      setHasLocation(location);
+
+      // Show prompt if any permission is missing
+      if (!notifications || !location) {
+        setShowPrompt(true);
+      }
+
+      setLoading(false);
+    } catch (error) {
+      console.error('Error checking permissions:', error);
+      clearTimeout(timeoutId);
+      setLoading(false);
     }
-
-    const [notifications, location] = await Promise.all([
-      hasNotificationPermission(),
-      hasLocationPermission(),
-    ]);
-
-    setHasNotifications(notifications);
-    setHasLocation(location);
-
-    // Show prompt if any permission is missing
-    if (!notifications || !location) {
-      setShowPrompt(true);
-    }
-
-    setLoading(false);
   }
 
   async function handleRequestPermissions() {
@@ -71,7 +105,7 @@ export default function PermissionGuard({ children }: PermissionGuardProps) {
   }
 
   // Show permission prompt on mobile if needed
-  if (showPrompt && Capacitor.isNativePlatform()) {
+  if (showPrompt && isCapacitorAvailable()) {
     return (
       <div className="flex min-h-screen items-center justify-center p-4 bg-gradient-to-br from-background via-primary/5 to-background">
         <Card className="max-w-md w-full">

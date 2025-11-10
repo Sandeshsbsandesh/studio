@@ -8,30 +8,87 @@ import ServiceCard from '@/components/service-card';
 import { services } from '@/lib/data';
 import placeholderImages from '@/lib/placeholder-images.json';
 import { useRouter } from 'next/navigation';
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import NativeMobileLayout from '@/components/native-mobile-layout';
 import NativeMobileHome from '@/components/native-mobile-home';
+import { Capacitor } from '@capacitor/core';
+
+// Helper to safely check if Capacitor is available and running natively
+function isCapacitorNative(): boolean {
+  try {
+    return typeof Capacitor !== 'undefined' && Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+}
 
 export default function Home() {
   const router = useRouter();
   const [isMobile, setIsMobile] = useState(false);
   const [isLoaded, setIsLoaded] = useState(false);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
+  const hasLoadedRef = useRef(false);
 
   useEffect(() => {
-    const checkMobile = () => {
-      // Check if running in Capacitor (native app)
-      const isCapacitor = !!(window as any).Capacitor;
-      // Check if mobile device
-      const isMobileDevice = window.innerWidth < 768 || 
-                    /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-      
-      setIsMobile(isCapacitor || isMobileDevice);
+    // Ensure we're in the browser environment
+    if (typeof window === 'undefined') {
       setIsLoaded(true);
+      hasLoadedRef.current = true;
+      return;
+    }
+
+    const checkMobile = () => {
+      try {
+        // Check if running in Capacitor native app - ONLY show mobile UI in native app
+        // Use Capacitor.isNativePlatform() instead of window.Capacitor for reliable detection
+        const isCapacitor = isCapacitorNative();
+        
+        // Only treat as mobile if it's actually Capacitor native app
+        // Don't use window width or user agent for web browsers
+        setIsMobile(isCapacitor);
+        setIsLoaded(true);
+        hasLoadedRef.current = true;
+        
+        // Clear timeout if check succeeded
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+      } catch (error) {
+        console.error('Error checking mobile status:', error);
+        // Always set loaded even if there's an error
+        setIsMobile(false); // Default to web UI on error
+        setIsLoaded(true);
+        hasLoadedRef.current = true;
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+          timeoutRef.current = null;
+        }
+      }
     };
 
-    checkMobile();
+    // Fallback timeout - force load after 2 seconds
+    timeoutRef.current = setTimeout(() => {
+      if (!hasLoadedRef.current) {
+        console.warn('Loading timeout - forcing page load');
+        setIsLoaded(true);
+        hasLoadedRef.current = true;
+      }
+    }, 2000);
+
+    // Use requestAnimationFrame to ensure DOM is ready
+    requestAnimationFrame(() => {
+      checkMobile();
+    });
+    
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    return () => {
+      window.removeEventListener('resize', checkMobile);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+      }
+    };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (!isLoaded) {

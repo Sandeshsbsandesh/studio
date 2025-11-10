@@ -2,13 +2,22 @@
 
 import { Capacitor } from '@capacitor/core';
 
+// Helper to safely check if Capacitor is available
+function isCapacitorAvailable(): boolean {
+  try {
+    return typeof Capacitor !== 'undefined' && Capacitor.isNativePlatform();
+  } catch {
+    return false;
+  }
+}
+
 /**
  * Request notification permission
  * - On web: uses browser Notification API
  * - On mobile: uses Capacitor Push Notifications plugin
  */
 export async function requestNotificationPermission(): Promise<boolean> {
-  if (Capacitor.isNativePlatform()) {
+  if (isCapacitorAvailable()) {
     // Mobile: Request via Capacitor
     try {
       const { PushNotifications } = await import('@capacitor/push-notifications');
@@ -53,7 +62,7 @@ export async function requestNotificationPermission(): Promise<boolean> {
  * - On mobile: uses Capacitor Geolocation plugin
  */
 export async function requestLocationPermission(): Promise<boolean> {
-  if (Capacitor.isNativePlatform()) {
+  if (isCapacitorAvailable()) {
     // Mobile: Request via Capacitor
     try {
       const { Geolocation } = await import('@capacitor/geolocation');
@@ -92,16 +101,21 @@ export async function requestLocationPermission(): Promise<boolean> {
  * Check if notification permission is granted
  */
 export async function hasNotificationPermission(): Promise<boolean> {
-  if (Capacitor.isNativePlatform()) {
-    try {
-      const { PushNotifications } = await import('@capacitor/push-notifications');
-      const result = await PushNotifications.checkPermissions();
-      return result.receive === 'granted';
-    } catch {
-      return false;
+  try {
+    if (isCapacitorAvailable()) {
+      try {
+        const { PushNotifications } = await import('@capacitor/push-notifications');
+        const result = await PushNotifications.checkPermissions();
+        return result.receive === 'granted';
+      } catch {
+        return false;
+      }
+    } else {
+      return 'Notification' in window && Notification.permission === 'granted';
     }
-  } else {
-    return 'Notification' in window && Notification.permission === 'granted';
+  } catch (error) {
+    console.error('Error checking notification permission:', error);
+    return false;
   }
 }
 
@@ -109,16 +123,21 @@ export async function hasNotificationPermission(): Promise<boolean> {
  * Check if location permission is granted
  */
 export async function hasLocationPermission(): Promise<boolean> {
-  if (Capacitor.isNativePlatform()) {
-    try {
-      const { Geolocation } = await import('@capacitor/geolocation');
-      const permission = await Geolocation.checkPermissions();
-      return permission.location === 'granted' || permission.coarseLocation === 'granted';
-    } catch {
-      return false;
+  try {
+    if (isCapacitorAvailable()) {
+      try {
+        const { Geolocation } = await import('@capacitor/geolocation');
+        const permission = await Geolocation.checkPermissions();
+        return permission.location === 'granted' || permission.coarseLocation === 'granted';
+      } catch {
+        return false;
+      }
+    } else {
+      return 'geolocation' in navigator;
     }
-  } else {
-    return 'geolocation' in navigator;
+  } catch (error) {
+    console.error('Error checking location permission:', error);
+    return false;
   }
 }
 

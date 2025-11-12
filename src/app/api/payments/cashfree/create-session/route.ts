@@ -32,6 +32,12 @@ function normalizeAmount(value: unknown): number | null {
 }
 
 export async function POST(request: Request) {
+  console.log('Cashfree env snapshot', {
+    mode: process.env.CASHFREE_MODE,
+    publicMode: process.env.NEXT_PUBLIC_CASHFREE_MODE,
+    idPresent: Boolean(process.env.CASHFREE_CLIENT_ID),
+    secretPresent: Boolean(process.env.CASHFREE_CLIENT_SECRET),
+  });
   try {
     const body = (await request.json()) as CreateSessionRequestBody;
     const amount = normalizeAmount(body?.amount);

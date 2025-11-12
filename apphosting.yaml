@@ -23,6 +23,15 @@ build:
       secret: NEXT_PUBLIC_CASHFREE_MODE
 serve:
   command: node .next/standalone/server.js
+  env:
+    - variable: CASHFREE_MODE
+      secret: CASHFREE_MODE
+    - variable: NEXT_PUBLIC_CASHFREE_MODE
+      secret: NEXT_PUBLIC_CASHFREE_MODE
+    - variable: CASHFREE_CLIENT_ID
+      secret: CASHFREE_CLIENT_ID
+    - variable: CASHFREE_CLIENT_SECRET
+      secret: CASHFREE_CLIENT_SECRET
 backend:
   id: urbanezii-backend
   tag: latest

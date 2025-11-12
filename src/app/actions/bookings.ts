@@ -4,6 +4,19 @@ import { db } from '@/lib/firebase';
 import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
 import { getGeocodeFromAddress } from '@/lib/maps/geocode';
 
+export type BookingPaymentStatus = 'pending' | 'paid' | 'failed';
+
+export interface BookingPaymentInfo {
+  orderId: string;
+  paymentAmount?: number | null;
+  currency?: string | null;
+  paymentMethod?: string | null;
+  status?: string | null;
+  cfPaymentId?: string | null;
+  paymentSessionId?: string | null;
+  rawResponse?: Record<string, unknown> | null;
+}
+
 export interface BookingData {
   providerId: string;
   providerName: string;
@@ -18,6 +31,8 @@ export interface BookingData {
   notes?: string;
   amount?: number;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  paymentStatus?: BookingPaymentStatus;
+  paymentInfo?: BookingPaymentInfo | null;
   customerLocation?: {
     lat: number;
     lng: number;
@@ -51,6 +66,19 @@ export async function createBooking(data: BookingData) {
             lng: resolvedLocation.lng,
             formattedAddress: resolvedLocation.formattedAddress ?? data.address,
             placeId: resolvedLocation.placeId ?? null,
+          }
+        : null,
+      paymentStatus: data.paymentStatus ?? 'pending',
+      paymentInfo: data.paymentInfo
+        ? {
+            orderId: data.paymentInfo.orderId,
+            paymentAmount: data.paymentInfo.paymentAmount ?? null,
+            currency: data.paymentInfo.currency ?? null,
+            paymentMethod: data.paymentInfo.paymentMethod ?? null,
+            status: data.paymentInfo.status ?? null,
+            cfPaymentId: data.paymentInfo.cfPaymentId ?? null,
+            paymentSessionId: data.paymentInfo.paymentSessionId ?? null,
+            rawResponse: data.paymentInfo.rawResponse ?? null,
           }
         : null,
       providerLiveLocation: null,

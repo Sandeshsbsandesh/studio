@@ -25,6 +25,11 @@ interface Booking {
   notes?: string;
   amount: number;
   status: 'pending' | 'confirmed' | 'completed' | 'cancelled';
+  paymentStatus?: 'pending' | 'paid' | 'failed';
+  paymentInfo?: {
+    paymentMethod?: string | null;
+    status?: string | null;
+  } | null;
   createdAt: Date;
   customerLocation: {
     lat: number;
@@ -100,6 +105,8 @@ export default function BookingsPage() {
             notes: data.notes,
             amount: data.amount || 0,
             status: data.status || 'pending',
+            paymentStatus: data.paymentStatus ?? 'pending',
+            paymentInfo: data.paymentInfo ?? null,
             createdAt: data.createdAt?.toDate() || new Date(),
             customerLocation,
             providerLiveLocation,

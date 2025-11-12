@@ -7,6 +7,15 @@ runConfig:
   env:
     - variable: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
       value: AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q
+    # Cashfree credentials are stored as App Hosting secrets; set them via firebase apphosting:secrets:set
+    - variable: CASHFREE_MODE
+      secret: CASHFREE_MODE
+    - variable: NEXT_PUBLIC_CASHFREE_MODE
+      secret: NEXT_PUBLIC_CASHFREE_MODE
+    - variable: CASHFREE_CLIENT_ID
+      secret: CASHFREE_CLIENT_ID
+    - variable: CASHFREE_CLIENT_SECRET
+      secret: CASHFREE_CLIENT_SECRET
 build:
   command: npm run build
 serve:

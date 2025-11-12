@@ -18,8 +18,11 @@ runConfig:
       secret: CASHFREE_CLIENT_SECRET
 build:
   command: npm run build
+  env:
+    - variable: NEXT_PUBLIC_CASHFREE_MODE
+      secret: NEXT_PUBLIC_CASHFREE_MODE
 serve:
   command: node .next/standalone/server.js
 backend:
   id: urbanezii-backend
-tag: latest
+  tag: latest

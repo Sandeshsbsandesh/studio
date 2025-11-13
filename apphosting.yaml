@@ -19,6 +19,6 @@ build:
 serve:
   command: node .next/standalone/server.js
 backend:
-  id: urbanezii-backend
+  id: studio
   tag: latest
 

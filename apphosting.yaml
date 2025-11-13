@@ -3,34 +3,21 @@
 runConfig:
   cpu: 1
   memoryMiB: 512
-  # Environment variables and secrets with availability controls
   env:
     - variable: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
       value: AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q
-      availability:
-        - BUILD
-        - RUNTIME
     - variable: CASHFREE_MODE
       secret: CASHFREE_MODE
-      availability:
-        - BUILD
-        - RUNTIME
     - variable: NEXT_PUBLIC_CASHFREE_MODE
       secret: NEXT_PUBLIC_CASHFREE_MODE
-      availability:
-        - BUILD
-        - RUNTIME
     - variable: CASHFREE_CLIENT_ID
       secret: CASHFREE_CLIENT_ID
-      availability:
-        - RUNTIME
     - variable: CASHFREE_CLIENT_SECRET
       secret: CASHFREE_CLIENT_SECRET
-      availability:
-        - RUNTIME
-scripts:
-  buildCommand: npm run build
-  runCommand: node .next/standalone/server.js
+build:
+  command: npm run build
+serve:
+  command: node .next/standalone/server.js
 backend:
   id: urbanezii-backend
   tag: latest

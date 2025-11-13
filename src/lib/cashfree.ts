@@ -49,6 +49,17 @@ function normalizeMode(mode?: string | null): 'sandbox' | 'production' {
 }
 
 export async function getCashfreeCredentials(): Promise<CashfreeCredentials> {
+  // Debug logging
+  console.log('[getCashfreeCredentials] Environment check:', {
+    CASHFREE_MODE: process.env.CASHFREE_MODE,
+    NEXT_PUBLIC_CASHFREE_MODE: process.env.NEXT_PUBLIC_CASHFREE_MODE,
+    CASHFREE_CLIENT_ID_exists: !!process.env.CASHFREE_CLIENT_ID,
+    CASHFREE_CLIENT_ID_length: process.env.CASHFREE_CLIENT_ID?.length,
+    NEXT_PUBLIC_CASHFREE_CLIENT_ID_exists: !!process.env.NEXT_PUBLIC_CASHFREE_CLIENT_ID,
+    CASHFREE_CLIENT_SECRET_exists: !!process.env.CASHFREE_CLIENT_SECRET,
+    CASHFREE_CLIENT_SECRET_length: process.env.CASHFREE_CLIENT_SECRET?.length,
+  });
+
   const mode = normalizeMode(
     process.env.CASHFREE_MODE ??
       process.env.NEXT_PUBLIC_CASHFREE_MODE ??
@@ -70,6 +81,10 @@ export async function getCashfreeCredentials(): Promise<CashfreeCredentials> {
     !resolvedClientSecret ||
     resolvedClientSecret === FALLBACK_CLIENT_SECRET
   ) {
+    console.error('[getCashfreeCredentials] Validation failed:', {
+      resolvedClientId_length: resolvedClientId?.length,
+      resolvedClientSecret_length: resolvedClientSecret?.length,
+    });
     throw new Error(
       'Cashfree credentials missing. Set CASHFREE_CLIENT_ID and CASHFREE_CLIENT_SECRET for the current environment.',
     );

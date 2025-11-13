@@ -32,12 +32,16 @@ function normalizeAmount(value: unknown): number | null {
 }
 
 export async function POST(request: Request) {
-  console.log('Cashfree env snapshot', {
+  const envDebug = {
     mode: process.env.CASHFREE_MODE,
     publicMode: process.env.NEXT_PUBLIC_CASHFREE_MODE,
     idPresent: Boolean(process.env.CASHFREE_CLIENT_ID),
+    idLength: process.env.CASHFREE_CLIENT_ID?.length,
     secretPresent: Boolean(process.env.CASHFREE_CLIENT_SECRET),
-  });
+    secretLength: process.env.CASHFREE_CLIENT_SECRET?.length,
+    allEnvKeys: Object.keys(process.env).filter(k => k.includes('CASHFREE')),
+  };
+  console.log('Cashfree env snapshot', envDebug);
   try {
     const body = (await request.json()) as CreateSessionRequestBody;
     const amount = normalizeAmount(body?.amount);
@@ -92,6 +96,7 @@ export async function POST(request: Request) {
           error instanceof Error
             ? error.message
             : 'Unable to create payment session',
+        debug: envDebug,
       },
       { status: 500 },
     );

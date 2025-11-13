@@ -207,9 +207,13 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
         const data = await response.json();
 
         if (!response.ok || !data?.success || !data.paymentSessionId) {
-          throw new Error(
-            data?.error ?? 'Failed to create payment session. Please retry.',
-          );
+          console.error('[Payment Session] Server response:', data);
+          if (data?.debug) {
+            console.error('[Payment Session] Environment debug:', data.debug);
+          }
+          const errorMsg = data?.error ?? 'Failed to create payment session. Please retry.';
+          const debugInfo = data?.debug ? `\n\nDebug: ${JSON.stringify(data.debug, null, 2)}` : '';
+          throw new Error(errorMsg + debugInfo);
         }
 
         setPaymentSessionId(data.paymentSessionId);

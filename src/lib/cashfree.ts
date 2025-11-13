@@ -35,7 +35,7 @@ export interface CashfreeOrderResponse {
 
 const FALLBACK_CLIENT_ID = 'cf_client_id_placeholder';
 const FALLBACK_CLIENT_SECRET = 'cf_client_secret_placeholder';
-const FALLBACK_MODE = 'sandbox';
+const FALLBACK_MODE = 'production';
 const FALLBACK_API_VERSION = '2022-09-01';
 
 const BASE_URLS: Record<'sandbox' | 'production', string> = {
@@ -45,7 +45,7 @@ const BASE_URLS: Record<'sandbox' | 'production', string> = {
 
 function normalizeMode(mode?: string | null): 'sandbox' | 'production' {
   const normalized = mode?.toLowerCase();
-  return normalized === 'production' || normalized === 'prod' ? 'production' : 'sandbox';
+  return normalized === 'sandbox' ? 'sandbox' : 'production';
 }
 
 export async function getCashfreeCredentials(): Promise<CashfreeCredentials> {

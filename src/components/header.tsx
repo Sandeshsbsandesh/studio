@@ -51,7 +51,7 @@ export default function Header() {
           <div className="flex items-center gap-3">
             <SidebarTrigger />
             <Link href="/" className="flex items-center gap-2">
-              <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} />
+              <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} priority />
               <span className="text-lg font-bold">UrbanEzii</span>
             </Link>
           </div>

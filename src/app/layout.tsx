@@ -63,7 +63,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
           <title>{pageTitle}</title>
           <meta name="description" content="Discover, book, and manage verified professionals for every home need." />
-          <link rel="icon" href="/favicon.ico" />
+          <link rel="icon" href="/logo.png" type="image/png" />
+          <link rel="apple-touch-icon" href="/logo.png" />
         </head>
         <body className={cn('min-h-screen bg-background font-body antialiased', fontHeadline.variable, fontBody.variable)}>
           <AuthProvider>
@@ -87,11 +88,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta property="og:url" content="https://urbanezii.com" />
         <meta property="og:title" content="UrbanEzii - Your Local Service Bridge" />
         <meta property="og:description" content="Discover, book, and manage verified professionals for every home need." />
+        <meta property="og:image" content="/logo.png" />
         <meta property="og:site_name" content="UrbanEzii" />
         <meta name="twitter:card" content="summary_large_image" />
         <meta name="twitter:title" content="UrbanEzii - Your Local Service Bridge" />
         <meta name="twitter:description" content="Discover, book, and manage verified professionals for every home need." />
-        <link rel="icon" href="/favicon.ico" />
+        <meta name="twitter:image" content="/logo.png" />
+        <link rel="icon" href="/logo.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/logo.png" />
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased', fontHeadline.variable, fontBody.variable)}>
         <AuthProvider>
@@ -101,7 +105,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <SidebarRail />
           <SidebarHeader className="border-b border-sidebar-border py-4 px-4">
             <Link href="/" className="flex items-center gap-3">
-              <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} className="flex-shrink-0" />
+              <Image src="/logo.png" alt="UrbanEzii Logo" width={32} height={32} className="flex-shrink-0" priority />
               <span className="font-bold text-xl text-sidebar-foreground tracking-tight">
                 UrbanEzii
               </span>

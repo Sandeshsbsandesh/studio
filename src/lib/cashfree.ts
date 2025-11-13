@@ -90,6 +90,12 @@ export async function getCashfreeCredentials(): Promise<CashfreeCredentials> {
     );
   }
 
+  console.log('[getCashfreeCredentials] Using credentials from env:', {
+    mode,
+    clientId_length: resolvedClientId.length,
+    clientSecret_length: resolvedClientSecret.length,
+  });
+
   const apiVersion =
     process.env.CASHFREE_API_VERSION ?? FALLBACK_API_VERSION;
 

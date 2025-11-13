@@ -7,11 +7,11 @@ runConfig:
     - variable: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
       value: AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q
     - variable: CASHFREE_MODE
-      secret: CASHFREE_MODE
+      value: production
     - variable: NEXT_PUBLIC_CASHFREE_MODE
-      secret: NEXT_PUBLIC_CASHFREE_MODE
+      value: production
     - variable: CASHFREE_CLIENT_ID
-      secret: CASHFREE_CLIENT_ID
+      value: 11270314dfdaa6dd018914c7fe51307211
     - variable: CASHFREE_CLIENT_SECRET
-      secret: CASHFREE_CLIENT_SECRET
+      value: cfsk_ma_prod_c254882c2479429b257f1b7128fbf5ad_2854078d
 

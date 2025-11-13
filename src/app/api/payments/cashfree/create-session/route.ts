@@ -78,6 +78,12 @@ export async function POST(request: Request) {
       },
     });
 
+    console.log('[create-session] Order created successfully:', {
+      orderId: orderResponse.order_id,
+      hasPaymentSessionId: !!orderResponse.payment_session_id,
+      orderStatus: orderResponse.order_status,
+    });
+
     return NextResponse.json({
       success: true,
       orderId: orderResponse.order_id,

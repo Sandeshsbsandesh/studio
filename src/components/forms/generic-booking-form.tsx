@@ -52,8 +52,9 @@ interface GenericBookingFormProps {
 
 export default function GenericBookingForm({ provider, onClose, serviceName, serviceOptions = [] }: GenericBookingFormProps) {
   const { user } = useAuth();
+  // Default to production to match backend behavior when using hardcoded credentials
   const cashfreeMode =
-    (process.env.NEXT_PUBLIC_CASHFREE_MODE ?? 'sandbox').toLowerCase() === 'production'
+    (process.env.NEXT_PUBLIC_CASHFREE_MODE ?? 'production').toLowerCase() === 'production'
       ? 'production'
       : 'sandbox';
   const { isReady: isCashfreeReady, error: cashfreeError, checkout } = useCashfree(cashfreeMode);
@@ -215,6 +216,12 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
           const debugInfo = data?.debug ? `\n\nDebug: ${JSON.stringify(data.debug, null, 2)}` : '';
           throw new Error(errorMsg + debugInfo);
         }
+
+        console.log('[Payment Session] Session created successfully:', {
+          paymentSessionId: data.paymentSessionId,
+          orderId: data.orderId,
+          frontendMode: cashfreeMode,
+        });
 
         setPaymentSessionId(data.paymentSessionId);
         setCashfreeOrderId(data.orderId);

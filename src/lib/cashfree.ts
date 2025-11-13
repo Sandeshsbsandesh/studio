@@ -53,12 +53,6 @@ export async function getCashfreeCredentials(): Promise<CashfreeCredentials> {
   const PROD_CLIENT_ID = '11270314dfdaa6dd018914c7fe51307211';
   const PROD_CLIENT_SECRET = 'cfsk_ma_prod_c254882c2479429b257f1b7128fbf5ad_2854078d';
 
-  const mode = normalizeMode(
-    process.env.CASHFREE_MODE ??
-      process.env.NEXT_PUBLIC_CASHFREE_MODE ??
-      'production',
-  );
-
   const resolvedClientId =
     process.env.CASHFREE_CLIENT_ID ??
     process.env.NEXT_PUBLIC_CASHFREE_CLIENT_ID ??
@@ -68,9 +62,25 @@ export async function getCashfreeCredentials(): Promise<CashfreeCredentials> {
     process.env.CASHFREE_CLIENT_SECRET ??
     PROD_CLIENT_SECRET;
 
+  // Check if we're using hardcoded production credentials
+  const usingHardcodedProdCredentials = 
+    resolvedClientId === PROD_CLIENT_ID && 
+    resolvedClientSecret === PROD_CLIENT_SECRET;
+
+  // If using hardcoded production credentials, FORCE production mode
+  // Otherwise, use the environment variable or default to production
+  const mode = usingHardcodedProdCredentials
+    ? 'production'
+    : normalizeMode(
+        process.env.CASHFREE_MODE ??
+          process.env.NEXT_PUBLIC_CASHFREE_MODE ??
+          'production',
+      );
+
   console.log('[getCashfreeCredentials] Using credentials:', {
     mode,
     source: process.env.CASHFREE_CLIENT_ID ? 'environment' : 'hardcoded',
+    forcedProduction: usingHardcodedProdCredentials,
   });
 
   const apiVersion =
@@ -109,6 +119,14 @@ export async function createCashfreeOrder(
     order_meta: input.metadata ?? {},
   };
 
+  console.log('[createCashfreeOrder] Request URL:', `${baseUrl}/orders`);
+  console.log('[createCashfreeOrder] Request payload:', JSON.stringify(payload, null, 2));
+  console.log('[createCashfreeOrder] Using credentials:', {
+    clientId,
+    mode: baseUrl.includes('sandbox') ? 'sandbox' : 'production',
+    apiVersion,
+  });
+
   const response = await fetch(`${baseUrl}/orders`, {
     method: 'POST',
     headers: {
@@ -125,12 +143,21 @@ export async function createCashfreeOrder(
     message?: string;
   };
 
+  console.log('[createCashfreeOrder] Response status:', response.status);
+  console.log('[createCashfreeOrder] Response data:', JSON.stringify(data, null, 2));
+
   if (!response.ok) {
     const errorMessage =
       data?.message ??
       data?.['error']?.toString() ??
       'Failed to create Cashfree order';
     throw new Error(errorMessage);
+  }
+
+  // Verify payment_session_id is present
+  if (!data.payment_session_id) {
+    console.error('[createCashfreeOrder] WARNING: payment_session_id is missing from response!');
+    console.error('[createCashfreeOrder] Full response:', data);
   }
 
   return data;

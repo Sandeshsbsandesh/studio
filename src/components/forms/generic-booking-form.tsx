@@ -396,9 +396,14 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
     setIsPaymentProcessing(true);
 
     try {
+      // Create return URL for payment callback
+      const baseUrl = typeof window !== 'undefined' ? window.location.origin : '';
+      const returnUrl = `${baseUrl}/payment/status?order_id=${cashfreeOrderId || 'unknown'}`;
+
       const paymentResult = await checkout({
         paymentSessionId,
         redirectTarget: '_self',
+        returnUrl,
       });
 
       if (!paymentResult) {

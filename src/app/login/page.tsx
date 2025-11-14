@@ -135,11 +135,20 @@ export default function LoginPage() {
           });
 
           setTimeout(() => {
-            // Redirect based on user type
-            if (result.user?.userType === 'provider') {
-              router.push('/provider/dashboard');  // Provider -> Provider Dashboard
+            // Check for redirect URL in sessionStorage
+            const redirectUrl = sessionStorage.getItem('redirectAfterLogin');
+            
+            if (redirectUrl) {
+              // Clear the redirect URL and redirect to it
+              sessionStorage.removeItem('redirectAfterLogin');
+              router.push(redirectUrl);
             } else {
-              router.push('/');  // Customer -> Homepage
+              // Default redirect based on user type
+              if (result.user?.userType === 'provider') {
+                router.push('/provider/dashboard');  // Provider -> Provider Dashboard
+              } else {
+                router.push('/');  // Customer -> Homepage
+              }
             }
           }, 500);
         } else {

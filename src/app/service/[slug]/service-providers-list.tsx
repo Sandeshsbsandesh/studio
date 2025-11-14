@@ -2,12 +2,24 @@
 'use client';
 
 import { useEffect, useMemo, useState } from 'react';
+import { useRouter } from 'next/navigation';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, MapPin, Navigation, Star } from 'lucide-react';
+import { Calendar, Clock, MapPin, Navigation, Star, LogIn } from 'lucide-react';
 import BookingModal from '@/components/booking-modal';
 import { getDistanceMatrix, DistanceMatrixDestination, DistanceMatrixValue } from '@/lib/maps/distanceMatrix';
+import { useAuth } from '@/context/auth-context';
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+} from '@/components/ui/alert-dialog';
 
 interface ServiceProvider {
   id: string;
@@ -31,8 +43,12 @@ type LocationStatus = 'idle' | 'prompting' | 'granted' | 'denied' | 'unavailable
 type DistanceMap = Record<string, DistanceMatrixValue>;
 
 export default function ServiceProvidersList({ serviceSlug, serviceProviders }: ServiceProvidersListProps) {
+  const router = useRouter();
+  const { isLoggedIn, userType } = useAuth();
+  
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedProvider, setSelectedProvider] = useState<ServiceProvider | null>(null);
+  const [showLoginAlert, setShowLoginAlert] = useState(false);
   const [userLocation, setUserLocation] = useState<{ lat: number; lng: number } | null>(null);
   const [locationStatus, setLocationStatus] = useState<LocationStatus>('idle');
   const [distanceMap, setDistanceMap] = useState<DistanceMap>({});
@@ -120,6 +136,18 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
   // }, [userLocation, providersWithCoordinates]);
 
   const handleBooking = (provider: ServiceProvider) => {
+    // Check if user is logged in (isLoggedIn can be null, false, or true)
+    if (isLoggedIn !== true) {
+      setShowLoginAlert(true);
+      return;
+    }
+
+    // Check if user is a customer (not a provider)
+    if (userType === 'provider') {
+      alert('Providers cannot book services. Please login as a customer.');
+      return;
+    }
+
     setSelectedProvider(provider);
     setIsModalOpen(true);
   };
@@ -127,6 +155,20 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
   const closeModal = () => {
     setIsModalOpen(false);
     setSelectedProvider(null);
+  };
+
+  const handleLoginRedirect = () => {
+    // Save current URL to redirect back after login
+    const currentUrl = window.location.pathname;
+    sessionStorage.setItem('redirectAfterLogin', currentUrl);
+    router.push('/login?as=customer');
+  };
+
+  const handleSignupRedirect = () => {
+    // Save current URL to redirect back after signup
+    const currentUrl = window.location.pathname;
+    sessionStorage.setItem('redirectAfterLogin', currentUrl);
+    router.push('/login?as=customer');
   };
 
   const renderLocationBanner = () => {
@@ -194,6 +236,37 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
           </Card>
         )}
       </div>
+      
+      {/* Login Alert Dialog */}
+      <AlertDialog open={showLoginAlert} onOpenChange={setShowLoginAlert}>
+        <AlertDialogContent>
+          <AlertDialogHeader>
+            <AlertDialogTitle className="flex items-center gap-2">
+              <LogIn className="h-5 w-5" />
+              Login Required
+            </AlertDialogTitle>
+            <AlertDialogDescription className="text-base">
+              You need to be logged in to book services. Please login or create a new account to continue.
+            </AlertDialogDescription>
+          </AlertDialogHeader>
+          <AlertDialogFooter className="flex-col sm:flex-row gap-2">
+            <AlertDialogCancel onClick={() => setShowLoginAlert(false)}>
+              Cancel
+            </AlertDialogCancel>
+            <Button 
+              variant="outline" 
+              onClick={handleSignupRedirect}
+              className="w-full sm:w-auto"
+            >
+              Sign Up
+            </Button>
+            <AlertDialogAction onClick={handleLoginRedirect} className="w-full sm:w-auto">
+              Login
+            </AlertDialogAction>
+          </AlertDialogFooter>
+        </AlertDialogContent>
+      </AlertDialog>
+
       {selectedProvider && (
         <BookingModal
           isOpen={isModalOpen}

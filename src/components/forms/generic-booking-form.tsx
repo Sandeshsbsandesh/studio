@@ -35,6 +35,9 @@ const formSchema = z.object({
   address: z.string().min(10, 'Address must be at least 10 characters.'),
   phone: z.string().min(10, 'Please enter a valid phone number.'),
   notes: z.string().optional(),
+  paymentMethod: z.enum(['online', 'cash'], {
+    required_error: 'Please select a payment method.',
+  }),
 });
 
 interface ServiceOption {
@@ -506,6 +509,48 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
       setPendingBooking(bookingData);
       setPaymentAmount(amount);
 
+      // Handle cash payment - skip payment gateway
+      if (values.paymentMethod === 'cash') {
+        const { createBooking } = await import('@/app/actions/bookings');
+        
+        const result = await createBooking({
+          ...bookingData,
+          paymentStatus: 'pending',
+          paymentInfo: {
+            orderId: `COD_${Date.now()}`,
+            paymentAmount: amount,
+            currency: 'INR',
+            paymentMethod: 'Cash on Service',
+            status: 'pending',
+          },
+        });
+
+        if (!result.success) {
+          toast({
+            variant: 'destructive',
+            title: 'Booking failed',
+            description: result.error ?? 'Failed to create booking. Please try again.',
+          });
+          return;
+        }
+
+        form.reset();
+        setCustomerLocation(null);
+        setPendingBooking(null);
+
+        toast({
+          title: '🎉 Booking Confirmed!',
+          description: `${bookingData.serviceType} appointment with ${bookingData.providerName} on ${format(
+            bookingData.date,
+            'PPP',
+          )} at ${bookingData.timeSlot}. Pay cash to the service provider.`,
+        });
+
+        onClose();
+        return;
+      }
+
+      // Handle online payment
       await initiatePaymentSession(bookingData);
     } catch (error) {
       console.error('Booking initiation error:', error);
@@ -694,6 +739,63 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
           )}
         />
 
+        <FormField
+          control={form.control}
+          name="paymentMethod"
+          render={({ field }) => (
+            <FormItem className="space-y-3">
+              <FormLabel>Payment Method</FormLabel>
+              <FormControl>
+                <div className="grid grid-cols-2 gap-4">
+                  <div
+                    className={`relative flex cursor-pointer flex-col items-center gap-3 rounded-lg border-2 p-4 transition-all ${
+                      field.value === 'online'
+                        ? 'border-blue-600 bg-blue-50'
+                        : 'border-gray-200 hover:border-blue-300'
+                    }`}
+                    onClick={() => field.onChange('online')}
+                  >
+                    <div className="text-2xl">💳</div>
+                    <div className="text-center">
+                      <p className="font-semibold">Pay Online</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Card, UPI, Netbanking
+                      </p>
+                    </div>
+                    {field.value === 'online' && (
+                      <div className="absolute top-2 right-2 h-5 w-5 rounded-full bg-blue-600 flex items-center justify-center">
+                        <span className="text-white text-xs">✓</span>
+                      </div>
+                    )}
+                  </div>
+                  <div
+                    className={`relative flex cursor-pointer flex-col items-center gap-3 rounded-lg border-2 p-4 transition-all ${
+                      field.value === 'cash'
+                        ? 'border-green-600 bg-green-50'
+                        : 'border-gray-200 hover:border-green-300'
+                    }`}
+                    onClick={() => field.onChange('cash')}
+                  >
+                    <div className="text-2xl">💵</div>
+                    <div className="text-center">
+                      <p className="font-semibold">Pay via Cash</p>
+                      <p className="text-xs text-muted-foreground mt-1">
+                        Cash on Service
+                      </p>
+                    </div>
+                    {field.value === 'cash' && (
+                      <div className="absolute top-2 right-2 h-5 w-5 rounded-full bg-green-600 flex items-center justify-center">
+                        <span className="text-white text-xs">✓</span>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+
         <Button
           type="submit"
           className="w-full"
@@ -704,6 +806,8 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
               <Loader2 className="mr-2 h-4 w-4 animate-spin" />
               Securing payment session...
             </>
+          ) : form.watch('paymentMethod') === 'cash' ? (
+            'Confirm Booking'
           ) : (
             'Proceed to Payment'
           )}

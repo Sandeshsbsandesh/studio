@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import StarRating from "@/components/star-rating";
-import { Calendar, Clock, MapPin, Repeat, Phone, FileText, IndianRupee } from "lucide-react";
+import { Calendar, Clock, MapPin, Repeat, Phone, FileText, IndianRupee, Receipt } from "lucide-react";
 import { useAuth } from "@/context/auth-context";
 import { db } from "@/lib/firebase";
 import { collection, query, where, onSnapshot } from "firebase/firestore";
@@ -248,9 +248,20 @@ export default function BookingsPage() {
                         </div>
                       )}
                     </CardContent>
-                    <CardFooter className="flex justify-end gap-2">
-                      <Button variant="outline">Cancel</Button>
-                      <Button>Reschedule</Button>
+                    <CardFooter className="flex justify-between items-center flex-wrap gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        onClick={() => router.push(`/bookings/${booking.id}/invoice`)}
+                      >
+                        <Receipt className="h-4 w-4" />
+                        View Invoice
+                      </Button>
+                      <div className="flex gap-2">
+                        <Button variant="outline">Cancel</Button>
+                        <Button>Reschedule</Button>
+                      </div>
                     </CardFooter>
                   </Card>
                 ))
@@ -293,7 +304,16 @@ export default function BookingsPage() {
                         <span>{booking.amount.toLocaleString()}</span>
                       </div>
                     </CardContent>
-                    <CardFooter className="flex justify-end">
+                    <CardFooter className="flex justify-between items-center flex-wrap gap-2">
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        className="gap-2"
+                        onClick={() => router.push(`/bookings/${booking.id}/invoice`)}
+                      >
+                        <Receipt className="h-4 w-4" />
+                        View Invoice
+                      </Button>
                       <Button>
                         <Repeat className="mr-2 h-4 w-4" />
                         Re-book

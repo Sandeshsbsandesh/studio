@@ -21,12 +21,21 @@ function formatSlugToCategory(slug: string) {
 
 async function getProviders(serviceSlug: string) {
   try {
+    if (!db) {
+      console.error('[getProviders] Firestore database not initialized!');
+      throw new Error('Database connection not available');
+    }
+
     const providersCol = collection(db, 'providers');
     const category = formatSlugToCategory(serviceSlug);
+    
+    console.log(`[getProviders] Searching for category: "${category}"`);
     
     // Get ALL providers (no filter - we'll filter in JavaScript)
     // This is needed because old providers might not have the 'active' field
     const querySnapshot = await getDocs(providersCol);
+    
+    console.log(`[getProviders] Total providers in database: ${querySnapshot.docs.length}`);
     
     // Filter providers that match either:
     // 1. New structure: serviceCategories array contains the category AND active is true (or undefined for backward compatibility)
@@ -34,22 +43,35 @@ async function getProviders(serviceSlug: string) {
     const providers = querySnapshot.docs
       .filter(doc => {
         const data = doc.data();
+        const providerId = doc.id;
+        
+        // Log each provider for debugging
+        console.log(`[getProviders] Checking provider: ${data.businessName || data.name || providerId}`, {
+          active: data.active,
+          serviceCategories: data.serviceCategories,
+          hasCategory: Array.isArray(data.serviceCategories) && data.serviceCategories.includes(category),
+          oldCategory: data.category,
+        });
         
         // Skip if explicitly set to inactive
         if (data.active === false) {
+          console.log(`  ❌ Skipped: Provider is inactive`);
           return false;
         }
         
         // Check new structure (array)
         if (Array.isArray(data.serviceCategories) && data.serviceCategories.includes(category)) {
+          console.log(`  ✅ Match: Found in serviceCategories array`);
           return true;
         }
         
         // Check old structure (single field) - case insensitive
         if (data.category && data.category.toLowerCase() === category.toLowerCase()) {
+          console.log(`  ✅ Match: Found in old category field`);
           return true;
         }
         
+        console.log(`  ❌ Skipped: Category not found`);
         return false;
       })
       .map(doc => {
@@ -105,10 +127,19 @@ async function getProviders(serviceSlug: string) {
         };
       });
     
+    console.log(`[getProviders] ✅ Found ${providers.length} matching provider(s) for "${category}"`);
+    
     return providers;
   } catch (error) {
-    console.error("Error fetching providers: ", error);
-    return [];
+    console.error("[getProviders] Error fetching providers:", error);
+    console.error("[getProviders] Error details:", {
+      name: error instanceof Error ? error.name : 'Unknown',
+      message: error instanceof Error ? error.message : String(error),
+      stack: error instanceof Error ? error.stack : 'No stack trace',
+    });
+    
+    // Re-throw to let the page component handle it
+    throw error;
   }
 }
 

@@ -45,77 +45,79 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
     );
   }, [serviceProviders]);
 
-  useEffect(() => {
-    if (locationStatus !== 'idle') {
-      return;
-    }
+  // Disabled location detection (not needed without distance feature)
+  // useEffect(() => {
+  //   if (locationStatus !== 'idle') {
+  //     return;
+  //   }
 
-    if (typeof window === 'undefined' || !('geolocation' in navigator)) {
-      setLocationStatus('unavailable');
-      return;
-    }
+  //   if (typeof window === 'undefined' || !('geolocation' in navigator)) {
+  //     setLocationStatus('unavailable');
+  //     return;
+  //   }
 
-    setLocationStatus('prompting');
+  //   setLocationStatus('prompting');
 
-    navigator.geolocation.getCurrentPosition(
-      (position) => {
-        setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
-        setLocationStatus('granted');
-      },
-      (error) => {
-        console.warn('User denied geolocation access:', error);
-        setLocationStatus('denied');
-      },
-      {
-        enableHighAccuracy: false,
-        timeout: 10000,
-        maximumAge: 5 * 60 * 1000,
-      }
-    );
-  }, [locationStatus]);
+  //   navigator.geolocation.getCurrentPosition(
+  //     (position) => {
+  //       setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
+  //       setLocationStatus('granted');
+  //     },
+  //     (error) => {
+  //       console.warn('User denied geolocation access:', error);
+  //       setLocationStatus('denied');
+  //     },
+  //     {
+  //       enableHighAccuracy: false,
+  //       timeout: 10000,
+  //       maximumAge: 5 * 60 * 1000,
+  //     }
+  //   );
+  // }, [locationStatus]);
 
-  useEffect(() => {
-    if (!userLocation || providersWithCoordinates.length === 0) {
-      return;
-    }
+  // Disabled distance calculation to avoid CORS errors
+  // useEffect(() => {
+  //   if (!userLocation || providersWithCoordinates.length === 0) {
+  //     return;
+  //   }
 
-    let cancelled = false;
+  //   let cancelled = false;
 
-    async function fetchDistances() {
-      setIsLoadingDistances(true);
-      setDistanceError(null);
+  //   async function fetchDistances() {
+  //     setIsLoadingDistances(true);
+  //     setDistanceError(null);
 
-      const destinations: DistanceMatrixDestination[] = providersWithCoordinates.map((provider) => ({
-        id: provider.id,
-        lat: provider.latitude as number,
-        lng: provider.longitude as number,
-      }));
+  //     const destinations: DistanceMatrixDestination[] = providersWithCoordinates.map((provider) => ({
+  //       id: provider.id,
+  //       lat: provider.latitude as number,
+  //       lng: provider.longitude as number,
+  //     }));
 
-      try {
-        const results = await getDistanceMatrix(userLocation, destinations);
+  //     try {
+  //       const results = await getDistanceMatrix(userLocation, destinations);
 
-        if (!cancelled) {
-          setDistanceMap(results);
-        }
-      } catch (error) {
-        if (!cancelled) {
-          const message = error instanceof Error ? error.message : 'Failed to calculate provider distances.';
-          setDistanceError(message);
-          setDistanceMap({});
-        }
-      } finally {
-        if (!cancelled) {
-          setIsLoadingDistances(false);
-        }
-      }
-    }
+  //       if (!cancelled) {
+  //         setDistanceMap(results);
+  //       }
+  //     } catch (error) {
+  //       if (!cancelled) {
+  //         const message = error instanceof Error ? error.message : 'Failed to calculate provider distances.';
+  //         setDistanceError(message);
+  //         setDistanceMap({});
+  //       }
+  //     } finally {
+  //       if (!cancelled) {
+  //         setIsLoadingDistances(false);
+  //       }
+  //     }
+  //   }
 
-    fetchDistances();
+  //   fetchDistances();
 
-    return () => {
-      cancelled = true;
-    };
-  }, [userLocation, providersWithCoordinates]);
+  //   return () => {
+  //     cancelled = true;
+  //   };
+  // }, [userLocation, providersWithCoordinates]);
 
   const handleBooking = (provider: ServiceProvider) => {
     setSelectedProvider(provider);
@@ -128,38 +130,7 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
   };
 
   const renderLocationBanner = () => {
-    if (distanceError) {
-      return (
-        <div className="rounded-md border border-destructive bg-destructive/10 p-3 text-sm text-destructive">
-          {distanceError}
-        </div>
-      );
-    }
-
-    if (locationStatus === 'prompting') {
-      return (
-        <div className="rounded-md border bg-muted p-3 text-sm text-muted-foreground">
-          Detecting your location to estimate nearby providers…
-        </div>
-      );
-    }
-
-    if (locationStatus === 'denied') {
-      return (
-        <div className="rounded-md border bg-amber-50 p-3 text-sm text-amber-600">
-          Enable location access to see how far each provider is from you.
-        </div>
-      );
-    }
-
-    if (locationStatus === 'unavailable') {
-      return (
-        <div className="rounded-md border bg-muted p-3 text-sm text-muted-foreground">
-          Your browser does not support location access. Distances will not be shown.
-        </div>
-      );
-    }
-
+    // Distance feature disabled - no banner needed
     return null;
   };
 

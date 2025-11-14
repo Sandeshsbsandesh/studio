@@ -235,7 +235,7 @@ export default function BookingsPage() {
                       )}
                       <div className="flex items-center gap-2 text-lg font-semibold text-green-600 pt-2">
                         <IndianRupee className="h-5 w-5" />
-                        <span>{booking.amount.toLocaleString()}</span>
+                        <span>₹{booking.amount.toLocaleString('en-IN')}</span>
                       </div>
 
                       {(booking.customerLocation || booking.providerLiveLocation) && (
@@ -301,7 +301,7 @@ export default function BookingsPage() {
                       </div>
                       <div className="flex items-center gap-2 text-lg font-semibold text-green-600">
                         <IndianRupee className="h-5 w-5" />
-                        <span>{booking.amount.toLocaleString()}</span>
+                        <span>₹{booking.amount.toLocaleString('en-IN')}</span>
                       </div>
                     </CardContent>
                     <CardFooter className="flex justify-between items-center flex-wrap gap-2">

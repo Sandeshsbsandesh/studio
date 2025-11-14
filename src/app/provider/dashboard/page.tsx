@@ -306,7 +306,7 @@ export default function ProviderDashboardPage() {
             <IndianRupee className="h-5 w-5 text-green-500" />
           </CardHeader>
           <CardContent>
-            <div className="text-3xl font-bold">₹{loading ? '...' : stats.monthlyEarnings.toLocaleString()}</div>
+            <div className="text-3xl font-bold">₹{loading ? '...' : stats.monthlyEarnings.toLocaleString('en-IN')}</div>
             <p className="text-xs text-muted-foreground mt-1">
               From {stats.completedJobs} completed jobs
             </p>

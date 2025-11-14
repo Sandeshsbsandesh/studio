@@ -94,7 +94,7 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
   // Use provider's services if available, otherwise fall back to serviceOptions
   const availableServices = providerServices.length > 0 
     ? providerServices 
-    : serviceOptions.map(opt => ({ name: opt, price: '500', displayText: opt }));
+    : serviceOptions.map(opt => ({ name: opt, price: '500', displayText: `${opt} - ₹500` }));
   const { toast } = useToast();
   const [loadingLocation, setLoadingLocation] = React.useState(false);
   const [customerLocation, setCustomerLocation] = React.useState<{
@@ -102,6 +102,8 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
     lng: number;
     formattedAddress?: string | null;
   } | null>(null);
+  const [datePickerOpen, setDatePickerOpen] = React.useState(false);
+  const [selectedDate, setSelectedDate] = React.useState<Date | undefined>(undefined);
   
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -113,6 +115,41 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
       notes: '',
     },
   });
+
+  // Function to get available time slots based on selected date
+  const getAvailableTimeSlots = () => {
+    if (!selectedDate) return timeSlots;
+
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    const selected = new Date(selectedDate);
+    selected.setHours(0, 0, 0, 0);
+
+    // If selected date is not today, return all time slots
+    if (selected.getTime() !== today.getTime()) {
+      return timeSlots;
+    }
+
+    // If selected date is today, filter out past time slots
+    const currentHour = new Date().getHours();
+    
+    return timeSlots.filter((slot) => {
+      // Extract start hour from time slot (e.g., "09:00 AM - 11:00 AM" -> 9)
+      const startTime = slot.split(' - ')[0];
+      const [time, period] = startTime.split(' ');
+      const [hours] = time.split(':').map(Number);
+      
+      let slotHour = hours;
+      if (period === 'PM' && hours !== 12) {
+        slotHour = hours + 12;
+      } else if (period === 'AM' && hours === 12) {
+        slotHour = 0;
+      }
+      
+      // Show slot if it starts at least 1 hour from now
+      return slotHour > currentHour;
+    });
+  };
 
   const getCurrentLocation = () => {
     if (!navigator.geolocation) {
@@ -600,7 +637,7 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
           render={({ field }) => (
             <FormItem className="flex flex-col">
               <FormLabel>Service Date</FormLabel>
-              <Popover>
+              <Popover open={datePickerOpen} onOpenChange={setDatePickerOpen}>
                 <PopoverTrigger asChild>
                   <FormControl>
                     <Button
@@ -623,10 +660,21 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
                   <Calendar
                     mode="single"
                     selected={field.value}
-                    onSelect={field.onChange}
-                    disabled={(date) =>
-                      date < new Date() || date < new Date('1900-01-01')
-                    }
+                    onSelect={(date) => {
+                      field.onChange(date);
+                      setSelectedDate(date);
+                      setDatePickerOpen(false); // Auto-close after selection
+                      // Reset time slot when date changes
+                      form.setValue('timeSlot', '');
+                    }}
+                    disabled={(date) => {
+                      // Allow today and future dates
+                      const today = new Date();
+                      today.setHours(0, 0, 0, 0);
+                      const checkDate = new Date(date);
+                      checkDate.setHours(0, 0, 0, 0);
+                      return checkDate < today || date < new Date('1900-01-01');
+                    }}
                     initialFocus
                   />
                 </PopoverContent>
@@ -639,26 +687,54 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
         <FormField
           control={form.control}
           name="timeSlot"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Preferred Time Slot</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Select a time slot" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  {timeSlots.map((slot) => (
-                    <SelectItem key={slot} value={slot}>
-                      {slot}
-                    </SelectItem>
-                  ))}
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
+          render={({ field }) => {
+            const availableSlots = getAvailableTimeSlots();
+            return (
+              <FormItem>
+                <FormLabel>Preferred Time Slot</FormLabel>
+                <Select 
+                  onValueChange={field.onChange} 
+                  defaultValue={field.value}
+                  disabled={!selectedDate}
+                >
+                  <FormControl>
+                    <SelectTrigger>
+                      <SelectValue 
+                        placeholder={
+                          !selectedDate 
+                            ? "Please select a date first" 
+                            : availableSlots.length === 0
+                            ? "No slots available for today"
+                            : "Select a time slot"
+                        } 
+                      />
+                    </SelectTrigger>
+                  </FormControl>
+                  <SelectContent>
+                    {availableSlots.length === 0 ? (
+                      <div className="p-2 text-sm text-muted-foreground text-center">
+                        No time slots available for today.
+                        <br />
+                        Please select a future date.
+                      </div>
+                    ) : (
+                      availableSlots.map((slot) => (
+                        <SelectItem key={slot} value={slot}>
+                          {slot}
+                        </SelectItem>
+                      ))
+                    )}
+                  </SelectContent>
+                </Select>
+                <FormMessage />
+                {selectedDate && availableSlots.length === 0 && (
+                  <p className="text-sm text-yellow-600 mt-1">
+                    ⚠️ All time slots for today have passed. Please choose a future date.
+                  </p>
+                )}
+              </FormItem>
+            );
+          }}
         />
 
         <FormField

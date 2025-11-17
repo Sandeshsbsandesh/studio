@@ -72,79 +72,81 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
     );
   }, [serviceProviders]);
 
-  // Disabled location detection (not needed without distance feature)
-  // useEffect(() => {
-  //   if (locationStatus !== 'idle') {
-  //     return;
-  //   }
+  // Location detection - now working with backend API!
+  useEffect(() => {
+    if (locationStatus !== 'idle') {
+      return;
+    }
 
-  //   if (typeof window === 'undefined' || !('geolocation' in navigator)) {
-  //     setLocationStatus('unavailable');
-  //     return;
-  //   }
+    if (typeof window === 'undefined' || !('geolocation' in navigator)) {
+      setLocationStatus('unavailable');
+      return;
+    }
 
-  //   setLocationStatus('prompting');
+    setLocationStatus('prompting');
 
-  //   navigator.geolocation.getCurrentPosition(
-  //     (position) => {
-  //       setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
-  //       setLocationStatus('granted');
-  //     },
-  //     (error) => {
-  //       console.warn('User denied geolocation access:', error);
-  //       setLocationStatus('denied');
-  //     },
-  //     {
-  //       enableHighAccuracy: false,
-  //       timeout: 10000,
-  //       maximumAge: 5 * 60 * 1000,
-  //     }
-  //   );
-  // }, [locationStatus]);
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        setUserLocation({ lat: position.coords.latitude, lng: position.coords.longitude });
+        setLocationStatus('granted');
+      },
+      (error) => {
+        console.warn('User denied geolocation access:', error);
+        setLocationStatus('denied');
+      },
+      {
+        enableHighAccuracy: false,
+        timeout: 10000,
+        maximumAge: 5 * 60 * 1000,
+      }
+    );
+  }, [locationStatus]);
 
-  // Disabled distance calculation to avoid CORS errors
-  // useEffect(() => {
-  //   if (!userLocation || providersWithCoordinates.length === 0) {
-  //     return;
-  //   }
+  // Distance calculation - now working with backend API!
+  useEffect(() => {
+    if (!userLocation || providersWithCoordinates.length === 0) {
+      return;
+    }
 
-  //   let cancelled = false;
+    let cancelled = false;
 
-  //   async function fetchDistances() {
-  //     setIsLoadingDistances(true);
-  //     setDistanceError(null);
+    async function fetchDistances() {
+      if (!userLocation) return; // Type guard for TypeScript
+      
+      setIsLoadingDistances(true);
+      setDistanceError(null);
 
-  //     const destinations: DistanceMatrixDestination[] = providersWithCoordinates.map((provider) => ({
-  //       id: provider.id,
-  //       lat: provider.latitude as number,
-  //       lng: provider.longitude as number,
-  //     }));
+      const destinations: DistanceMatrixDestination[] = providersWithCoordinates.map((provider) => ({
+        id: provider.id,
+        lat: provider.latitude as number,
+        lng: provider.longitude as number,
+      }));
 
-  //     try {
-  //       const results = await getDistanceMatrix(userLocation, destinations);
+      try {
+        const results = await getDistanceMatrix(userLocation, destinations);
 
-  //       if (!cancelled) {
-  //         setDistanceMap(results);
-  //       }
-  //     } catch (error) {
-  //       if (!cancelled) {
-  //         const message = error instanceof Error ? error.message : 'Failed to calculate provider distances.';
-  //         setDistanceError(message);
-  //         setDistanceMap({});
-  //       }
-  //     } finally {
-  //       if (!cancelled) {
-  //         setIsLoadingDistances(false);
-  //       }
-  //     }
-  //   }
+        if (!cancelled) {
+          setDistanceMap(results);
+        }
+      } catch (error) {
+        if (!cancelled) {
+          const message = error instanceof Error ? error.message : 'Failed to calculate provider distances.';
+          setDistanceError(message);
+          setDistanceMap({});
+        }
+      } finally {
+        if (!cancelled) {
+          setIsLoadingDistances(false);
+        }
+      }
+    }
 
-  //   fetchDistances();
+    fetchDistances();
 
-  //   return () => {
-  //     cancelled = true;
-  //   };
-  // }, [userLocation, providersWithCoordinates]);
+    return () => {
+      cancelled = true;
+    };
+  }, [userLocation, providersWithCoordinates]);
 
   const handleBooking = (provider: ServiceProvider) => {
     // Check if user is logged in (isLoggedIn can be null, false, or true)
@@ -183,7 +185,46 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
   };
 
   const renderLocationBanner = () => {
-    // Distance feature disabled - no banner needed
+    if (locationStatus === 'denied') {
+      return (
+        <div className="mb-4 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
+          <p className="text-sm text-yellow-800">
+            📍 Location access denied. Enable location to see distances and estimated travel times to providers.
+          </p>
+        </div>
+      );
+    }
+
+    if (locationStatus === 'unavailable') {
+      return (
+        <div className="mb-4 p-4 bg-gray-50 border border-gray-200 rounded-lg">
+          <p className="text-sm text-gray-600">
+            Location services are not available on your device.
+          </p>
+        </div>
+      );
+    }
+
+    if (locationStatus === 'prompting') {
+      return (
+        <div className="mb-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <p className="text-sm text-blue-800">
+            📍 Please allow location access to see distances and travel times to providers.
+          </p>
+        </div>
+      );
+    }
+
+    if (distanceError) {
+      return (
+        <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-sm text-red-800">
+            ⚠️ {distanceError}
+          </p>
+        </div>
+      );
+    }
+
     return null;
   };
 

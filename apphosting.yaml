@@ -6,6 +6,8 @@ runConfig:
   env:
     - variable: NEXT_PUBLIC_GOOGLE_MAPS_API_KEY
       value: AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q
+    - variable: GOOGLE_MAPS_SERVER_API_KEY
+      value: AIzaSyAymJO_y2P7J8cmIISq1b8bfXu0Mibtc-Y
     - variable: CASHFREE_MODE
       secret: CASHFREE_MODE
     - variable: NEXT_PUBLIC_CASHFREE_MODE

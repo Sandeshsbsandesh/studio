@@ -39,21 +39,17 @@ function isCacheEntryFresh(entry: DistanceMatrixCacheEntry) {
 }
 
 async function fetchDistanceMatrix(origin: LatLng, destinations: DistanceMatrixDestination[]) {
-  // Get API key from environment variable, with fallback to hardcoded key
-  const apiKey = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || 'AIzaSyC7idf1I8KPAe0BmVIL5fTBEI-FCuXp_8Q';
-
-  if (!apiKey) {
-    throw new Error('Missing NEXT_PUBLIC_GOOGLE_MAPS_API_KEY environment variable.');
-  }
-
-  const encodedOrigin = `${origin.lat},${origin.lng}`;
-  const encodedDestinations = destinations
-    .map((destination) => `${destination.lat},${destination.lng}`)
-    .join('|');
-
-  const url = `${DISTANCE_MATRIX_ENDPOINT}?units=metric&origins=${encodeURIComponent(encodedOrigin)}&destinations=${encodeURIComponent(encodedDestinations)}&key=${apiKey}`;
-
-  const response = await fetch(url);
+  // Call our backend API route instead of Google directly (avoids CORS issues)
+  const response = await fetch('/api/distance-matrix', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      origin,
+      destinations,
+    }),
+  });
 
   if (!response.ok) {
     throw new Error(`Distance Matrix API request failed: ${response.status} ${response.statusText}`);
@@ -61,26 +57,11 @@ async function fetchDistanceMatrix(origin: LatLng, destinations: DistanceMatrixD
 
   const json = await response.json();
 
-  if (json.status !== 'OK') {
-    throw new Error(`Distance Matrix API error: ${json.status} (${json.error_message || 'no message'})`);
+  if (!json.success || !json.data) {
+    throw new Error(`Distance Matrix API error: ${json.error || 'Unknown error'}`);
   }
 
-  const values: Record<string, DistanceMatrixValue> = {};
-
-  json.rows[0]?.elements?.forEach((element: any, index: number) => {
-    const destination = destinations[index];
-
-    if (!destination || element.status !== 'OK') {
-      return;
-    }
-
-    values[destination.id] = {
-      distanceText: element.distance?.text ?? '',
-      distanceValue: element.distance?.value ?? 0,
-      durationText: element.duration?.text ?? '',
-      durationValue: element.duration?.value ?? 0,
-    };
-  });
+  const values = json.data;
 
   const cacheKey = buildCacheKey(origin, destinations);
   cache.set(cacheKey, {

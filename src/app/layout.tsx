@@ -68,7 +68,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <head>
           <title>{pageTitle}</title>
           <meta name="description" content="Discover, book, and manage verified professionals for every home need." />
-          <link rel="icon" href="/logo.png" type="image/png" />
+          <link rel="icon" type="image/png" sizes="192x192" href="/logo.png" />
+          <link rel="icon" type="image/png" sizes="512x512" href="/logo.png" />
+          <link rel="shortcut icon" href="/logo.png" />
+          <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
           <link rel="apple-touch-icon" href="/logo.png" />
         </head>
         <body className={cn('min-h-screen bg-background font-body antialiased', fontHeadline.variable, fontBody.variable)}>
@@ -108,8 +111,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="twitter:title" content="UrbanEzii - Find Services Near Me | Electrician, Plumber Nearby" />
         <meta name="twitter:description" content="Book verified local professionals instantly. Electricians, plumbers, cleaning & more near you in Bangalore." />
         <meta name="twitter:image" content="https://urbanezii.com/logo.png" />
-        <link rel="icon" href="/logo.png" type="image/png" />
+        
+        {/* Favicon configuration - multiple formats for better browser/search engine support */}
+        <link rel="icon" type="image/png" sizes="192x192" href="/logo.png" />
+        <link rel="icon" type="image/png" sizes="512x512" href="/logo.png" />
+        <link rel="shortcut icon" href="/logo.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/logo.png" />
         <link rel="apple-touch-icon" href="/logo.png" />
+        <link rel="mask-icon" href="/logo.png" color="#7C3AED" />
       </head>
       <body className={cn('min-h-screen bg-background font-body antialiased', fontHeadline.variable, fontBody.variable)}>
         <AuthProvider>

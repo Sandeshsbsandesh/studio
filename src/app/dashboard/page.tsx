@@ -13,6 +13,7 @@ import Link from "next/link";
 import { db } from '@/lib/firebase';
 import { collection, query, where, getDocs, orderBy } from 'firebase/firestore';
 import { format } from 'date-fns';
+import PlatformStats from '@/components/platform-stats';
 
 interface Booking {
   id: string;
@@ -86,6 +87,37 @@ export default function CustomerDashboardPage() {
           <h1 className="text-4xl font-bold font-headline tracking-tight">Welcome back, {userName || 'Customer'}!</h1>
           <p className="text-muted-foreground mt-2">Manage your bookings and explore services</p>
         </div>
+
+        {/* Platform Statistics */}
+        <PlatformStats className="mb-6" />
+
+        {/* Why Choose UrbanEzii - Simplified */}
+        <Card className="mb-8">
+          <CardContent className="pt-6">
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-center">
+              <div>
+                <div className="text-2xl mb-1">🎯</div>
+                <p className="text-xs font-semibold">Your Choice</p>
+                <p className="text-[10px] text-muted-foreground">Pick your provider</p>
+              </div>
+              <div>
+                <div className="text-2xl mb-1">💰</div>
+                <p className="text-xs font-semibold">Transparent Pricing</p>
+                <p className="text-[10px] text-muted-foreground">No hidden fees</p>
+              </div>
+              <div>
+                <div className="text-2xl mb-1">🤖</div>
+                <p className="text-xs font-semibold">AI Assistant</p>
+                <p className="text-[10px] text-muted-foreground">Smart suggestions</p>
+              </div>
+              <div>
+                <div className="text-2xl mb-1">🏘️</div>
+                <p className="text-xs font-semibold">Local Support</p>
+                <p className="text-[10px] text-muted-foreground">Direct connection</p>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
 
         {/* Pending Bookings Alert Banner */}
         {pendingBookings.length > 0 && (

@@ -6,6 +6,9 @@ import { db } from '@/lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import BackButton from '@/components/back-button';
 import type { Metadata } from 'next';
+import GuaranteesBanner from '@/components/guarantees-banner';
+import ServiceScope from '@/components/service-scope';
+import ServiceFAQ from '@/components/service-faq';
 
 // Helper function to capitalize the first letter
 function capitalizeFirstLetter(string: string) {
@@ -266,10 +269,12 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
       />
       
       <div className="container mx-auto px-4 md:px-6 py-12">
-        <div className="max-w-4xl mx-auto">
+        <div className="max-w-6xl mx-auto">
           <div className="mb-4">
             <BackButton />
           </div>
+          
+          {/* Service Header */}
           <div className="mb-8 text-center">
               <div className="inline-block bg-primary/10 p-4 rounded-full text-primary mb-4">
                   {service.icon}
@@ -278,8 +283,23 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               <p className="mt-2 text-lg text-muted-foreground">{service.description}</p>
           </div>
 
+          {/* Guarantees Banner */}
+          <GuaranteesBanner className="mb-8" showAll={false} />
+
+          {/* Available Providers Section */}
           <h2 className="text-2xl font-bold font-headline mb-6">Available Providers</h2>
           <ServiceProvidersList serviceSlug={slug} serviceProviders={serviceProviders} />
+
+          {/* What's Included / Not Included */}
+          <div className="mt-12">
+            <h2 className="text-2xl font-bold font-headline mb-6">Service Details</h2>
+            <ServiceScope serviceType={service.title} />
+          </div>
+
+          {/* FAQs */}
+          <div className="mt-12">
+            <ServiceFAQ serviceType={service.title} />
+          </div>
         </div>
       </div>
     </>

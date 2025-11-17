@@ -6,7 +6,8 @@ import { useRouter } from 'next/navigation';
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-import { Calendar, Clock, MapPin, Navigation, Star, LogIn } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Calendar, Clock, MapPin, Navigation, Star, LogIn, IndianRupee, Shield, CheckCircle2 } from 'lucide-react';
 import BookingModal from '@/components/booking-modal';
 import { getDistanceMatrix, DistanceMatrixDestination, DistanceMatrixValue } from '@/lib/maps/distanceMatrix';
 import { useAuth } from '@/context/auth-context';
@@ -54,6 +55,16 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
   const [distanceMap, setDistanceMap] = useState<DistanceMap>({});
   const [distanceError, setDistanceError] = useState<string | null>(null);
   const [isLoadingDistances, setIsLoadingDistances] = useState(false);
+
+  // Helper function to format slug to category name
+  const formatSlugToCategory = (slug: string) => {
+    return slug.split('-').map(word => 
+      word.charAt(0).toUpperCase() + word.slice(1)
+    ).join(' ');
+  };
+
+  // Get the service category from slug
+  const serviceCategory = formatSlugToCategory(serviceSlug);
 
   const providersWithCoordinates = useMemo(() => {
     return serviceProviders.filter((provider) =>
@@ -196,13 +207,21 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
                     <p className="mt-2 text-sm text-muted-foreground">Calculating distance…</p>
                   )}
                 </CardHeader>
-                <CardContent className="space-y-3 pb-4">
+                <CardContent className="space-y-4 pb-4">
+                  {/* Rating & Reviews */}
                   <div className="flex items-center gap-2">
                     <Star className="h-5 w-5 text-yellow-400 fill-yellow-400" />
                     <span className="font-semibold text-lg">{provider.rating ? provider.rating.toFixed(1) : '0.0'}</span>
                     <span className="text-sm text-muted-foreground">({provider.reviews || 0} reviews)</span>
+                    {provider.verified && (
+                      <Badge variant="secondary" className="ml-2 gap-1">
+                        <CheckCircle2 className="h-3 w-3" />
+                        Verified
+                      </Badge>
+                    )}
                   </div>
 
+                  {/* Distance Info */}
                   {distance && (
                     <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
                       <span className="flex items-center gap-1">
@@ -215,6 +234,45 @@ export default function ServiceProvidersList({ serviceSlug, serviceProviders }: 
                           <span>{distance.durationText}</span>
                         </span>
                       )}
+                    </div>
+                  )}
+
+                  {/* Pricing Information - CRITICAL NEW FEATURE */}
+                  {provider.services && provider.services[serviceCategory] && (
+                    <div className="border-t pt-3">
+                      <div className="flex items-center gap-2 mb-2">
+                        <IndianRupee className="h-4 w-4 text-primary" />
+                        <span className="font-semibold text-sm">Services & Pricing:</span>
+                      </div>
+                      <div className="grid grid-cols-1 gap-2">
+                        {Object.entries(provider.services[serviceCategory])
+                          .slice(0, 3) // Show first 3 services
+                          .map(([serviceName, price]) => {
+                            // Clean price: remove any existing currency symbols (₱, ₹, £, $, etc.)
+                            const cleanPrice = String(price).replace(/[₱₹£$€¥]/g, '').trim();
+                            return (
+                              <div key={serviceName} className="flex justify-between items-center text-sm">
+                                <span className="text-muted-foreground">{serviceName}</span>
+                                <span className="font-semibold text-primary">₹{cleanPrice}</span>
+                              </div>
+                            );
+                          })}
+                        {Object.keys(provider.services[serviceCategory]).length > 3 && (
+                          <span className="text-xs text-muted-foreground">
+                            +{Object.keys(provider.services[serviceCategory]).length - 3} more services
+                          </span>
+                        )}
+                      </div>
+                    </div>
+                  )}
+
+                  {/* If no pricing data available */}
+                  {(!provider.services || !provider.services[serviceCategory]) && (
+                    <div className="border-t pt-3">
+                      <p className="text-sm text-muted-foreground">
+                        <IndianRupee className="h-4 w-4 inline mr-1" />
+                        Contact provider for pricing details
+                      </p>
                     </div>
                   )}
                 </CardContent>

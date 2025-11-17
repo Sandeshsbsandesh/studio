@@ -1,7 +1,6 @@
 import ServiceCard from '@/components/service-card';
 import { services } from '@/lib/data';
-import { Bot } from 'lucide-react';
-import Link from 'next/link';
+import ServiceRequestForm from '@/components/service-request-form';
 
 export default function ServicesPage() {
   return (
@@ -25,17 +24,9 @@ export default function ServicesPage() {
         ))}
       </div>
       
-       <div className="mt-20 text-center max-w-3xl mx-auto bg-card p-8 rounded-lg shadow-lg">
-        <div className="mx-auto bg-primary/10 rounded-full p-4 w-fit mb-6">
-          <Bot className="h-12 w-12 text-primary" />
-        </div>
-        <h2 className="text-3xl font-bold font-headline tracking-tight">Can't Find Your Provider?</h2>
-        <p className="mt-4 text-lg text-muted-foreground font-body">
-          Let our AI assistant help you find the best alternative service providers in your area based on ratings, distance, and more.
-        </p>
-        <Link href="/ai-assistant" className="mt-6 inline-block bg-primary text-primary-foreground font-semibold py-3 px-8 rounded-lg hover:bg-primary/90 transition-colors">
-          Try the AI Assistant
-        </Link>
+      {/* Service Request Form */}
+      <div className="mt-20">
+        <ServiceRequestForm />
       </div>
     </div>
   );

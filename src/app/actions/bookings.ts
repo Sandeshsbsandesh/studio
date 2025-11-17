@@ -18,12 +18,15 @@ export interface BookingPaymentInfo {
 }
 
 export interface BookingData {
+  userId?: string; // Customer's user ID for filtering
   providerId: string;
   providerName: string;
   customerName: string;
   customerEmail?: string;
   customerPhone: string;
   serviceType: string;
+  serviceName?: string; // For display on dashboard
+  bookingDate?: string; // Formatted date string for display
   date: Date;
   timeSlot: string;
   address: string;
@@ -60,6 +63,9 @@ export async function createBooking(data: BookingData) {
 
     const bookingPayload = {
       ...data,
+      userId: data.userId || null, // Ensure userId is saved
+      serviceName: data.serviceName || data.serviceType, // Use serviceName or fallback to serviceType
+      bookingDate: data.bookingDate || data.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), // Format date for display
       customerLocation: resolvedLocation
         ? {
             lat: resolvedLocation.lat,

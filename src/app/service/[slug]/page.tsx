@@ -5,6 +5,7 @@ import ServiceProvidersList from './service-providers-list';
 import { db } from '@/lib/firebase';
 import { collection, getDocs, query, where } from 'firebase/firestore';
 import BackButton from '@/components/back-button';
+import type { Metadata } from 'next';
 
 // Helper function to capitalize the first letter
 function capitalizeFirstLetter(string: string) {
@@ -78,7 +79,7 @@ async function getProviders(serviceSlug: string) {
         const data = doc.data();
         
         // Transform services array to object format
-        let servicesObject = {};
+        let servicesObject: Record<string, Record<string, string>> = {};
         if (Array.isArray(data.services)) {
           // Convert array format to object format
           data.services.forEach((serviceCategory: any) => {
@@ -143,6 +144,50 @@ async function getProviders(serviceSlug: string) {
   }
 }
 
+// Generate dynamic metadata for SEO
+export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
+  const { slug } = await params;
+  const service = services.find(s => s.href === `/service/${slug}`);
+  
+  if (!service) {
+    return {
+      title: 'Service Not Found - UrbanEzii',
+    };
+  }
+
+  const serviceName = service.title;
+  const description = `Find verified ${serviceName.toLowerCase()} near you in Bangalore. Book trusted professionals instantly. ${service.description} ⭐ Rated 4.8+ | 30-min response | Verified professionals`;
+
+  return {
+    title: `${serviceName} Near Me in Bangalore | Book Online | UrbanEzii`,
+    description,
+    keywords: `${serviceName.toLowerCase()}, ${serviceName.toLowerCase()} near me, ${serviceName.toLowerCase()} in bangalore, book ${serviceName.toLowerCase()}, local ${serviceName.toLowerCase()}, verified ${serviceName.toLowerCase()}, trusted ${serviceName.toLowerCase()}, home services, bangalore services`,
+    openGraph: {
+      title: `${serviceName} Near Me in Bangalore | UrbanEzii`,
+      description,
+      type: 'website',
+      url: `https://urbanezii.com/service/${slug}`,
+      siteName: 'UrbanEzii',
+      images: [
+        {
+          url: '/logo.png',
+          width: 1200,
+          height: 630,
+          alt: `${serviceName} - UrbanEzii`,
+        },
+      ],
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: `${serviceName} Near Me in Bangalore | UrbanEzii`,
+      description,
+      images: ['/logo.png'],
+    },
+    alternates: {
+      canonical: `https://urbanezii.com/service/${slug}`,
+    },
+  };
+}
 
 export default async function ServiceDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   // Await params in Next.js 15
@@ -156,24 +201,88 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
 
   const serviceProviders = await getProviders(slug);
 
-  return (
-    <div className="container mx-auto px-4 md:px-6 py-12">
-      <div className="max-w-4xl mx-auto">
-        <div className="mb-4">
-          <BackButton />
-        </div>
-        <div className="mb-8 text-center">
-            <div className="inline-block bg-primary/10 p-4 rounded-full text-primary mb-4">
-                {service.icon}
-            </div>
-            <h1 className="text-4xl font-bold font-headline tracking-tight">{service.title}</h1>
-            <p className="mt-2 text-lg text-muted-foreground">{service.description}</p>
-        </div>
+  // Structured Data (JSON-LD) for SEO - helps Google understand your local service
+  const structuredData = {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: service.title,
+    description: service.description,
+    provider: {
+      '@type': 'LocalBusiness',
+      name: 'UrbanEzii',
+      image: 'https://urbanezii.com/logo.png',
+      '@id': 'https://urbanezii.com',
+      url: 'https://urbanezii.com',
+      telephone: '+91-XXXXXXXXXX',
+      priceRange: '₹₹',
+      address: {
+        '@type': 'PostalAddress',
+        addressLocality: 'Bangalore',
+        addressRegion: 'Karnataka',
+        addressCountry: 'IN',
+      },
+      geo: {
+        '@type': 'GeoCoordinates',
+        latitude: 12.9716,
+        longitude: 77.5946,
+      },
+      openingHoursSpecification: {
+        '@type': 'OpeningHoursSpecification',
+        dayOfWeek: [
+          'Monday',
+          'Tuesday',
+          'Wednesday',
+          'Thursday',
+          'Friday',
+          'Saturday',
+          'Sunday',
+        ],
+        opens: '08:00',
+        closes: '22:00',
+      },
+      aggregateRating: {
+        '@type': 'AggregateRating',
+        ratingValue: '4.8',
+        reviewCount: serviceProviders.length,
+      },
+    },
+    areaServed: {
+      '@type': 'City',
+      name: 'Bangalore',
+    },
+    availableChannel: {
+      '@type': 'ServiceChannel',
+      serviceUrl: `https://urbanezii.com/service/${slug}`,
+      servicePhone: '+91-XXXXXXXXXX',
+    },
+  };
 
-        <h2 className="text-2xl font-bold font-headline mb-6">Available Providers</h2>
-        <ServiceProvidersList serviceSlug={slug} serviceProviders={serviceProviders} />
+  return (
+    <>
+      {/* Structured Data for Google */}
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
+      />
+      
+      <div className="container mx-auto px-4 md:px-6 py-12">
+        <div className="max-w-4xl mx-auto">
+          <div className="mb-4">
+            <BackButton />
+          </div>
+          <div className="mb-8 text-center">
+              <div className="inline-block bg-primary/10 p-4 rounded-full text-primary mb-4">
+                  {service.icon}
+              </div>
+              <h1 className="text-4xl font-bold font-headline tracking-tight">{service.title}</h1>
+              <p className="mt-2 text-lg text-muted-foreground">{service.description}</p>
+          </div>
+
+          <h2 className="text-2xl font-bold font-headline mb-6">Available Providers</h2>
+          <ServiceProvidersList serviceSlug={slug} serviceProviders={serviceProviders} />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

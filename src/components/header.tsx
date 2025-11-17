@@ -14,7 +14,7 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { LogOut, User, LayoutDashboard } from 'lucide-react';
+import { LogOut, User, LayoutDashboard, Phone } from 'lucide-react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/context/auth-context';
 
@@ -57,6 +57,16 @@ export default function Header() {
           </div>
           <div className="flex-1" />
           <div className="flex items-center gap-4">
+            {/* Click-to-Call Button - Important for Local SEO */}
+            <a 
+              href="tel:+919740529651" 
+              className="flex items-center gap-2 text-primary hover:text-primary/80 transition-colors"
+              aria-label="Call UrbanEzii"
+            >
+              <Phone className="w-5 h-5" />
+              <span className="hidden sm:inline font-medium">+91-9740529651</span>
+            </a>
+            
             {isLoggedIn ? (
               <DropdownMenu>
                 <DropdownMenuTrigger asChild>

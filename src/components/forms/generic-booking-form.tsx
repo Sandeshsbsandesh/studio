@@ -520,12 +520,15 @@ export default function GenericBookingForm({ provider, onClose, serviceName, ser
       const amount = selectedService ? parseInt(selectedService.price, 10) : 500;
 
       const bookingData = {
+        userId: user?.uid || null, // Add userId for dashboard filtering
         providerId: provider.id || 'demo-provider-id',
         providerName: provider.businessName || provider.name,
         customerName: user?.name || 'Customer',
         customerEmail: user?.email,
         customerPhone: user?.phone || values.phone,
         serviceType: values.serviceType,
+        serviceName: values.serviceType, // For dashboard display
+        bookingDate: values.date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' }), // Formatted date
         date: values.date,
         timeSlot: values.timeSlot,
         address: values.address,

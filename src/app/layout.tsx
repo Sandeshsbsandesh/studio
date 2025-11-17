@@ -93,6 +93,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <meta name="googlebot" content="index, follow" />
         <meta name="google" content="nositelinkssearchbox" />
         <meta name="google-site-verification" content="ADD_YOUR_VERIFICATION_CODE_HERE" />
+        <meta name="msvalidate.01" content="BA10B96E668B548789D30F3CD8421877" />
         <link rel="canonical" href="https://urbanezii.com" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://urbanezii.com" />

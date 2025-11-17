@@ -159,32 +159,35 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   }
 
   const serviceName = service.title;
-  const description = `Find verified ${serviceName.toLowerCase()} near you in Bangalore. Book trusted professionals instantly. ${service.description} ⭐ Rated 4.8+ | 30-min response | Verified professionals`;
+  const description = `${serviceName} Near Me in Bangalore | UrbanEzii - Find verified ${serviceName.toLowerCase()} nearby. Book trusted local professionals instantly. ${service.description} ⭐ Rated 4.8+ | Same-day service | 500+ verified pros | Available 24/7`;
 
   return {
-    title: `${serviceName} Near Me in Bangalore | Book Online | UrbanEzii`,
+    title: `${serviceName} Near Me | Nearby ${serviceName} in Bangalore | UrbanEzii`,
     description,
-    keywords: `${serviceName.toLowerCase()}, ${serviceName.toLowerCase()} near me, ${serviceName.toLowerCase()} in bangalore, book ${serviceName.toLowerCase()}, local ${serviceName.toLowerCase()}, verified ${serviceName.toLowerCase()}, trusted ${serviceName.toLowerCase()}, home services, bangalore services`,
+    keywords: `${serviceName.toLowerCase()} near me, ${serviceName.toLowerCase()} nearby, ${serviceName.toLowerCase()} in my area, local ${serviceName.toLowerCase()}, ${serviceName.toLowerCase()} in bangalore, ${serviceName.toLowerCase()} around me, best ${serviceName.toLowerCase()} near me, ${serviceName.toLowerCase()} close to me, ${serviceName.toLowerCase()} in my location, emergency ${serviceName.toLowerCase()}, UrbanEzii, urbanezii.com, urban ezii, home services near me, verified ${serviceName.toLowerCase()}, trusted ${serviceName.toLowerCase()}, book ${serviceName.toLowerCase()} online`,
     openGraph: {
-      title: `${serviceName} Near Me in Bangalore | UrbanEzii`,
+      title: `${serviceName} Near Me | Nearby ${serviceName} in Bangalore | UrbanEzii`,
       description,
       type: 'website',
       url: `https://urbanezii.com/service/${slug}`,
-      siteName: 'UrbanEzii',
+      siteName: 'UrbanEzii - Local Home Services Platform',
+      locale: 'en_IN',
       images: [
         {
-          url: '/logo.png',
+          url: 'https://urbanezii.com/logo.png',
           width: 1200,
           height: 630,
-          alt: `${serviceName} - UrbanEzii`,
+          alt: `${serviceName} Near Me in Bangalore - UrbanEzii`,
         },
       ],
     },
     twitter: {
       card: 'summary_large_image',
-      title: `${serviceName} Near Me in Bangalore | UrbanEzii`,
+      title: `${serviceName} Near Me | Nearby ${serviceName} | UrbanEzii`,
       description,
-      images: ['/logo.png'],
+      images: ['https://urbanezii.com/logo.png'],
+      creator: '@UrbanEzii',
+      site: '@UrbanEzii',
     },
     alternates: {
       canonical: `https://urbanezii.com/service/${slug}`,

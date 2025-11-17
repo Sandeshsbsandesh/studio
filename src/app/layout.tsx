@@ -85,20 +85,28 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning>
       <head>
-        <title>UrbanEzii - Your Local Service Bridge</title>
-        <meta name="description" content="Discover, book, and manage verified professionals for every home need. From plumbing to cleaning, find trusted local service providers all in one place." />
-        <meta name="keywords" content="local services, service providers, plumber, electrician, house cleaning, home services, verified professionals, book services online" />
+        <title>UrbanEzii - Find Local Services Near Me | Electrician, Plumber, Cleaning Services Nearby</title>
+        <meta name="description" content="UrbanEzii - Find verified electricians, plumbers, cleaning services & more near you in Bangalore. Book trusted local professionals instantly. Same-day service | 500+ verified pros | Rated 4.8+ | Available 24/7 | urbanezii.com" />
+        <meta name="keywords" content="UrbanEzii, urbanezii.com, urban ezii, services near me, electrician near me, plumber near me, cleaning services near me, local services, service providers nearby, home services in bangalore, verified professionals, book services online, same day service, emergency electrician, nearby plumber, local handyman, ac repair near me, appliance repair, pest control, carpenter, painter, home maintenance" />
         <meta name="author" content="UrbanEzii Technologies" />
+        <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+        <meta name="googlebot" content="index, follow" />
+        <meta name="google" content="nositelinkssearchbox" />
+        <meta name="google-site-verification" content="ADD_YOUR_VERIFICATION_CODE_HERE" />
+        <link rel="canonical" href="https://urbanezii.com" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://urbanezii.com" />
-        <meta property="og:title" content="UrbanEzii - Your Local Service Bridge" />
-        <meta property="og:description" content="Discover, book, and manage verified professionals for every home need." />
-        <meta property="og:image" content="/logo.png" />
-        <meta property="og:site_name" content="UrbanEzii" />
+        <meta property="og:title" content="UrbanEzii - Local Home Services Near You | Best Electrician, Plumber & More Nearby" />
+        <meta property="og:description" content="Find verified electricians, plumbers, cleaning services & home professionals near you. Book instantly! ⭐ 4.8+ Rated | Same-day service | 500+ verified pros" />
+        <meta property="og:image" content="https://urbanezii.com/logo.png" />
+        <meta property="og:site_name" content="UrbanEzii - Local Services Platform" />
+        <meta property="og:locale" content="en_IN" />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="UrbanEzii - Your Local Service Bridge" />
-        <meta name="twitter:description" content="Discover, book, and manage verified professionals for every home need." />
-        <meta name="twitter:image" content="/logo.png" />
+        <meta name="twitter:site" content="@UrbanEzii" />
+        <meta name="twitter:creator" content="@UrbanEzii" />
+        <meta name="twitter:title" content="UrbanEzii - Find Services Near Me | Electrician, Plumber Nearby" />
+        <meta name="twitter:description" content="Book verified local professionals instantly. Electricians, plumbers, cleaning & more near you in Bangalore." />
+        <meta name="twitter:image" content="https://urbanezii.com/logo.png" />
         <link rel="icon" href="/logo.png" type="image/png" />
         <link rel="apple-touch-icon" href="/logo.png" />
       </head>

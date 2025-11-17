@@ -56,8 +56,13 @@ const navLinks = [
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   
-  if (pathname === '/login' || pathname.startsWith('/provider')) {
-    const pageTitle = pathname === '/login' ? 'UrbanEzii - Login' : 'UrbanEzii - Provider Dashboard';
+  // Exclude main website layout for these routes
+  if (pathname === '/login' || pathname.startsWith('/provider') || pathname.startsWith('/admin')) {
+    let pageTitle = 'UrbanEzii';
+    if (pathname === '/login') pageTitle = 'UrbanEzii - Login';
+    else if (pathname.startsWith('/admin')) pageTitle = 'UrbanEzii - Admin Panel';
+    else if (pathname.startsWith('/provider')) pageTitle = 'UrbanEzii - Provider Dashboard';
+    
     return (
        <html lang="en" suppressHydrationWarning>
         <head>

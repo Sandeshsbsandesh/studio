@@ -9,6 +9,7 @@ import type { Metadata } from 'next';
 import GuaranteesBanner from '@/components/guarantees-banner';
 import ServiceScope from '@/components/service-scope';
 import ServiceFAQ from '@/components/service-faq';
+import { MapPin } from 'lucide-react';
 
 // Helper function to capitalize the first letter
 function capitalizeFirstLetter(string: string) {
@@ -21,6 +22,15 @@ function formatSlugToCategory(slug: string) {
   // Example: "electricians" -> "Electricians"
   return slug.split('-').map(capitalizeFirstLetter).join(' ');
 }
+
+// Major Bangalore areas for local SEO
+const bangaloreAreas = [
+  'Koramangala', 'Whitefield', 'Indiranagar', 'HSR Layout', 'Marathahalli',
+  'JP Nagar', 'Electronic City', 'BTM Layout', 'Jayanagar', 'Banashankari',
+  'Rajajinagar', 'Malleshwaram', 'Basavanagudi', 'Vijayanagar', 'Yeshwanthpur',
+  'Hebbal', 'RT Nagar', 'Frazer Town', 'Cox Town', 'Ulsoor',
+  'MG Road', 'Brigade Road', 'Commercial Street', 'Richmond Town', 'Lavelle Road'
+];
 
 
 async function getProviders(serviceSlug: string) {
@@ -252,14 +262,37 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
         reviewCount: serviceProviders.length,
       },
     },
-    areaServed: {
-      '@type': 'City',
-      name: 'Bangalore',
-    },
+    areaServed: [
+      {
+        '@type': 'City',
+        name: 'Bangalore',
+      },
+      {
+        '@type': 'City',
+        name: 'Bengaluru',
+      },
+      ...bangaloreAreas.slice(0, 10).map(area => ({
+        '@type': 'City',
+        name: area,
+      })),
+    ],
     availableChannel: {
       '@type': 'ServiceChannel',
       serviceUrl: `https://urbanezii.com/service/${slug}`,
       servicePhone: '+91-XXXXXXXXXX',
+    },
+    serviceArea: {
+      '@type': 'GeoCircle',
+      geoMidpoint: {
+        '@type': 'GeoCoordinates',
+        latitude: 12.9716,
+        longitude: 77.5946,
+      },
+      geoRadius: {
+        '@type': 'Distance',
+        value: 50,
+        unitCode: 'KMT', // Kilometers
+      },
     },
   };
 
@@ -282,8 +315,16 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
               <div className="inline-block bg-primary/10 p-4 rounded-full text-primary mb-4">
                   {service.icon}
               </div>
-              <h1 className="text-4xl font-bold font-headline tracking-tight">{service.title}</h1>
-              <p className="mt-2 text-lg text-muted-foreground">{service.description}</p>
+              <h1 className="text-4xl font-bold font-headline tracking-tight">
+                {service.title} Near Me in Bangalore
+              </h1>
+              <p className="mt-2 text-lg text-muted-foreground">
+                {service.description} Find verified {service.title.toLowerCase()} nearby in Bangalore. Book trusted local professionals instantly.
+              </p>
+              <div className="mt-4 flex items-center justify-center gap-2 text-sm text-muted-foreground">
+                <MapPin className="h-4 w-4" />
+                <span>Serving all areas of Bangalore including Koramangala, Whitefield, Indiranagar, HSR Layout, and more</span>
+              </div>
           </div>
 
           {/* Guarantees Banner */}
@@ -292,6 +333,30 @@ export default async function ServiceDetailPage({ params }: { params: Promise<{ 
           {/* Available Providers Section */}
           <h2 className="text-2xl font-bold font-headline mb-6">Available Providers</h2>
           <ServiceProvidersList serviceSlug={slug} serviceProviders={serviceProviders} />
+
+          {/* Location Coverage Section - Critical for Local SEO */}
+          <div className="mt-12 bg-muted/50 rounded-lg p-6">
+            <h2 className="text-2xl font-bold font-headline mb-4">
+              {service.title} Services Across Bangalore
+            </h2>
+            <p className="text-muted-foreground mb-4">
+              UrbanEzii connects you with verified {service.title.toLowerCase()} professionals serving all major areas of Bangalore. 
+              Whether you're in Koramangala, Whitefield, Indiranagar, HSR Layout, or any other neighborhood, 
+              we have trusted local professionals ready to help you.
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-3 mt-4">
+              {bangaloreAreas.map((area) => (
+                <div key={area} className="flex items-center gap-2 text-sm">
+                  <MapPin className="h-3 w-3 text-primary flex-shrink-0" />
+                  <span>{area}</span>
+                </div>
+              ))}
+            </div>
+            <p className="mt-4 text-sm text-muted-foreground">
+              Looking for {service.title.toLowerCase()} near you? Our platform uses your location to find the closest 
+              verified professionals in your area. Book same-day service with transparent pricing and 30-day guarantee.
+            </p>
+          </div>
 
           {/* What's Included / Not Included */}
           <div className="mt-12">
